@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block titulo %}Editar Actividad [{{ actividad.codigo }}] | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #10 — EDICIÓN DE ACTIVIDAD / GESTIÓN [{{ actividad.codigo }}]</p>
+    <h1>Editar Gestión: {{ actividad.codigo }}</h1>
+  </div>
+  <a href="{% url 'actividades:detalle_actividad' actividad.pk %}" class="btn-secundario">← Volver a la Ficha</a>
+</div>
+
+<div class="form-card">
+  <form method="post" action="">
+    {% csrf_token %}
+    <div class="formulario-grilla">
+      <div class="formulario-grupo">
+        <label for="codigo">Código Único</label>
+        <input type="text" id="codigo" name="codigo" value="{{ actividad.codigo }}" readonly style="background: #f3f4f6;">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="fecha">Fecha *</label>
+        <input type="date" id="fecha" name="fecha" value="{{ actividad.fecha|date:'Y-m-d' }}" required>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_delegacion">Delegación *</label>
+        <select id="id_delegacion" name="id_delegacion" required>
+          {% for d in delegaciones %}
+          <option value="{{ d.pk }}" {% if actividad.id_delegacion_id == d.pk %}selected{% endif %}>[{{ d.codigo }}] {{ d.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="territorio_rel">Territorio Asociado</label>
+        <select id="territorio_rel" name="territorio_rel">
+          <option value="">-- Sin territorio específico --</option>
+          {% for t in territorios %}
+          <option value="{{ t.pk }}" {% if actividad.territorio_rel_id == t.pk %}selected{% endif %}>{{ t.nombre }} ({{ t.delegacion.nombre }})</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_funcionario">Funcionario Responsable *</label>
+        <select id="id_funcionario" name="id_funcionario" required onchange="if(this.selectedIndex>=0) document.getElementById('responsable').value=this.options[this.selectedIndex].dataset.nombre;">
+          {% for f in funcionarios %}
+          <option value="{{ f.pk }}" data-nombre="{{ f.nombre }}" {% if actividad.id_funcionario_id == f.pk %}selected{% endif %}>{{ f.nombre }} — {{ f.cargo }}</option>
+          {% endfor %}
+        </select>
+        <input type="hidden" id="responsable" name="responsable" value="{{ actividad.responsable }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="origen">Origen de la Gestión</label>
+        <input type="text" id="origen" name="origen" value="{{ actividad.origen|default:'Requerimiento Vecinal' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_tipo">Tipo de Atención</label>
+        <select id="id_tipo" name="id_tipo">
+          <option value="">-- Seleccione Tipo --</option>
+          {% for t in tipos %}
+          <option value="{{ t.pk }}" {% if actividad.id_tipo_id == t.pk %}selected{% endif %}>[{{ t.codigo }}] {{ t.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_subatencion">Subtipo de Atención</label>
+        <select id="id_subatencion" name="id_subatencion">
+          <option value="">-- Seleccione Subtipo --</option>
+          {% for s in subatenciones %}
+          <option value="{{ s.pk }}" {% if actividad.id_subatencion_id == s.pk %}selected{% endif %}>[{{ s.codigo }}] {{ s.nombre }} ({{ s.id_tipo.nombre }})</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="asignacion_meta">Asignación de Meta Asociada</label>
+        <select id="asignacion_meta" name="asignacion_meta">
+          <option value="">-- Sin asignación específica --</option>
+          {% for a in asignaciones %}
+          <option value="{{ a.pk }}" {% if actividad.asignacion_meta_id == a.pk %}selected{% endif %}>[{{ a.codigo }}] {{ a.id_funcionario.nombre }} — {{ a.item }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="hito">Hito Territorial Asociado</label>
+        <select id="hito" name="hito">
+          <option value="">-- Sin hito asociado --</option>
+          {% for h in hitos %}
+          <option value="{{ h.pk }}" {% if actividad.hito_id == h.pk %}selected{% endif %}>[{{ h.codigo }}] {{ h.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="item_evaluacion">Ítem de Evaluación *</label>
+        <input type="text" id="item_evaluacion" name="item_evaluacion" value="{{ actividad.item_evaluacion }}" required>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="estado">Estado *</label>
+        <select id="estado" name="estado" required>
+          <option value="Pendiente" {% if actividad.estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+          <option value="En Proceso" {% if actividad.estado == 'En Proceso' %}selected{% endif %}>En Proceso</option>
+          <option value="Realizado" {% if actividad.estado == 'Realizado' %}selected{% endif %}>Realizado</option>
+          <option value="Inactivo" {% if actividad.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="solicitante">Solicitante / Vecino</label>
+        <input type="text" id="solicitante" name="solicitante" value="{{ actividad.solicitante|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="rut_solicitante">RUT Solicitante</label>
+        <input type="text" id="rut_solicitante" name="rut_solicitante" value="{{ actividad.rut_solicitante|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="telefono">Teléfono</label>
+        <input type="text" id="telefono" name="telefono" value="{{ actividad.telefono|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="correo">Correo Electrónico</label>
+        <input type="email" id="correo" name="correo" value="{{ actividad.correo|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo ancho-completo">
+        <label for="direccion">Dirección / Sector</label>
+        <input type="text" id="direccion" name="direccion" value="{{ actividad.direccion|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo ancho-completo">
+        <label for="solicitud">Descripción / Solicitud *</label>
+        <textarea id="solicitud" name="solicitud" rows="3" required>{{ actividad.solicitud }}</textarea>
+      </div>
+
+      <div class="formulario-grupo ancho-completo">
+        <label for="accion">Acción Realizada *</label>
+        <input type="text" id="accion" name="accion" value="{{ actividad.accion }}" required>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="avance">Avance (%)</label>
+        <input type="number" id="avance" name="avance" min="0" max="100" value="{{ actividad.avance|default:100 }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="fecha_limite_tubo">Fecha Compromiso Tubo <small style="color:var(--muted);">(&ge; fecha actividad)</small></label>
+        <input type="date" id="fecha_limite_tubo" name="fecha_limite_tubo" value="{{ actividad.fecha_limite_tubo|date:'Y-m-d'|default:'' }}">
+      </div>
+    </div>
+
+    <div class="form-acciones">
+      <a href="{% url 'actividades:detalle_actividad' actividad.pk %}" class="btn-secundario">Cancelar</a>
+      <button type="submit" class="btn-primario-sgr">Guardar Cambios</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

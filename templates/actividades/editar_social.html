@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block titulo %}Editar Gestión Social [{{ gestion.codigo }}] | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #11 — EDICIÓN DE GESTIÓN SOCIAL [{{ gestion.codigo }}]</p>
+    <h1>Editar Caso Social: {{ gestion.codigo }}</h1>
+  </div>
+  <a href="{% url 'actividades:detalle_gestion_social' gestion.pk %}" class="btn-secundario">← Volver a la Ficha</a>
+</div>
+
+<div class="form-card">
+  <form method="post" action="">
+    {% csrf_token %}
+    <div class="formulario-grilla">
+      <div class="formulario-grupo">
+        <label for="codigo">Código Único</label>
+        <input type="text" id="codigo" name="codigo" value="{{ gestion.codigo }}" readonly style="background: #f3f4f6;">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="fecha_ingreso">Fecha de Ingreso *</label>
+        <input type="date" id="fecha_ingreso" name="fecha_ingreso" value="{{ gestion.fecha_ingreso|date:'Y-m-d' }}" required>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="usuario">Nombre Solicitante / Beneficiario *</label>
+        <input type="text" id="usuario" name="usuario" value="{{ gestion.usuario }}" required>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="rut">RUT Solicitante</label>
+        <input type="text" id="rut" name="rut" value="{{ gestion.rut|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="telefono">Teléfono</label>
+        <input type="text" id="telefono" name="telefono" value="{{ gestion.telefono|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="direccion">Dirección Domiciliaria</label>
+        <input type="text" id="direccion" name="direccion" value="{{ gestion.direccion|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_tipo">Tipo de Atención *</label>
+        <select id="id_tipo" name="id_tipo" required>
+          {% for t in tipos %}
+          <option value="{{ t.pk }}" {% if gestion.id_tipo_id == t.pk %}selected{% endif %}>[{{ t.codigo }}] {{ t.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_subatencion">Subtipo de Atención *</label>
+        <select id="id_subatencion" name="id_subatencion" required>
+          {% for s in subatenciones %}
+          <option value="{{ s.pk }}" {% if gestion.id_subatencion_id == s.pk %}selected{% endif %}>[{{ s.codigo }}] {{ s.nombre }} ({{ s.id_tipo.nombre }})</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_funcionario">Gestor Social Responsable *</label>
+        <select id="id_funcionario" name="id_funcionario" required>
+          {% for f in funcionarios %}
+          <option value="{{ f.pk }}" {% if gestion.id_funcionario_id == f.pk %}selected{% endif %}>{{ f.nombre }} — {{ f.cargo }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_delegacion">Delegación *</label>
+        <select id="id_delegacion" name="id_delegacion" required>
+          {% for d in delegaciones %}
+          <option value="{{ d.pk }}" {% if gestion.id_delegacion_id == d.pk %}selected{% endif %}>[{{ d.codigo }}] {{ d.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="asignacion_meta">Asignación de Meta Asociada</label>
+        <select id="asignacion_meta" name="asignacion_meta">
+          <option value="">-- Sin asignación específica --</option>
+          {% for a in asignaciones %}
+          <option value="{{ a.pk }}" {% if gestion.asignacion_meta_id == a.pk %}selected{% endif %}>[{{ a.codigo }}] {{ a.id_funcionario.nombre }} — {{ a.item }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="estado">Estado *</label>
+        <select id="estado" name="estado" required>
+          <option value="Ingresada" {% if gestion.estado == 'Ingresada' %}selected{% endif %}>Ingresada</option>
+          <option value="Visita Pendiente" {% if gestion.estado == 'Visita Pendiente' %}selected{% endif %}>Visita Pendiente</option>
+          <option value="En Proceso" {% if gestion.estado == 'En Proceso' %}selected{% endif %}>En Proceso</option>
+          <option value="Informe Entregado" {% if gestion.estado == 'Informe Entregado' %}selected{% endif %}>Informe Entregado</option>
+          <option value="Resuelta" {% if gestion.estado == 'Resuelta' %}selected{% endif %}>Resuelta</option>
+          <option value="Cerrada" {% if gestion.estado == 'Cerrada' %}selected{% endif %}>Cerrada</option>
+          <option value="Inactiva" {% if gestion.estado == 'Inactiva' %}selected{% endif %}>Inactiva</option>
+        </select>
+      </div>
+
+      <div class="formulario-grupo ancho-completo">
+        <label for="observaciones">Observaciones y Diagnóstico Social *</label>
+        <textarea id="observaciones" name="observaciones" rows="3" required>{{ gestion.observaciones }}</textarea>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="primera_gestion">1ª Gestión *</label>
+        <input type="text" id="primera_gestion" name="primera_gestion" value="{{ gestion.primera_gestion }}" required>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="segunda_gestion">2ª Gestión (Visita / Informe)</label>
+        <input type="text" id="segunda_gestion" name="segunda_gestion" value="{{ gestion.segunda_gestion|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="tercera_gestion">3ª Gestión (Entrega Beneficio)</label>
+        <input type="text" id="tercera_gestion" name="tercera_gestion" value="{{ gestion.tercera_gestion|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="fecha_programada_visita">Fecha Programada Visita</label>
+        <input type="date" id="fecha_programada_visita" name="fecha_programada_visita" value="{{ gestion.fecha_programada_visita|date:'Y-m-d'|default:'' }}">
+      </div>
+    </div>
+
+    <div class="form-acciones">
+      <a href="{% url 'actividades:detalle_gestion_social' gestion.pk %}" class="btn-secundario">Cancelar</a>
+      <button type="submit" class="btn-primario-sgr">Guardar Cambios</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

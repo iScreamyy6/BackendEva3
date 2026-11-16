@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block titulo %}Catálogo de Trimestres | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD OBLIGATORIA #17 — TRIMESTRES DE EVALUACIÓN</p>
+    <h1>Catálogo de Trimestres y Períodos SGR</h1>
+  </div>
+  {% if puede_gestionar %}
+  <a href="{% url 'trimestres_crear' %}" class="btn-primario-sgr">+ Crear Trimestre</a>
+  {% endif %}
+</div>
+
+<div class="tabla-herramientas">
+  <form method="get" action="" class="filtros-grupo">
+    <input type="text" name="q" value="{{ q }}" placeholder="Buscar por código, nombre o año..." class="input-busqueda">
+    <button type="submit" class="btn-buscar">Buscar</button>
+    {% if q %}
+    <a href="{% url 'trimestres_lista' %}" class="btn-secundario" style="padding: 8px 12px; font-size: 0.85rem;">Limpiar</a>
+    {% endif %}
+  </form>
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <span style="font-size: 0.88rem; color: var(--muted);">Total: <strong>{{ total_registros }}</strong> trimestres</span>
+    <a href="?q={{ q }}&exportar=excel" class="btn-excel">Exportar a Excel</a>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <table class="tabla-sgr">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre del Trimestre</th>
+        <th>Año</th>
+        <th>Trimestre (1-4)</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Término</th>
+        <th>Estado</th>
+        <th style="text-align: center;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in page_obj %}
+      <tr>
+        <td><strong>{{ t.codigo }}</strong></td>
+        <td><a href="{% url 'trimestres_detalle' t.pk %}" style="font-weight: 600; color: #1e3a8a;">{{ t.nombre }}</a></td>
+        <td>{{ t.anio }}</td>
+        <td>T{{ t.numero }}</td>
+        <td>{{ t.fecha_inicio|date:"d/m/Y" }}</td>
+        <td>{{ t.fecha_cierre|date:"d/m/Y" }}</td>
+        <td>
+          <span class="badge-estado {% if t.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ t.estado }}</span>
+        </td>
+        <td style="text-align: center;">
+          <div class="acciones-fila">
+            <a href="{% url 'trimestres_detalle' t.pk %}" class="btn-secundario" style="padding: 5px 9px; font-size: 0.78rem;">Ver</a>
+            {% if puede_gestionar %}
+            <a href="{% url 'trimestres_editar' t.pk %}" class="btn-modificar">Editar</a>
+            <a href="{% url 'trimestres_eliminar' t.pk %}" class="btn-eliminar">Eliminar</a>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8" style="text-align: center; padding: 36px; color: var(--muted);">No se encontraron trimestres registrados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

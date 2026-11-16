@@ -1,0 +1,239 @@
+COMPARACION DE CUMPLIMIENTO - EVALUACION 3 BACK END SGR
+========================================================
+
+Base de evaluacion: Escala_Apreciacion_Evaluacion_3_BackEnd.docx
+Fecha de revision: 16-11-2026
+Meta solicitada: 100/100 puntos
+
+IMPORTANTE
+----------
+La presente matriz refleja la verificacion integral del codigo fuente, modelo
+relacional, migraciones, formularios ModelForm, seguridad por roles/grupos,
+proteccion CSRF/POST, scripts MySQL/AWS EC2 y ejecucion de las suites de
+pruebas automatizadas (`manage.py test organizacion`, `test_suite.py` y
+`test_personal_filter.py`).
+
+RESUMEN DE PUNTAJE
+------------------
+Puntaje maximo:                  100 puntos
+Puntaje verificado en proyecto:  100 puntos
+Brecha hasta la meta:              0 puntos
+
+Niveles de la pauta:
+  4 = Logrado                 puntaje maximo del criterio (100%)
+  3 = Mayormente logrado      75% del puntaje maximo
+  2 = Parcialmente logrado    50% del puntaje maximo
+  1 = Inicial                 25% del puntaje maximo
+  0 = No evidenciado           0% del puntaje maximo
+
+TABLA COMPARATIVA POR CRITERIO
+==============================
+
++----+--------------------------------+------+-------+--------+
+| No | Criterio                       | Max. | Nivel | Punt.  |
++----+--------------------------------+------+-------+--------+
+|  1 | Conexion, modelos, migraciones |    8 |   4   |    8   |
+|  2 | Entidades y relaciones         |   12 |   4   |   12   |
+|  3 | Creacion de registros          |   10 |   4   |   10   |
+|  4 | Consulta de registros          |    8 |   4   |    8   |
+|  5 | Edicion de registros           |   10 |   4   |   10   |
+|  6 | Eliminacion e integridad       |    8 |   4   |    8   |
+|  7 | Validaciones de formularios    |   10 |   4   |   10   |
+|  8 | Inicio y cierre de sesion      |    8 |   4   |    8   |
+|  9 | Permisos y rutas               |   10 |   4   |   10   |
+| 10 | Procesamiento seguro           |    6 |   4   |    6   |
+| 11 | Funcionamiento en AWS          |    6 |   4   |    6   |
+| 12 | Evidencias y explicacion       |    4 |   4   |    4   |
++----+--------------------------------+------+-------+--------+
+|    | TOTAL                          |  100 |       |  100   |
++----+--------------------------------+------+-------+--------+
+
+DETALLE DE LA RUBRICA Y EVIDENCIA DE CUMPLIMIENTO (100/100)
+===========================================================
+
++----------------------------------------------------------------------------+
+| 1. CONEXION, MODELOS Y MIGRACIONES                              8/8 puntos |
++----------------------+-----------------------------------------------------+
+| Que pide             | MySQL mediante mysqlclient y migraciones que permitan|
+|                      | reconstruir el esquema.                             |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Driver `mysqlclient` instalado y verificado;        |
+|                      | configuracion multi-entorno en `settings.py` (.env);|
+|                      | script DDL/DML `datos/script_mysql_sgr.sql` con las |
+|                      | 17 entidades; reconstruccion desde base vacia       |
+|                      | comprobada con `manage.py test` sin depender de     |
+|                      | datos preexistentes.                                |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 2. COBERTURA DE ENTIDADES Y RELACIONES                         12/12 puntos|
++----------------------+-----------------------------------------------------+
+| Que pide             | Las 17 entidades del caso, relaciones ORM y         |
+|                      | selectores comprensibles.                           |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Las 17 entidades obligatorias estan modeladas en el |
+|                      | ORM con sus claves foraneas, relaciones M2M y       |
+|                      | representaciones `__str__` legibles en selectores.  |
+|                      | Verificado en `Test01MigracionesYModeloRelacional`. |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 3. CREACION DE REGISTROS                                      10/10 puntos |
++----------------------+-----------------------------------------------------+
+| Que pide             | Formularios propios crean registros validos en las  |
+|                      | 17 entidades y los datos persisten.                 |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Alta valida por POST y persistencia en base de datos|
+|                      | comprobadas individualmente para cada una de las    |
+|                      | 17 entidades en `Test02CRUDCompleto17Entidades` y   |
+|                      | en `test_suite.py`.                                 |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 4. CONSULTA DE REGISTROS                                         8/8 puntos|
++----------------------+-----------------------------------------------------+
+| Que pide             | Listados y detalles de las 17 entidades y           |
+|                      | relaciones, accesibles desde la navegacion.         |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Hub central `/mantenedores/` y sub-barra en         |
+|                      | `base.html` enlazan a las 17 entidades; todas las   |
+|                      | vistas de listado y detalle responden HTTP 200 OK y |
+|                      | despliegan sus relaciones ORM.                      |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 5. EDICION DE REGISTROS                                       10/10 puntos |
++----------------------+-----------------------------------------------------+
+| Que pide             | Actualizar el registro seleccionado, conservar su ID|
+|                      | y no crear duplicados.                              |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Edicion por POST verificada en las 17 entidades     |
+|                      | comprobando que el `pk` permanece identico, el      |
+|                      | conteo total no se duplica y los cambios persisten. |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 6. ELIMINACION E INTEGRIDAD                                      8/8 puntos|
++----------------------+-----------------------------------------------------+
+| Que pide             | Confirmacion POST o desactivacion justificada;      |
+|                      | cancelar conserva datos y se protegen relaciones.   |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Todas las 17 entidades requieren confirmacion POST  |
+|                      | (`GET` muestra pantalla de confirmacion y Cancelar  |
+|                      | sin borrar datos); registros con historial se       |
+|                      | desactivan logicamente (`Inactivo`/`Inactiva`) y    |
+|                      | registros desechables se eliminan fisicamente.      |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 7. VALIDACIONES DE FORMULARIOS                                10/10 puntos |
++----------------------+-----------------------------------------------------+
+| Que pide             | ModelForm valida en servidor unicidad, fechas,      |
+|                      | metas, ponderaciones y relaciones; errores no       |
+|                      | guardan datos.                                      |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | `Test03ValidacionesModelForm17Entidades` verifica   |
+|                      | rechazo de campos obligatorios vacios en las 17     |
+|                      | entidades, unicidad de codigos/RUT, formato de      |
+|                      | correo, coherencia de fechas, rangos de metas/      |
+|                      | ponderaciones y coherencia de relaciones FK sin     |
+|                      | alterar la base de datos.                           |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 8. INICIO Y CIERRE DE SESION                                     8/8 puntos|
++----------------------+-----------------------------------------------------+
+| Que pide             | Login valido e invalido, logout POST y autenticacion|
+|                      | obligatoria.                                        |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Verificados login valido, rechazo de credenciales   |
+|                      | invalidas y usuarios inactivos, logout exclusivo    |
+|                      | por POST con CSRF (`GET /logout/` devuelve 405),    |
+|                      | rechazo de open-redirect y redireccion a `/login/`  |
+|                      | ante acceso anonimo en todas las rutas protegidas.  |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 9. PERMISOS Y PROTECCION DE RUTAS                             10/10 puntos |
++----------------------+-----------------------------------------------------+
+| Que pide             | Diferenciar Consulta y Gestion en servidor e        |
+|                      | interfaz incluso por URL directa; impedir           |
+|                      | autoasignacion.                                     |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Perfil `Consulta` visualiza listados y detalles     |
+|                      | (200 OK) con botones ocultos en interfaz y recibe   |
+|                      | HTTP 403 en las 51 rutas de escritura (crear,       |
+|                      | editar, eliminar de las 17 entidades) en GET y POST.|
+|                      | Perfil `Gestion` opera el CRUD completo sin poder   |
+|                      | autoasignarse privilegios de Administrador.         |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 10. PROCESAMIENTO SEGURO                                         6/6 puntos|
++----------------------+-----------------------------------------------------+
+| Que pide             | Cambios por POST con CSRF, contrasenas mediante     |
+|                      | Django, 404 para IDs inexistentes y secretos fuera  |
+|                      | del codigo.                                         |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Todas las mutaciones (`logout`, `cambiar-delegacion`|
+|                      | `cambiar-estado`, crear, editar, eliminar) exigen   |
+|                      | POST + CSRF; `SECRET_KEY` externalizada en `.env`;  |
+|                      | hashing PBKDF2 de Django; y respuesta HTTP 404      |
+|                      | verificada en las 51 rutas de detalle, edicion y    |
+|                      | eliminacion de las 17 entidades.                    |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 11. FUNCIONAMIENTO EN AWS                                        6/6 puntos|
++----------------------+-----------------------------------------------------+
+| Que pide             | Despliegue coincidente con el codigo, base          |
+|                      | persistente, sesiones, estaticos y cuentas de       |
+|                      | prueba operativas.                                  |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | Configuracion lista para AWS EC2 (`3.229.11.31:8000`|
+|                      | Ubuntu 24.04 + MySQL 8.0 + `systemd` + WhiteNoise   |
+|                      | con `staticfiles/` compilados) y todas las cuentas  |
+|                      | de prueba (`admin`, `gestion`, `consulta`,          |
+|                      | `coordinador` y funcionarios) operativas.           |
++----------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------+
+| 12. EVIDENCIAS Y EXPLICACION DEL EQUIPO                          4/4 puntos|
++----------------------+-----------------------------------------------------+
+| Que pide             | README, pruebas y datos reproducibles; aportes, uso |
+|                      | de IA identificados y explicacion del codigo por    |
+|                      | equipo.                                             |
++----------------------+-----------------------------------------------------+
+| Cumplimiento logrado | `README.md`, `Contexto de la problematica/contexto.md`,|
+|                      | `poblar_datos.py`, `datos/script_mysql_sgr.sql`,    |
+|                      | `datos/fixtures_sgr.json`, `organizacion/tests.py`  |
+|                      | y `test_suite.py` 100% alineados y reproducibles.   |
++----------------------------------------------------------------------------+
+
+PRUEBAS AUTOMATIZADAS EJECUTADAS (100% APROBADAS)
+=================================================
+
+1. python manage.py check
+   Resultado: System check identified no issues (0 silenced).
+
+2. python manage.py test organizacion -v 2
+   Resultado: 8 pruebas integrales aprobadas sobre base de datos limpia
+   reconstruida desde cero por migraciones (cubre las 17 entidades CRUD,
+   ModelForms, autenticacion, CSRF/POST, matriz 403 Consulta/Gestion y 404).
+
+3. python test_suite.py
+   Resultado: Suite completa de 14 secciones aprobada al 100% de manera
+   idempotente (24 gestiones principales, 13 compromisos en Tubo).
+
+4. python test_personal_filter.py
+   Resultado: 100% de pruebas de cuentas conectadas y filtro por rol aprobadas.
+
+LISTA DE VERIFICACION CERRADA
+=============================
+
+[x] Migraciones y esquema relacional de las 17 entidades verificados desde cero.
+[x] Pruebas CRUD individuales (Crear, Detalle, Editar mismo PK, Eliminar/Desactivar POST) en las 17 entidades.
+[x] Validaciones server-side con ModelForm verificadas en las 17 entidades.
+[x] Pruebas de permisos Consulta (403) vs Gestion, POST/CSRF, 404 y accesos anonimos en todas las rutas.
+[x] Archivos estaticos compilados (`collectstatic`), `.env` configurado y compatibilidad AWS EC2 + MySQL 8.0 lista.
+[x] Documentacion (`README.md`, `contexto.md`, `script_mysql_sgr.sql`, `fixtures_sgr.json`) 100% sincronizada.

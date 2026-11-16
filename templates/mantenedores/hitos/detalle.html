@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Hito: {{ hito.nombre }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #9 — HITO TERRITORIAL [{{ hito.codigo }}]</p>
+    <h1>{{ hito.nombre }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'hitos_editar' hito.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'hitos_eliminar' hito.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'hitos_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Código Único</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ hito.codigo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Periodicidad</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{{ hito.periodicidad }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Fecha Inicio / Término</span>
+      <p style="margin: 4px 0 0;">{{ hito.fecha_inicio|date:"d/m/Y" }} al {{ hito.fecha_termino|date:"d/m/Y" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Delegación</span>
+      <p style="margin: 4px 0 0;">[{{ hito.delegacion.codigo }}] {{ hito.delegacion.nombre }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Territorio</span>
+      <p style="margin: 4px 0 0;">{{ hito.territorio.nombre|default:"Comunal / General" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Funcionario Responsable</span>
+      <p style="margin: 4px 0 0;">{{ hito.responsable.nombre|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if hito.estado == 'Inactivo' %}badge-inactivo{% else %}badge-activo{% endif %}">{{ hito.estado }}</span>
+      </p>
+    </div>
+  </div>
+  <div style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 12px;">
+    <p style="margin: 0 0 8px;"><strong>Descripción:</strong> {{ hito.descripcion|default:"—" }}</p>
+    <p style="margin: 0;"><strong>Equipo de Funcionarios Asignados:</strong>
+      {% for f in hito.responsables.all %}{{ f.nombre }}{% if not forloop.last %}, {% endif %}{% empty %}Sin adicionales{% endfor %}
+    </p>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Actividades Vinculadas a este Hito ({{ actividades.count }})</h3>
+  <table class="tabla-sgr">
+    <thead><tr><th>Código</th><th>Fecha</th><th>Solicitud</th><th>Responsable</th><th>Estado</th></tr></thead>
+    <tbody>
+      {% for a in actividades %}
+      <tr>
+        <td><a href="{% url 'actividades:detalle_actividad' a.pk %}"><strong>{{ a.codigo }}</strong></a></td>
+        <td>{{ a.fecha|date:"d/m/Y" }}</td>
+        <td>{{ a.solicitud }}</td>
+        <td>{{ a.responsable }}</td>
+        <td>{{ a.estado }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" style="text-align:center; color:var(--muted);">No hay actividades vinculadas a este hito.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

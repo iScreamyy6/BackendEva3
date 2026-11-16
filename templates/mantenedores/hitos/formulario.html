@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ titulo|default:"Formulario Hito" }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #9 — HITO TERRITORIAL</p>
+    <h1>{{ titulo|default:"Gestión de Hito Territorial" }}</h1>
+  </div>
+  <a href="{% url 'hitos_lista' %}" class="btn-secundario">← Volver al Listado</a>
+</div>
+
+<div class="form-card">
+  <form method="post" action="">
+    {% csrf_token %}
+    <div class="formulario-grilla">
+      <div class="formulario-grupo">
+        <label for="codigo">Código Único <small style="color: var(--muted);">(Automático si se deja vacío)</small></label>
+        <input type="text" id="codigo" name="codigo" value="{{ hito.codigo|default:valores.codigo|default:'' }}" placeholder="Ej: HIT-01">
+      </div>
+      <div class="formulario-grupo">
+        <label for="nombre">Nombre del Hito *</label>
+        <input type="text" id="nombre" name="nombre" value="{{ hito.nombre|default:valores.nombre|default:'' }}" placeholder="Ej: Operativo Integral Invierno Seguro" required>
+      </div>
+      <div class="formulario-grupo">
+        <label for="periodicidad">Periodicidad *</label>
+        <select id="periodicidad" name="periodicidad" required>
+          <option value="Único" {% if hito.periodicidad == 'Único' or valores.periodicidad == 'Único' %}selected{% endif %}>Único</option>
+          <option value="Semanal" {% if hito.periodicidad == 'Semanal' or valores.periodicidad == 'Semanal' %}selected{% endif %}>Semanal</option>
+          <option value="Mensual" {% if hito.periodicidad == 'Mensual' or valores.periodicidad == 'Mensual' %}selected{% endif %}>Mensual</option>
+          <option value="Trimestral" {% if hito.periodicidad == 'Trimestral' or valores.periodicidad == 'Trimestral' %}selected{% endif %}>Trimestral</option>
+          <option value="Anual" {% if hito.periodicidad == 'Anual' or valores.periodicidad == 'Anual' %}selected{% endif %}>Anual</option>
+        </select>
+      </div>
+      <div class="formulario-grupo">
+        <label for="estado">Estado *</label>
+        <select id="estado" name="estado" required>
+          <option value="Programado" {% if hito.estado == 'Programado' or valores.estado == 'Programado' %}selected{% endif %}>Programado</option>
+          <option value="En Ejecución" {% if hito.estado == 'En Ejecución' or valores.estado == 'En Ejecución' %}selected{% endif %}>En Ejecución</option>
+          <option value="Cumplido" {% if hito.estado == 'Cumplido' or valores.estado == 'Cumplido' %}selected{% endif %}>Cumplido</option>
+          <option value="Activo" {% if hito.estado == 'Activo' or valores.estado == 'Activo' %}selected{% endif %}>Activo</option>
+          <option value="Inactivo" {% if hito.estado == 'Inactivo' or valores.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+        </select>
+      </div>
+      <div class="formulario-grupo">
+        <label for="fecha_inicio">Fecha de Inicio *</label>
+        <input type="date" id="fecha_inicio" name="fecha_inicio" value="{{ hito.fecha_inicio|date:'Y-m-d'|default:valores.fecha_inicio|default:'' }}" required>
+      </div>
+      <div class="formulario-grupo">
+        <label for="fecha_termino">Fecha de Término * <small style="color:var(--muted);">(Debe ser &ge; fecha inicio)</small></label>
+        <input type="date" id="fecha_termino" name="fecha_termino" value="{{ hito.fecha_termino|date:'Y-m-d'|default:valores.fecha_termino|default:'' }}" required>
+      </div>
+      <div class="formulario-grupo">
+        <label for="delegacion">Delegación Asociada *</label>
+        <select id="delegacion" name="delegacion" required>
+          <option value="">Seleccione delegación...</option>
+          {% for d in delegaciones %}
+          <option value="{{ d.pk }}" {% if hito.delegacion_id == d.pk or valores.delegacion == d.pk|stringformat:"s" %}selected{% endif %}>
+            [{{ d.codigo }}] {{ d.nombre }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="formulario-grupo">
+        <label for="territorio">Territorio Asociado</label>
+        <select id="territorio" name="territorio">
+          <option value="">-- Sin territorio específico --</option>
+          {% for t in territorios %}
+          <option value="{{ t.pk }}" {% if hito.territorio_id == t.pk or valores.territorio == t.pk|stringformat:"s" %}selected{% endif %}>
+            {{ t.nombre }} ({{ t.delegacion.nombre }})
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="formulario-grupo ancho-completo">
+        <label for="responsable">Funcionario Responsable Principal</label>
+        <select id="responsable" name="responsable">
+          <option value="">-- Seleccione funcionario responsable --</option>
+          {% for f in funcionarios %}
+          <option value="{{ f.pk }}" {% if hito.responsable_id == f.pk or valores.responsable == f.pk|stringformat:"s" %}selected{% endif %}>
+            {{ f.nombre }} — {{ f.cargo }} ({{ f.id_delegacion.nombre }})
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="formulario-grupo ancho-completo">
+        <label for="descripcion">Descripción del Hito</label>
+        <textarea id="descripcion" name="descripcion" rows="3" placeholder="Objetivos y alcance del hito territorial...">{{ hito.descripcion|default:valores.descripcion|default:'' }}</textarea>
+      </div>
+    </div>
+    <div class="form-acciones">
+      <a href="{% url 'hitos_lista' %}" class="btn-secundario">Cancelar</a>
+      <button type="submit" class="btn-primario-sgr">Guardar Hito</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

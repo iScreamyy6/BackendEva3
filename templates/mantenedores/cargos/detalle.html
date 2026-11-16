@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Cargo: {{ cargo.nombre }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #4 — CARGO MUNICIPAL [{{ cargo.codigo }}]</p>
+    <h1>{{ cargo.nombre }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'cargos_editar' cargo.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'cargos_eliminar' cargo.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'cargos_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Código Único</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ cargo.codigo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Nombre del Cargo</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{{ cargo.nombre }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if cargo.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ cargo.estado }}</span>
+      </p>
+    </div>
+  </div>
+  <div style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 12px;">
+    <p style="margin: 0;"><strong>Descripción / Funciones:</strong> {{ cargo.descripcion|default:"—" }}</p>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Funcionarios con este Cargo ({{ funcionarios.count }})</h3>
+  <table class="tabla-sgr">
+    <thead><tr><th>Nombre</th><th>RUT</th><th>Delegación</th><th>Correo</th><th>Estado</th></tr></thead>
+    <tbody>
+      {% for f in funcionarios %}
+      <tr>
+        <td><strong>{{ f.nombre }}</strong></td>
+        <td>{{ f.rut|default:"—" }}</td>
+        <td>{{ f.id_delegacion.nombre }}</td>
+        <td>{{ f.correo|default:"—" }}</td>
+        <td>{{ f.estado }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" style="text-align:center; color:var(--muted);">No hay funcionarios asociados a este cargo.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

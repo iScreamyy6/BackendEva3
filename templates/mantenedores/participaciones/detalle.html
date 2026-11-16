@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Participación: {{ participacion.codigo }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #8 — PARTICIPACIÓN EN JUNTA [{{ participacion.codigo }}]</p>
+    <h1>{{ participacion.vecino.nombre }} → {{ participacion.junta.nombre }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'participaciones_editar' participacion.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'participaciones_eliminar' participacion.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'participaciones_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Código Participación</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ participacion.codigo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Vecino Asociado</span>
+      <p style="margin: 4px 0 0; font-weight: 600;"><a href="{% url 'vecinos_detalle' participacion.vecino.pk %}">{{ participacion.vecino.nombre }} ({{ participacion.vecino.rut }})</a></p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Junta de Vecinos</span>
+      <p style="margin: 4px 0 0; font-weight: 600;"><a href="{% url 'juntas_vecinos_detalle' participacion.junta.pk %}">{{ participacion.junta.nombre }}</a></p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Rol o Cargo</span>
+      <p style="margin: 4px 0 0;">{{ participacion.cargo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">¿Es Dirigente?</span>
+      <p style="margin: 4px 0 0;">{% if participacion.es_dirigente %}Sí (Miembro de Directiva){% else %}No (Socio/a){% endif %}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Fecha Incorporación</span>
+      <p style="margin: 4px 0 0;">{{ participacion.fecha_incorporacion|date:"d/m/Y"|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if participacion.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ participacion.estado }}</span>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

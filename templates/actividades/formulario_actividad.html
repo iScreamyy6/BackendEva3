@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+
+{% block titulo %}Registrar Gestión | SGR Municipalidad de La Serena{% endblock %}
+
+{% block contenido %}
+{% if gestion_padre %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta" style="color: #1971c2;">SUBGESTIÓN / HITO DE SEGUIMIENTO</p>
+    <h1>Registrar Subgestión para [{{ gestion_padre.codigo }}]</h1>
+  </div>
+  <a href="{% url 'actividades:detalle_actividad' gestion_padre.id %}" class="btn-secundario">← Volver a Gestión Principal</a>
+</div>
+{% else %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">MÓDULO UNIFICADO DE GESTIONES COMUNALES</p>
+    <h1>Registrar Nueva Gestión</h1>
+  </div>
+  <a href="{% url 'actividades:lista_actividades' %}" class="btn-secundario">← Volver al Listado de Gestiones</a>
+</div>
+{% endif %}
+
+<div class="form-card">
+  {% if gestion_padre %}
+  <div style="background: #e7f5ff; border: 1.5px solid #a5d8ff; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px;">
+    <div style="margin-bottom: 6px;">
+      <strong style="color: #1971c2; font-size: 1rem;">Vinculando Subgestión a Gestión Principal: {{ gestion_padre.codigo }}</strong>
+    </div>
+    <p style="margin: 0; font-size: 0.88rem; color: #333; line-height: 1.5;">
+      <strong>Solicitud Original:</strong> {{ gestion_padre.solicitud }}<br>
+      <strong>Vecino Solicitante:</strong> {{ gestion_padre.solicitante|default:"Sin registrar" }} (RUT: {{ gestion_padre.rut_solicitante|default:"—" }}) | 
+      <strong>Territorio:</strong> {{ gestion_padre.territorio|default:"—" }}
+    </p>
+    <small style="color: #1c7ed6; display: block; margin-top: 6px; font-weight: 600;">
+      Esta subgestión quedará anidada como hito de seguimiento y se visualizará en la ficha de la gestión principal (no aparecerá por separado en el tablero general).
+    </small>
+  </div>
+  {% else %}
+  <div style="background: #fdfaf9; border-left: 4px solid var(--rojo-serena); padding: 14px 18px; margin-bottom: 24px; border-radius: 0 6px 6px 0;">
+    <span style="font-size: 0.9rem; color: #444; line-height: 1.5; display: block;">
+      Delegación Territorial Activa: <strong>[{{ delegacion_activa.codigo|default:"D01" }}] {{ delegacion_activa.nombre }}</strong>.<br>
+      Formulario unificado con asignación automática y autoincremental de <strong>Código de Gestión</strong> y <strong>Código Único de Evidencia (EVI)</strong>.
+    </span>
+  </div>
+  {% endif %}
+
+  <form method="post" action="{% url 'actividades:formulario_actividad' %}" id="formGestion" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if gestion_padre %}
+    <input type="hidden" name="id_gestion_padre" value="{{ gestion_padre.id }}">
+    {% endif %}
+
+    <div style="border-bottom: 2px solid #f0f0f0; padding-bottom: 14px; margin-bottom: 20px;">
+      <h3 style="font-size: 1.05rem; color: var(--petroleo); margin: 0 0 4px 0;">1. Códigos y Trazabilidad Oficial</h3>
+      <p style="font-size: 0.8rem; color: var(--muted); margin: 0;">Generados automáticamente por el sistema al guardar.</p>
+    </div>
+
+    <div class="formulario-grilla">
+      <div class="formulario-grupo">
+        <label for="codigo_gestion">Código de Gestión (Autoincremental)</label>
+        <input type="text" id="codigo_gestion" value="{{ codigo_sugerido }}" readonly style="background: #f7f3f0; font-weight: bold; font-family: monospace; color: var(--petroleo); cursor: not-allowed;">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="codigo_evidencia">Código de Evidencia Asociado (Autoincremental)</label>
+        <input type="text" id="codigo_evidencia" value="{{ codigo_evi_sugerido }}" readonly style="background: #f7f3f0; font-weight: bold; font-family: monospace; color: var(--rojo-serena); cursor: not-allowed;">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="fecha">Fecha de Gestión *</label>
+        <input type="date" id="fecha" name="fecha" value="{{ valores.fecha|default:hoy }}" required>
+      </div>
+
+      <div class="formulario-grupo">
+        {% if es_admin %}
+        <label for="responsable">Funcionario Responsable * (Asignación Administrador)</label>
+        <select id="responsable" name="responsable" required style="border: 2px solid var(--rojo-serena);">
+          <option value="">Seleccione funcionario responsable...</option>
+          {% for f in funcionarios %}
+          <option value="{{ f.nombre }}" {% if valores.responsable == f.nombre or valores.id_funcionario == f.id|stringformat:"s" %}selected{% endif %}>
+            {{ f.nombre }} — {{ f.cargo }}
+          </option>
+          {% endfor %}
+        </select>
+        <small style="display: block; font-size: 0.78rem; color: var(--muted); margin-top: 3px;">
+          Como Administrador, puede asignar la gestión a cualquiera de los funcionarios registrados.
+        </small>
+        {% else %}
+        <label for="responsable_display">Funcionario Responsable *</label>
+        <div style="background: #eef7fc; border: 1.5px solid #b6d4fe; border-radius: 6px; padding: 9px 14px; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <strong style="color: #084298; font-size: 0.95rem;">{{ funcionario_actual.nombre|default:request.user.get_full_name|default:request.user.username }}</strong>
+            <span style="color: #495057; font-size: 0.82rem; margin-left: 6px;">— {{ funcionario_actual.cargo|default:"Funcionario" }}</span>
+          </div>
+          <span style="background: #cfe2ff; color: #084298; padding: 2px 8px; border-radius: 12px; font-size: 0.74rem; font-weight: 700;">
+            Creador
+          </span>
+        </div>
+        <input type="hidden" name="responsable" value="{{ funcionario_actual.nombre|default:request.user.get_full_name|default:request.user.username }}">
+        <input type="hidden" name="id_funcionario" value="{{ funcionario_actual.id }}">
+        <small style="display: block; font-size: 0.78rem; color: var(--muted); margin-top: 3px;">
+          La gestión se asigna automáticamente a usted como creador de la misma.
+        </small>
+        {% endif %}
+      </div>
+    </div>
+
+    <div style="border-bottom: 2px solid #f0f0f0; padding-bottom: 14px; margin: 28px 0 20px 0;">
+      <h3 style="font-size: 1.05rem; color: var(--petroleo); margin: 0 0 4px 0;">2. Datos del Solicitante / Vecino (Búsqueda por RUT)</h3>
+      <p style="font-size: 0.8rem; color: var(--muted); margin: 0;">Ingrese el RUT para buscar un vecino ya registrado, o ingrese los datos manualmente para registrar uno nuevo.</p>
+    </div>
+
+    <div class="formulario-grilla">
+      <div class="formulario-grupo">
+        <label for="rut_solicitante">RUT Solicitante / Vecino</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="rut_solicitante" name="rut_solicitante" value="{{ valores.rut_solicitante|default:'' }}" placeholder="12.345.678-9" style="flex: 1;">
+          <button type="button" id="btnBuscarRut" style="background: #198754; color: #ffffff !important; border: none; font-weight: 700; padding: 8px 16px; white-space: nowrap; cursor: pointer; border-radius: 4px; font-size: 0.88rem;">
+            Buscar por RUT
+          </button>
+        </div>
+        <small id="rutFeedback" style="display: block; font-size: 0.78rem; margin-top: 4px; font-weight: 600;"></small>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="solicitante">Nombre Solicitante / Vecino</label>
+        <input type="text" id="solicitante" name="solicitante" value="{{ valores.solicitante|default:'' }}" placeholder="ej: Rosa Castillo Morales">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="telefono">Teléfono de Contacto</label>
+        <input type="text" id="telefono" name="telefono" value="{{ valores.telefono|default:'' }}" placeholder="+56 9 1234 5678">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="correo">Correo Electrónico</label>
+        <input type="email" id="correo" name="correo" value="{{ valores.correo|default:'' }}" placeholder="vecino@correo.cl">
+      </div>
+
+      <div class="formulario-grupo ancho-completo">
+        <label for="direccion">Dirección / Sector / Junta de Vecinos</label>
+        <input type="text" id="direccion" name="direccion" value="{{ valores.direccion|default:'' }}" placeholder="ej: Calle Los Aromos #450, Las Compañías">
+      </div>
+    </div>
+
+    <div style="border-bottom: 2px solid #f0f0f0; padding-bottom: 14px; margin: 28px 0 20px 0;">
+      <h3 style="font-size: 1.05rem; color: var(--petroleo); margin: 0 0 4px 0;">3. Clasificación Temática y Detalle de la Gestión</h3>
+      <p style="font-size: 0.8rem; color: var(--muted); margin: 0;">Catálogo dependiente oficial y descripción del requerimiento.</p>
+    </div>
+
+    <div class="formulario-grilla">
+      <div class="formulario-grupo">
+        <label for="id_tipo">Tipo de Atención (Catálogo Oficial)</label>
+        <select id="id_tipo" name="id_tipo">
+          <option value="">Seleccione tipo de atención...</option>
+          {% for t in tipos %}
+          <option value="{{ t.pk }}" {% if valores.id_tipo|stringformat:"s" == t.pk|stringformat:"s" %}selected{% endif %}>
+            [{{ t.codigo }}] {{ t.nombre }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_subatencion">Sub Atención (Dependiente)</label>
+        <select id="id_subatencion" name="id_subatencion" data-selected="{{ valores.id_subatencion|default:'' }}">
+          <option value="">Primero seleccione un Tipo de Atención...</option>
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="item_evaluacion">Ítem de Evaluación (Meta SGR) *</label>
+        <select id="item_evaluacion" name="item_evaluacion" required>
+          <option value="">Seleccione ítem correspondiente...</option>
+          {% if items_metas %}
+            {% for it in items_metas %}
+            <option value="{{ it.nombre }}" {% if valores.item_evaluacion == it.nombre %}selected{% endif %}>
+              [{{ it.codigo }}] {{ it.nombre }}
+            </option>
+            {% endfor %}
+          {% else %}
+            <option value="ATENCION DE USUARIO TELEFONO Y PRESENCIAL" selected>Atención de Usuario Teléfono y Presencial</option>
+            <option value="INFORMES SOCIALES">Informes Sociales / Ficha FIBE</option>
+            <option value="GESTION TERRITORIAL Y OPERATIVOS">Gestión Territorial y Operativos</option>
+            <option value="EMERGENCIA">Emergencia Comunal</option>
+          {% endif %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="estado">Estado de la Gestión *</label>
+        <select id="estado" name="estado" required>
+          <option value="Pendiente" {% if valores.estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+          <option value="En Proceso" {% if valores.estado == 'En Proceso' %}selected{% endif %}>En Proceso</option>
+          <option value="Realizado" {% if valores.estado == 'Realizado' or not valores.estado %}selected{% endif %}>Realizado</option>
+        </select>
+      </div>
+
+      <div class="formulario-grupo ancho-completo">
+        <label for="solicitud">Solicitud / Problema / Requerimiento *</label>
+        <textarea id="solicitud" name="solicitud" rows="3" placeholder="Describa el requerimiento del vecino, solicitud comunal o problema detectado..." required>{{ valores.solicitud|default:'' }}</textarea>
+      </div>
+
+      <div class="formulario-grupo ancho-completo">
+        <label for="accion">Acción Realizada / Plan de Trabajo *</label>
+        <input type="text" id="accion" name="accion" value="{{ valores.accion|default:'' }}" placeholder="Ej: Visita en terreno, Gestión ante Dirección de Obras, Entrega de ayuda..." required>
+      </div>
+    </div>
+
+    <!-- SECCIÓN INTERACTIVA: DERIVACIÓN A TUBO DE TRABAJO -->
+    <div style="background: #f0f7ff; border: 2px solid #b6d4fe; border-radius: 8px; padding: 18px 20px; margin: 28px 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h3 style="font-size: 1.1rem; color: #0d6efd; margin: 0 0 4px 0; display: flex; align-items: center; gap: 8px;">
+            ¿Mandar al método de Tubo de Trabajo?
+          </h3>
+          <p style="font-size: 0.82rem; color: #495057; margin: 0;">
+            Seleccione esta opción cuando la gestión requiera seguimiento intersectorial en el <strong>Tablero Kanban</strong>.
+          </p>
+        </div>
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 700; color: #0d6efd; background: #cfe2ff; padding: 6px 14px; border-radius: 6px;">
+          <input type="checkbox" id="toggleTubo" name="ingreso_tubo" value="SI" {% if tubo_default or valores.ingreso_tubo == 'SI' or valores.ingreso_tubo == 'on' %}checked{% endif %}>
+          Ingresar al Tubo de Trabajo
+        </label>
+      </div>
+
+      <div id="seccionTubo" class="{% if not tubo_default and valores.ingreso_tubo != 'SI' and valores.ingreso_tubo != 'on' %}oculto{% endif %}" style="border-top: 1px dashed #b6d4fe; padding-top: 16px; margin-top: 10px;">
+        <div class="formulario-grilla">
+          <div class="formulario-grupo">
+            <label for="fecha_compromiso" style="color: #0d6efd;">Fecha Límite / Comprometida</label>
+            <input type="date" id="fecha_compromiso" name="fecha_compromiso" value="{{ valores.fecha_compromiso|default:'' }}">
+          </div>
+
+          <div class="formulario-grupo">
+            <label for="area_apoyo" style="color: #0d6efd;">Área de Apoyo / Dirección Requerida</label>
+            <input type="text" id="area_apoyo" name="area_apoyo" value="{{ valores.area_apoyo|default:'' }}" placeholder="ej: Dirección de Tránsito, Cuadrilla de Alumbrado, Aseo">
+          </div>
+
+          <div class="formulario-grupo ancho-completo">
+            <label for="territorio" style="color: #0d6efd;">Territorio / Sector Específico del Tubo</label>
+            <input type="text" id="territorio" name="territorio" value="{{ valores.territorio|default:'' }}" placeholder="ej: Las Compañías Alta, Sector Ceres, Centro Histórico">
+            <small style="display: block; font-size: 0.78rem; color: var(--muted); margin-top: 4px;">
+              Al guardar, se creará automáticamente un registro correlativo en el Tubo de Trabajo (<strong>TUB-XXXXX</strong>) visible inmediatamente en el Tablero Kanban.
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN OPCIONAL: EVIDENCIA FOTOGRÁFICA AL MOMENTO DE CREAR -->
+    <div style="background: #f6fdf8; border: 2px solid #c3e6cb; border-radius: 8px; padding: 18px 20px; margin: 28px 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h3 style="font-size: 1.05rem; color: #155724; margin: 0 0 4px 0; display: flex; align-items: center; gap: 8px;">
+            Evidencia Fotográfica (Opcional)
+          </h3>
+          <p style="font-size: 0.82rem; color: #1e7e34; margin: 0;">
+            Puede adjuntar una imagen de respaldo ahora o subirla más tarde desde la ficha de la gestión.
+          </p>
+        </div>
+      </div>
+      <div class="formulario-grilla">
+        <div class="formulario-grupo">
+          <label for="imagen_evidencia" style="color: #155724;">Imagen de Evidencia (JPG, PNG, WEBP)</label>
+          <input type="file" id="imagen_evidencia" name="imagen_evidencia" accept="image/*"
+                 style="padding: 6px; border: 1px solid #c3e6cb; border-radius: 4px; background: white; width: 100%;">
+          <small style="display: block; font-size: 0.78rem; color: var(--muted); margin-top: 4px;">
+            Tamaño máximo recomendado: 5 MB. Si no sube imagen ahora, podrá hacerlo desde la ficha de la gestión.
+          </small>
+        </div>
+        <div class="formulario-grupo">
+          <label for="observacion_evidencia" style="color: #155724;">Descripción / Observación de la Evidencia</label>
+          <input type="text" id="observacion_evidencia" name="observacion_evidencia"
+                 placeholder="Ej: Fotografía del operativo en terreno, sector norte...">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-acciones">
+      <a href="{% url 'actividades:lista_actividades' %}" class="btn-secundario">Cancelar</a>
+      <button type="submit" class="btn-primario-sgr" style="padding: 10px 24px; font-size: 0.95rem;">
+        Guardar Gestión y Generar Folio Oficial
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Dynamic cascading subatenciones
+  document.addEventListener('DOMContentLoaded', function () {
+    const tipoSelect = document.getElementById('id_tipo');
+    const subSelect = document.getElementById('id_subatencion');
+
+    const toggleTubo = document.getElementById('toggleTubo');
+    const seccionTubo = document.getElementById('seccionTubo');
+    const codGestionInput = document.getElementById('codigo_gestion');
+
+    // Toggle Tubo de Trabajo visibility
+    if (toggleTubo && seccionTubo) {
+      toggleTubo.addEventListener('change', function () {
+        if (this.checked) {
+          seccionTubo.classList.remove('oculto');
+          seccionTubo.style.display = 'block';
+        } else {
+          seccionTubo.classList.add('oculto');
+          seccionTubo.style.display = 'none';
+        }
+      });
+    }
+
+    // Load subatenciones via AJAX
+    function cargarSubatenciones(tipoId, selectedSubId) {
+      if (!tipoId) {
+        subSelect.innerHTML = '<option value="">Primero seleccione un Tipo de Atención...</option>';
+        return;
+      }
+      subSelect.innerHTML = '<option value="">Cargando subatenciones...</option>';
+      fetch('/api/subatenciones/?tipo_id=' + tipoId)
+        .then(response => response.json())
+        .then(data => {
+          subSelect.innerHTML = '<option value="">Seleccione Sub Atención...</option>';
+          data.subatenciones.forEach(sub => {
+            const opt = document.createElement('option');
+            opt.value = sub.id;
+            opt.textContent = '[' + sub.codigo + '] ' + sub.nombre;
+            if (selectedSubId && String(sub.id) === String(selectedSubId)) {
+              opt.selected = true;
+            }
+            subSelect.appendChild(opt);
+          });
+        })
+        .catch(err => {
+          subSelect.innerHTML = '<option value="">Error al cargar subatenciones</option>';
+        });
+    }
+
+    // Búsqueda AJAX de Vecino por RUT
+    const rutInput = document.getElementById('rut_solicitante');
+    const btnBuscarRut = document.getElementById('btnBuscarRut');
+    const rutFeedback = document.getElementById('rutFeedback');
+    const nombreInput = document.getElementById('solicitante');
+    const telefonoInput = document.getElementById('telefono');
+    const correoInput = document.getElementById('correo');
+    const direccionInput = document.getElementById('direccion');
+    const territorioInput = document.getElementById('territorio');
+
+    function buscarVecinoPorRut() {
+      const rutVal = rutInput ? rutInput.value.trim() : '';
+      if (!rutVal) {
+        if (rutFeedback) {
+          rutFeedback.style.color = '#dc3545';
+          rutFeedback.textContent = 'Ingrese un RUT para buscar.';
+        }
+        return;
+      }
+
+      if (rutFeedback) {
+        rutFeedback.style.color = '#0d6efd';
+        rutFeedback.textContent = 'Buscando vecino en el registro comunal...';
+      }
+
+      fetch('/api/vecinos/buscar/?rut=' + encodeURIComponent(rutVal))
+        .then(response => response.json())
+        .then(data => {
+          if (data.encontrado) {
+            if (nombreInput) nombreInput.value = data.nombre || '';
+            if (telefonoInput) telefonoInput.value = data.telefono || '';
+            if (correoInput) correoInput.value = data.correo || '';
+            if (direccionInput) direccionInput.value = data.direccion || '';
+            if (territorioInput && data.territorio) territorioInput.value = data.territorio;
+
+            if (rutFeedback) {
+              rutFeedback.style.color = '#198754';
+              rutFeedback.innerHTML = '<strong>Vecino encontrado en el registro.</strong> Datos completados automáticamente.';
+            }
+          } else {
+            if (rutFeedback) {
+              rutFeedback.style.color = '#b95000';
+              rutFeedback.innerHTML = (data.mensaje || 'Vecino no encontrado. Puede ingresar los datos manualmente.');
+            }
+          }
+        })
+        .catch(err => {
+          if (rutFeedback) {
+            rutFeedback.style.color = '#dc3545';
+            rutFeedback.textContent = 'Error al consultar el registro de vecinos.';
+          }
+        });
+    }
+
+    if (btnBuscarRut) {
+      btnBuscarRut.addEventListener('click', buscarVecinoPorRut);
+    }
+    if (rutInput) {
+      rutInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          buscarVecinoPorRut();
+        }
+      });
+    }
+
+    if (tipoSelect) {
+      tipoSelect.addEventListener('change', function () {
+        cargarSubatenciones(this.value, null);
+      });
+      // Initial load if editing or re-rendering
+      const initTipo = tipoSelect.value;
+      const initSub = subSelect ? (subSelect.getAttribute('data-selected') || '') : '';
+      if (initTipo) {
+        cargarSubatenciones(initTipo, initSub);
+      }
+    }
+  });
+</script>
+{% endblock %}

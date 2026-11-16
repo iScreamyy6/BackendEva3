@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Subtipo de Atención: {{ sub.nombre }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #13 — SUBTIPO DE ATENCIÓN [{{ sub.codigo }}]</p>
+    <h1>{{ sub.nombre }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'subatenciones_editar' sub.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'subatenciones_eliminar' sub.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'subatenciones_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Código Único</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ sub.codigo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Tipo de Atención Padre</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">[{{ sub.id_tipo.codigo }}] {{ sub.id_tipo.nombre }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if sub.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ sub.estado }}</span>
+      </p>
+    </div>
+  </div>
+  <div style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 12px;">
+    <p style="margin: 0;"><strong>Descripción:</strong> {{ sub.descripcion|default:"—" }}</p>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Gestiones Clasificadas en este Subtipo ({{ actividades.count }})</h3>
+  <table class="tabla-sgr">
+    <thead><tr><th>Código</th><th>Fecha</th><th>Solicitud</th><th>Responsable</th><th>Estado</th></tr></thead>
+    <tbody>
+      {% for a in actividades %}
+      <tr>
+        <td><a href="{% url 'actividades:detalle_actividad' a.pk %}"><strong>{{ a.codigo }}</strong></a></td>
+        <td>{{ a.fecha|date:"d/m/Y" }}</td>
+        <td>{{ a.solicitud|truncatechars:50 }}</td>
+        <td>{{ a.responsable }}</td>
+        <td>{{ a.estado }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" style="text-align:center; color:var(--muted);">Sin actividades clasificadas en este subtipo.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

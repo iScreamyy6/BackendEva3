@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Delegación: {{ delegacion.nombre }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #1 — DELEGACIÓN MUNICIPAL [{{ delegacion.codigo }}]</p>
+    <h1>{{ delegacion.nombre }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'delegaciones_editar' delegacion.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'delegaciones_eliminar' delegacion.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'delegaciones_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Código Único</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ delegacion.codigo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Dirección</span>
+      <p style="margin: 4px 0 0;">{{ delegacion.direccion|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Comuna</span>
+      <p style="margin: 4px 0 0;">{{ delegacion.comuna }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Ámbito Territorial</span>
+      <p style="margin: 4px 0 0;">{{ delegacion.ambito }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Delegado / Responsable</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{{ delegacion.delegado.nombre|default:delegacion.responsable }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if delegacion.estado == 'Activa' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ delegacion.estado }}</span>
+      </p>
+    </div>
+  </div>
+  {% if delegacion.foco_estrategico %}
+  <div style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 12px;">
+    <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Foco Estratégico</span>
+    <p style="margin: 4px 0 0;">{{ delegacion.foco_estrategico }}</p>
+  </div>
+  {% endif %}
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+  <div class="tabla-contenedor">
+    <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Territorios Asociados ({{ territorios.count }})</h3>
+    <table class="tabla-sgr">
+      <thead><tr><th>Código</th><th>Nombre</th><th>Estado</th></tr></thead>
+      <tbody>
+        {% for t in territorios %}
+        <tr>
+          <td><strong>{{ t.codigo }}</strong></td>
+          <td><a href="{% url 'territorios_detalle' t.pk %}">{{ t.nombre }}</a></td>
+          <td>{{ t.estado }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3" style="text-align:center; color:var(--muted);">Sin territorios asociados.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tabla-contenedor">
+    <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Funcionarios de la Delegación ({{ funcionarios.count }})</h3>
+    <table class="tabla-sgr">
+      <thead><tr><th>Nombre</th><th>Cargo</th><th>Estado</th></tr></thead>
+      <tbody>
+        {% for f in funcionarios %}
+        <tr>
+          <td><strong>{{ f.nombre }}</strong></td>
+          <td>{{ f.cargo }}</td>
+          <td>{{ f.estado }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3" style="text-align:center; color:var(--muted);">Sin funcionarios asociados.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

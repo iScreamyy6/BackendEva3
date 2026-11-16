@@ -1,0 +1,358 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseNotAllowed
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.db.models import Q
+from django.utils import timezone
+
+from .models import Compromiso
+from organizacion.models import Delegacion, Funcionario
+from Municipalidad.views_mantenedores import es_consulta, respuesta_403
+
+
+class EmptyValues:
+    def __init__(self, data=None):
+        self._data = data or {}
+    def __getattr__(self, name):
+        if name == '_data':
+            return {}
+        return self._data.get(name, '')
+    def __getitem__(self, key):
+        return self._data.get(key, '')
+    def get(self, key, default=''):
+        return self._data.get(key, default)
+
+
+@login_required(login_url='login')
+def lista_compromisos(request):
+    q = request.GET.get('q', '').strip()
+    delegacion_activa_id = request.session.get('delegacion_activa_id')
+    es_todas = str(delegacion_activa_id).strip().upper() in ('TODAS', '0')
+
+    compromisos = Compromiso.objects.select_related('id_delegacion', 'id_responsable')
+    if not es_todas and delegacion_activa_id:
+        try:
+            compromisos = compromisos.filter(id_delegacion_id=int(delegacion_activa_id))
+        except (ValueError, TypeError):
+            pass
+    # ── Filtro por usuario Administrativo: solo sus propios compromisos ───────
+    if request.user.is_authenticated:
+        es_admin_grp = (
+            request.user.is_superuser
+            or request.user.groups.filter(name__in=['Administrador', 'Gestión', 'Gestion', 'Consulta']).exists()
+            or (getattr(request.user, 'perfil', None) and request.user.perfil.rol and request.user.perfil.rol.codigo in ('ROL-ADM', 'ROL-GEST', 'ROL-CON'))
+        )
+        es_supervisor_grp = (
+            es_admin_grp
+            or request.user.groups.filter(name='Supervisor').exists()
+        )
+        if not es_supervisor_grp:
+            from organizacion.models import Funcionario as _Func
+            func_propio = _Func.objects.filter(user=request.user).first()
+            q_propio = Q(usuario_creador=request.user)
+            if func_propio:
+                q_propio |= Q(id_responsable=func_propio)
+            compromisos = compromisos.filter(q_propio)
+    # ──────────────────────────────────────────────────────────────────────────
+
+    if q:
+        compromisos = compromisos.filter(
+            Q(codigo__icontains=q) |
+            Q(actividad__icontains=q) |
+            Q(solicitante__icontains=q) |
+            Q(responsable__icontains=q) |
+            Q(territorio__icontains=q)
+        )
+
+    contexto = {
+        'compromisos': compromisos,
+        'cantidad': compromisos.count(),
+        'q': q,
+    }
+    return render(request, 'agenda/lista_compromisos.html', contexto)
+
+
+@login_required(login_url='login')
+def detalle_compromiso(request, compromiso_id):
+    compromiso = get_object_or_404(
+        Compromiso.objects.select_related('id_delegacion', 'id_responsable'),
+        pk=compromiso_id
+    )
+    return render(request, 'agenda/detalle_compromiso.html', {'compromiso': compromiso})
+
+
+@login_required(login_url='login')
+def formulario_compromiso(request):
+    if es_consulta(request.user):
+        return respuesta_403(request, 'Acceso restringido: El perfil Consulta no tiene permisos para crear compromisos.')
+    delegacion_activa_id = request.session.get('delegacion_activa_id')
+    es_todas = str(delegacion_activa_id).strip().upper() in ('TODAS', '0')
+    delegacion_activa = None
+    if not es_todas and delegacion_activa_id:
+        try:
+            delegacion_activa = Delegacion.objects.filter(pk=int(delegacion_activa_id), estado='Activa').first()
+        except (ValueError, TypeError):
+            pass
+    if not delegacion_activa:
+        perfil_u = getattr(request.user, 'perfil', None)
+        if perfil_u and perfil_u.delegacion_activa:
+            delegacion_activa = perfil_u.delegacion_activa
+        else:
+            delegacion_activa = Delegacion.objects.filter(estado='Activa').first()
+    funcionarios = Funcionario.objects.filter(activo=True).order_by('nombre')
+
+    ultimo = Compromiso.objects.order_by('-id_compromiso').first()
+    siguiente_id = (ultimo.id_compromiso + 1) if ultimo else 1
+    codigo_sugerido = f"TUB-{siguiente_id:05d}"
+    hoy = timezone.now().date()
+
+    if request.method == 'POST':
+        fecha_solicitud = request.POST.get('fecha_solicitud') or hoy
+        tipo = request.POST.get('tipo', 'EXT')
+        actividad = request.POST.get('actividad', '').strip()
+        solicitante = request.POST.get('solicitante', '').strip()
+        territorio = request.POST.get('territorio', '').strip()
+        responsable_nombre = request.POST.get('responsable', '').strip()
+        fecha_compromiso = request.POST.get('fecha_compromiso') or None
+        area_apoyo = request.POST.get('area_apoyo', '').strip()
+        estado = request.POST.get('estado', 'INGRESADO')
+        observaciones = request.POST.get('observaciones', '').strip()
+
+        if not actividad or not solicitante or not responsable_nombre or not fecha_compromiso:
+            messages.error(request, 'Por favor complete todos los campos obligatorios (*).')
+            return render(request, 'agenda/formulario_compromiso.html', {
+                'funcionarios': funcionarios,
+                'delegacion_activa': delegacion_activa,
+                'codigo_sugerido': codigo_sugerido,
+                'valores': EmptyValues(request.POST),
+            })
+
+        funcionario_obj = Funcionario.objects.filter(nombre__iexact=responsable_nombre).first()
+        if not funcionario_obj:
+            funcionario_obj = Funcionario.objects.filter(nombre__icontains=responsable_nombre).first()
+
+        compromiso = Compromiso.objects.create(
+            usuario_creador=request.user if request.user.is_authenticated else None,
+            id_delegacion=delegacion_activa or (funcionario_obj.id_delegacion if funcionario_obj else Delegacion.objects.first()),
+            id_responsable=funcionario_obj,
+            fecha_solicitud=fecha_solicitud,
+            tipo=tipo,
+            actividad=actividad,
+            solicitante=solicitante,
+            territorio=territorio,
+            responsable=responsable_nombre,
+            fecha_compromiso=fecha_compromiso,
+            area_apoyo=area_apoyo,
+            estado=estado,
+            observaciones=observaciones,
+        )
+
+        messages.success(
+            request,
+            f'¡Compromiso ingresado exitosamente al Tubo de Trabajo! Código Oficial Asignado: {compromiso.codigo}.'
+        )
+        return redirect('agenda:lista_compromisos')
+
+    return render(request, 'agenda/formulario_compromiso.html', {
+        'funcionarios': funcionarios,
+        'delegacion_activa': delegacion_activa,
+        'codigo_sugerido': codigo_sugerido,
+        'hoy': hoy.strftime('%Y-%m-%d'),
+        'valores': EmptyValues(),
+    })
+
+
+def puede_mover_compromiso(user, compromiso):
+    """
+    Determina si un usuario puede mover o cambiar de estado un compromiso en el tablero Kanban.
+    Regla de negocio:
+    - Los Administradores (is_superuser o ROL-ADM / ROL-COORD) pueden mover cualquier actividad.
+    - Los usuarios no-admin solo pueden mover sus propias actividades (creadas por ellos o donde son el responsable).
+    - NO pueden mover actividades de otros funcionarios ni de otras delegaciones.
+    """
+    if not user.is_authenticated:
+        return False
+
+    # 1. Administrador General o Superusuario: Control total
+    if user.is_superuser:
+        return True
+    perfil = getattr(user, 'perfil', None)
+    rol_codigo = perfil.rol.codigo if (perfil and perfil.rol) else ''
+    if rol_codigo in ('ROL-ADM', 'ROL-COORD'):
+        return True
+
+    # 2. Si el compromiso fue creado directamente por este usuario
+    if hasattr(compromiso, 'usuario_creador') and compromiso.usuario_creador_id == user.pk:
+        return True
+
+    # 3. Si la actividad vinculada fue creada por este usuario
+    if compromiso.id_actividad and hasattr(compromiso.id_actividad, 'usuario_creador') and compromiso.id_actividad.usuario_creador_id == user.pk:
+        return True
+
+    # 4. Si el usuario actual es el responsable asignado (por nombre o funcionario)
+    user_nombres = {
+        user.username.strip().lower(),
+        user.get_full_name().strip().lower(),
+        user.first_name.strip().lower(),
+    }
+    user_nombres.discard('')
+
+    resp_text = (compromiso.responsable or '').strip().lower()
+    resp_obj_name = (compromiso.id_responsable.nombre or '').strip().lower() if compromiso.id_responsable else ''
+
+    for u_name in user_nombres:
+        if u_name and (u_name == resp_text or u_name == resp_obj_name or u_name in resp_text or resp_text in u_name):
+            return True
+
+    return False
+
+
+@login_required(login_url='login')
+def resumen_agenda(request):
+    delegacion_activa_id = request.session.get('delegacion_activa_id')
+    user = request.user
+
+    es_admin = user.is_authenticated and (
+        user.is_superuser or (
+            getattr(user, 'perfil', None) and getattr(user.perfil, 'rol', None) and user.perfil.rol.codigo in ('ROL-ADM', 'ROL-COORD')
+        )
+    )
+
+    # Visibilidad contextual: filtrar según la delegación activa o ver todas
+    delegacion_activa_id = request.session.get('delegacion_activa_id')
+    es_todas = str(delegacion_activa_id).strip().upper() in ('TODAS', '0')
+
+    compromisos = Compromiso.objects.select_related(
+        'id_delegacion', 'id_responsable', 'id_actividad', 'usuario_creador'
+    )
+    if not es_todas and delegacion_activa_id:
+        try:
+            compromisos = compromisos.filter(id_delegacion_id=int(delegacion_activa_id))
+        except (ValueError, TypeError):
+            pass
+
+    # ── Filtro por usuario Administrativo: solo sus propios compromisos ───────
+    if user.is_authenticated:
+        es_admin_grp = (
+            user.is_superuser
+            or user.groups.filter(name__in=['Administrador', 'Gestión', 'Gestion', 'Consulta']).exists()
+            or (getattr(user, 'perfil', None) and user.perfil.rol and user.perfil.rol.codigo in ('ROL-ADM', 'ROL-GEST', 'ROL-CON'))
+        )
+        es_supervisor_grp = (
+            es_admin_grp
+            or user.groups.filter(name='Supervisor').exists()
+        )
+        if not es_supervisor_grp:
+            func_propio = Funcionario.objects.filter(user=user).first()
+            q_propio = Q(usuario_creador=user)
+            if func_propio:
+                q_propio |= Q(id_responsable=func_propio)
+            compromisos = compromisos.filter(q_propio)
+    # ──────────────────────────────────────────────────────────────────────────
+
+    # Convertir queryset a lista y evaluar permisos de movimiento por tarjeta
+    # (solo se pueden mover las actividades propias a menos que seas admin)
+    lista_compromisos_eval = list(compromisos)
+    for c in lista_compromisos_eval:
+        c.puede_mover = puede_mover_compromiso(user, c)
+
+    total = len(lista_compromisos_eval)
+    hoy = timezone.now().date()
+
+    # Columna Atrasado: compromisos con fecha_compromiso vencida que NO esten Realizados
+    ESTADOS_ACTIVOS = {'INGRESADO', 'PENDIENTE', 'EN PROCESO'}
+    col_atrasados = [
+        c for c in lista_compromisos_eval
+        if c.estado in ESTADOS_ACTIVOS
+        and c.fecha_compromiso is not None
+        and c.fecha_compromiso < hoy
+    ]
+    ids_atrasados = {c.pk for c in col_atrasados}
+
+    # Excluir de columnas normales los que ya aparecen en Atrasado
+    col_ingresados = [c for c in lista_compromisos_eval if c.estado == 'INGRESADO' and c.pk not in ids_atrasados]
+    col_pendientes = [c for c in lista_compromisos_eval if c.estado == 'PENDIENTE' and c.pk not in ids_atrasados]
+    col_proceso = [c for c in lista_compromisos_eval if c.estado == 'EN PROCESO' and c.pk not in ids_atrasados]
+    col_realizados = [c for c in lista_compromisos_eval if c.estado == 'REALIZADO']
+
+    total_realizados = len(col_realizados)
+    tasa_resolucion = round((total_realizados / total * 100) if total > 0 else 0, 1)
+
+    contexto = {
+        'total': total,
+        'col_ingresados': col_ingresados,
+        'col_pendientes': col_pendientes,
+        'col_proceso': col_proceso,
+        'col_realizados': col_realizados,
+        'col_atrasados': col_atrasados,
+        'total_realizados': total_realizados,
+        'total_proceso': len(col_proceso),
+        'total_pendientes': len(col_pendientes),
+        'total_atrasados': len(col_atrasados),
+        'tasa_resolucion': tasa_resolucion,
+        'es_admin': es_admin,
+    }
+    return render(request, 'agenda/resumen_agenda.html', contexto)
+
+
+@login_required(login_url='login')
+def cambiar_estado_compromiso(request, compromiso_id, nuevo_estado):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    if es_consulta(request.user):
+        return respuesta_403(request, 'Acceso restringido: El perfil Consulta no tiene permisos para modificar compromisos.')
+    compromiso = get_object_or_404(
+        Compromiso.objects.select_related('id_responsable', 'id_actividad', 'usuario_creador'),
+        pk=compromiso_id
+    )
+
+    # Validar permisos: no se pueden mover actividades de otros a menos que seas admin
+    if not puede_mover_compromiso(request.user, compromiso):
+        messages.error(
+            request,
+            f'Acceso restringido: No puedes mover la actividad {compromiso.codigo} porque está asignada a otro funcionario. Solo el responsable o un Administrador pueden moverla.'
+        )
+        return redirect('agenda:resumen_agenda')
+
+    estados_validos = {'INGRESADO': 'Ingresado', 'PENDIENTE': 'Pendiente', 'EN PROCESO': 'En Proceso', 'REALIZADO': 'Realizado'}
+
+    estado_upper = nuevo_estado.upper()
+    if estado_upper in estados_validos:
+        compromiso.estado = estado_upper
+        campos_guardar = ['estado']
+
+        # Si se reactiva una gestión atrasada o se proporciona nueva_fecha
+        hoy = timezone.now().date()
+        nueva_fecha_param = request.GET.get('nueva_fecha') or request.POST.get('nueva_fecha')
+
+        if nueva_fecha_param:
+            try:
+                from datetime import datetime
+                compromiso.fecha_compromiso = datetime.strptime(nueva_fecha_param, '%Y-%m-%d').date()
+                campos_guardar.append('fecha_compromiso')
+            except ValueError:
+                pass
+        elif estado_upper == 'EN PROCESO' and compromiso.fecha_compromiso and compromiso.fecha_compromiso < hoy:
+            # Si estaba atrasada y se reactiva a EN PROCESO, se renueva automáticamente la fecha a hoy + 7 días
+            from datetime import timedelta
+            compromiso.fecha_compromiso = hoy + timedelta(days=7)
+            campos_guardar.append('fecha_compromiso')
+
+        compromiso.save(update_fields=campos_guardar)
+
+        # Si está vinculado a una actividad y se concluye el compromiso, actualizar estado de la actividad
+        if compromiso.id_actividad and estado_upper == 'REALIZADO':
+            compromiso.id_actividad.estado = 'Realizado'
+            compromiso.id_actividad.save(update_fields=['estado'])
+
+        if 'fecha_compromiso' in campos_guardar:
+            messages.success(
+                request,
+                f'Compromiso {compromiso.codigo} reactivado a: En Proceso. Nueva fecha de compromiso asignada: {compromiso.fecha_compromiso.strftime("%d/%m/%Y")}.'
+            )
+        else:
+            messages.success(request, f'Compromiso {compromiso.codigo} actualizado a: {estados_validos[estado_upper]}.')
+    else:
+        messages.error(request, 'Estado no válido.')
+
+    return redirect('agenda:resumen_agenda')

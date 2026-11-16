@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ titulo|default:"Formulario Evidencia" }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #16 — EVIDENCIA Y VERIFICACIÓN</p>
+    <h1>{{ titulo|default:"Gestión de Evidencia" }}</h1>
+  </div>
+  <a href="{% url 'actividades:lista_evidencias' %}" class="btn-secundario">← Volver a Bandeja de Evidencias</a>
+</div>
+
+<div class="form-card">
+  <form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="formulario-grilla">
+      <div class="formulario-grupo">
+        <label for="codigo">Código Único de Evidencia <small style="color: var(--muted);">(Automático si se deja vacío)</small></label>
+        <input type="text" id="codigo" name="codigo" value="{{ evidencia.codigo|default:valores.codigo|default:'' }}" placeholder="Ej: EVI-20260401-0001">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="tipo_archivo">Tipo de Archivo / Medio *</label>
+        <select id="tipo_archivo" name="tipo_archivo" required>
+          <option value="Fotografía" {% if evidencia.tipo_archivo == 'Fotografía' or valores.tipo_archivo == 'Fotografía' %}selected{% endif %}>Fotografía</option>
+          <option value="Acta Firmada" {% if evidencia.tipo_archivo == 'Acta Firmada' or valores.tipo_archivo == 'Acta Firmada' %}selected{% endif %}>Acta Firmada</option>
+          <option value="Informe PDF" {% if evidencia.tipo_archivo == 'Informe PDF' or valores.tipo_archivo == 'Informe PDF' %}selected{% endif %}>Informe PDF</option>
+          <option value="Planilla Asistencia" {% if evidencia.tipo_archivo == 'Planilla Asistencia' or valores.tipo_archivo == 'Planilla Asistencia' %}selected{% endif %}>Planilla de Asistencia</option>
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_actividad">Actividad Asociada (Seleccione Actividad o Gestión Social) *</label>
+        <select id="id_actividad" name="id_actividad">
+          <option value="">-- Seleccione Actividad --</option>
+          {% for a in actividades_list %}
+          <option value="{{ a.pk }}" {% if evidencia.id_actividad_id == a.pk or valores.id_actividad == a.pk|stringformat:"s" %}selected{% endif %}>
+            [{{ a.codigo }}] {{ a.solicitud|truncatechars:50 }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_gestion_social">O Gestión Social Asociada</label>
+        <select id="id_gestion_social" name="id_gestion_social">
+          <option value="">-- Seleccione Gestión Social --</option>
+          {% for g in gestiones_list %}
+          <option value="{{ g.pk }}" {% if evidencia.id_gestion_social_id == g.pk or valores.id_gestion_social == g.pk|stringformat:"s" %}selected{% endif %}>
+            [{{ g.codigo }}] {{ g.usuario }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="id_funcionario">Funcionario que Registra *</label>
+        <select id="id_funcionario" name="id_funcionario">
+          <option value="">-- Seleccione Funcionario --</option>
+          {% for f in funcionarios_list %}
+          <option value="{{ f.pk }}" {% if evidencia.id_funcionario_id == f.pk or valores.id_funcionario == f.pk|stringformat:"s" %}selected{% endif %}>
+            {{ f.nombre }} — {{ f.cargo }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="verificador">Funcionario Verificador / Supervisor</label>
+        <select id="verificador" name="verificador">
+          <option value="">-- Sin verificador asignado --</option>
+          {% for f in funcionarios_list %}
+          <option value="{{ f.pk }}" {% if evidencia.verificador_id == f.pk or valores.verificador == f.pk|stringformat:"s" %}selected{% endif %}>
+            {{ f.nombre }} — {{ f.cargo }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="archivo_ruta">Nombre / Referencia de Archivo</label>
+        <input type="text" id="archivo_ruta" name="archivo_ruta" value="{{ evidencia.archivo_ruta|default:valores.archivo_ruta|default:'' }}" placeholder="Ej: operativo_terreno_01.jpg">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="imagen">Subir Imagen / Archivo Adjunto</label>
+        <input type="file" id="imagen" name="imagen" accept="image/*">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="fecha_evidencia">Fecha de la Evidencia</label>
+        <input type="date" id="fecha_evidencia" name="fecha_evidencia" value="{{ evidencia.fecha_evidencia|date:'Y-m-d'|default:valores.fecha_evidencia|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="estado_validacion">Estado de Validación *</label>
+        <select id="estado_validacion" name="estado_validacion" required>
+          <option value="Pendiente" {% if evidencia.estado_validacion == 'Pendiente' or valores.estado_validacion == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+          <option value="Aprobada" {% if evidencia.estado_validacion == 'Aprobada' or valores.estado_validacion == 'Aprobada' %}selected{% endif %}>Aprobada</option>
+          <option value="Corregir" {% if evidencia.estado_validacion == 'Corregir' or valores.estado_validacion == 'Corregir' %}selected{% endif %}>Requiere Corrección</option>
+          <option value="Rechazada" {% if evidencia.estado_validacion == 'Rechazada' or valores.estado_validacion == 'Rechazada' %}selected{% endif %}>Rechazada</option>
+          <option value="Inactiva" {% if evidencia.estado_validacion == 'Inactiva' or valores.estado_validacion == 'Inactiva' %}selected{% endif %}>Inactiva</option>
+        </select>
+      </div>
+
+      <div class="formulario-grupo ancho-completo">
+        <label for="observacion">Descripción / Observaciones de la Evidencia *</label>
+        <textarea id="observacion" name="observacion" rows="3" placeholder="Detalle del medio de verificación..." required>{{ evidencia.observacion|default:valores.observacion|default:'' }}</textarea>
+      </div>
+    </div>
+
+    <div class="form-acciones">
+      <a href="{% url 'actividades:lista_evidencias' %}" class="btn-secundario">Cancelar</a>
+      <button type="submit" class="btn-primario-sgr">Guardar Evidencia</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

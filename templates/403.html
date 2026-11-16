@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block titulo %}403 Acceso Restringido | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="contenedor" style="max-width: 720px; margin: 40px auto;">
+    <div class="form-card" style="border-top: 5px solid var(--rojo-serena, #b91c1c); padding: 32px; text-align: center;">
+        <div style="font-size: 3rem; color: #b91c1c; margin-bottom: 12px;">&#9888;</div>
+        <h1 style="font-size: 1.6rem; color: #1e293b; margin-bottom: 10px;">403 - Acceso restringido</h1>
+        <p style="font-size: 1rem; color: #475569; margin-bottom: 18px;">
+            {{ mensaje|default:"Su perfil de usuario no cuenta con los permisos necesarios para ejecutar esta acción (crear, editar o eliminar registros)." }}
+        </p>
+        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 14px; margin-bottom: 24px; color: #991b1b; font-size: 0.9rem;">
+            <strong>Control de Autorización SGR:</strong> Perfil actual: <strong>{{ perfil_tier_nombre|default:"Consulta" }}</strong>.
+            Las operaciones de escritura requieren perfil <strong>Gestión</strong> o <strong>Administrador</strong>.
+        </div>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <a href="{% url 'inicio' %}" class="btn-primario-sgr">Volver al Inicio</a>
+            <a href="{% url 'mantenedores_inicio' %}" class="btn-secundario">Ir al Panel de 17 Entidades</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

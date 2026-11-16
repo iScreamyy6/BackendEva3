@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ titulo|default:"Formulario Participación" }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #8 — PARTICIPACIÓN EN JUNTA DE VECINOS</p>
+    <h1>{{ titulo|default:"Gestión de Participación Vecinal" }}</h1>
+  </div>
+  <a href="{% url 'participaciones_lista' %}" class="btn-secundario">← Volver al Listado</a>
+</div>
+
+<div class="form-card">
+  <form method="post" action="">
+    {% csrf_token %}
+    <div class="formulario-grilla">
+      <div class="formulario-grupo">
+        <label for="codigo">Código Único <small style="color: var(--muted);">(Automático si se deja vacío)</small></label>
+        <input type="text" id="codigo" name="codigo" value="{{ participacion.codigo|default:valores.codigo|default:'' }}" placeholder="Ej: PAR-01">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="vecino">Vecino Asociado *</label>
+        <select id="vecino" name="vecino" required>
+          <option value="">Seleccione vecino...</option>
+          {% for v in vecinos %}
+          <option value="{{ v.pk }}" {% if participacion.vecino_id == v.pk or valores.vecino == v.pk|stringformat:"s" %}selected{% endif %}>
+            {{ v.nombre }} ({{ v.rut }})
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="junta">Junta de Vecinos *</label>
+        <select id="junta" name="junta" required>
+          <option value="">Seleccione junta de vecinos...</option>
+          {% for j in juntas %}
+          <option value="{{ j.pk }}" {% if participacion.junta_id == j.pk or valores.junta == j.pk|stringformat:"s" %}selected{% endif %}>
+            [{{ j.codigo }}] {{ j.nombre }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="cargo">Rol o Cargo en la Junta *</label>
+        <select id="cargo" name="cargo" required>
+          {% for val, lab in cargos %}
+          <option value="{{ val }}" {% if participacion.cargo == val or valores.cargo == val %}selected{% endif %}>{{ lab }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="fecha_incorporacion">Fecha de Incorporación</label>
+        <input type="date" id="fecha_incorporacion" name="fecha_incorporacion" value="{{ participacion.fecha_incorporacion|date:'Y-m-d'|default:valores.fecha_incorporacion|default:'' }}">
+      </div>
+
+      <div class="formulario-grupo">
+        <label for="estado">Estado *</label>
+        <select id="estado" name="estado" required>
+          <option value="Activo" {% if participacion.estado == 'Activo' or valores.estado == 'Activo' %}selected{% endif %}>Activo</option>
+          <option value="Inactivo" {% if participacion.estado == 'Inactivo' or valores.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+        </select>
+      </div>
+
+      <div class="formulario-grupo ancho-completo">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" name="es_dirigente" value="True" {% if participacion.es_dirigente or valores.es_dirigente %}checked{% endif %}>
+          <span>Es miembro activo de la Directiva de la Junta de Vecinos</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-acciones">
+      <a href="{% url 'participaciones_lista' %}" class="btn-secundario">Cancelar</a>
+      <button type="submit" class="btn-primario-sgr">Guardar Participación</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

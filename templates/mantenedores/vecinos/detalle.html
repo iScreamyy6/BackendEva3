@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block titulo %}Ficha Vecino: {{ vecino.nombre }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #6 — VECINO / CIUDADANO (RUT: {{ vecino.rut }})</p>
+    <h1>{{ vecino.nombre }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'vecinos_editar' vecino.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'vecinos_eliminar' vecino.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'vecinos_lista' %}" class="btn-secundario">← Volver al Padrón</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">RUT Ficticio</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ vecino.rut }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Nombres / Apellidos</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{{ vecino.nombre }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Teléfono</span>
+      <p style="margin: 4px 0 0;">{{ vecino.telefono|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Correo Electrónico</span>
+      <p style="margin: 4px 0 0;">{{ vecino.correo|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Dirección</span>
+      <p style="margin: 4px 0 0;">{{ vecino.direccion|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Territorio / Sector</span>
+      <p style="margin: 4px 0 0;">{{ vecino.territorio_rel.nombre|default:vecino.territorio|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if vecino.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ vecino.estado }}</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+  <div class="tabla-contenedor">
+    <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Participación en Juntas de Vecinos ({{ participaciones.count }})</h3>
+    <table class="tabla-sgr">
+      <thead><tr><th>Código</th><th>Junta de Vecinos</th><th>Cargo</th><th>Estado</th></tr></thead>
+      <tbody>
+        {% for p in participaciones %}
+        <tr>
+          <td><strong>{{ p.codigo }}</strong></td>
+          <td><a href="{% url 'juntas_vecinos_detalle' p.junta.pk %}">{{ p.junta.nombre }}</a></td>
+          <td>{{ p.cargo }}</td>
+          <td>{{ p.estado }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" style="text-align:center; color:var(--muted);">Sin participaciones registradas.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tabla-contenedor">
+    <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Gestiones y Atenciones Asociadas ({{ actividades.count }})</h3>
+    <table class="tabla-sgr">
+      <thead><tr><th>Código</th><th>Fecha</th><th>Solicitud</th><th>Estado</th></tr></thead>
+      <tbody>
+        {% for a in actividades %}
+        <tr>
+          <td><a href="{% url 'actividades:detalle_actividad' a.pk %}"><strong>{{ a.codigo }}</strong></a></td>
+          <td>{{ a.fecha|date:"d/m/Y" }}</td>
+          <td>{{ a.solicitud|truncatechars:45 }}</td>
+          <td>{{ a.estado }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" style="text-align:center; color:var(--muted);">Sin gestiones registradas.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block titulo %}Catálogo de Cargos | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD OBLIGATORIA #4 — CARGOS DE FUNCIONARIOS</p>
+    <h1>Catálogo de Cargos Municipales</h1>
+  </div>
+  {% if puede_gestionar %}
+  <a href="{% url 'cargos_crear' %}" class="btn-primario-sgr">+ Crear Cargo</a>
+  {% endif %}
+</div>
+
+<div class="tabla-herramientas">
+  <form method="get" action="" class="filtros-grupo">
+    <input type="text" name="q" value="{{ q }}" placeholder="Buscar por código, nombre o funciones..." class="input-busqueda">
+    <button type="submit" class="btn-buscar">Buscar</button>
+    {% if q %}
+    <a href="{% url 'cargos_lista' %}" class="btn-secundario" style="padding: 8px 12px; font-size: 0.85rem;">Limpiar</a>
+    {% endif %}
+  </form>
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <span style="font-size: 0.88rem; color: var(--muted);">Total: <strong>{{ total_registros }}</strong> cargos</span>
+    <a href="?q={{ q }}&exportar=excel" class="btn-excel">Exportar a Excel</a>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <table class="tabla-sgr">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre del Cargo</th>
+        <th>Descripción / Funciones</th>
+        <th>Estado</th>
+        <th style="text-align: center;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in page_obj %}
+      <tr>
+        <td><strong>{{ c.codigo }}</strong></td>
+        <td><a href="{% url 'cargos_detalle' c.pk %}" style="font-weight: 600; color: #1e3a8a;">{{ c.nombre }}</a></td>
+        <td>{{ c.descripcion|default:"—" }}</td>
+        <td>
+          <span class="badge-estado {% if c.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ c.estado }}</span>
+        </td>
+        <td style="text-align: center;">
+          <div class="acciones-fila">
+            <a href="{% url 'cargos_detalle' c.pk %}" class="btn-secundario" style="padding: 5px 9px; font-size: 0.78rem;">Ver</a>
+            {% if puede_gestionar %}
+            <a href="{% url 'cargos_editar' c.pk %}" class="btn-modificar">Editar</a>
+            <a href="{% url 'cargos_eliminar' c.pk %}" class="btn-eliminar">Eliminar</a>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" style="text-align: center; padding: 36px; color: var(--muted);">No se encontraron cargos registrados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

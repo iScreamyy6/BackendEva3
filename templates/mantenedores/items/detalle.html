@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Meta Institucional: {{ item.nombre }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #14 — META INSTITUCIONAL [{{ item.codigo }}]</p>
+    <h1>{{ item.nombre }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'items_editar' item.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'items_eliminar' item.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'items_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Código Único</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ item.codigo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Tipo de Meta</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{{ item.tipo_meta }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Unidad de Medida</span>
+      <p style="margin: 4px 0 0;">{{ item.unidad_medida }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Requisito de Evidencia</span>
+      <p style="margin: 4px 0 0;">{{ item.requisito_evidencia|default:"Fotografía o acta verificada" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if item.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ item.estado }}</span>
+      </p>
+    </div>
+  </div>
+  <div style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 12px;">
+    <p style="margin: 0;"><strong>Descripción Operativa:</strong> {{ item.descripcion|default:"—" }}</p>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Asignaciones de esta Meta a Funcionarios ({{ asignaciones.count }})</h3>
+  <table class="tabla-sgr">
+    <thead><tr><th>Código</th><th>Funcionario</th><th>Trimestre</th><th>Objetivo</th><th>Ponderación</th><th>Avance</th></tr></thead>
+    <tbody>
+      {% for a in asignaciones %}
+      <tr>
+        <td><a href="{% url 'asignaciones_metas_detalle' a.pk %}"><strong>{{ a.codigo }}</strong></a></td>
+        <td>{{ a.id_funcionario.nombre }}</td>
+        <td>{{ a.id_periodo.nombre|default:"—" }}</td>
+        <td>{{ a.meta_periodo }}</td>
+        <td>{{ a.ponderador }}%</td>
+        <td>{{ a.avance_actual }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" style="text-align:center; color:var(--muted);">No hay asignaciones vinculadas directamente.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

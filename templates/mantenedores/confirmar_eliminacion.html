@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block titulo %}Confirmar Eliminación — {{ entidad_nombre }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">CONTROL DE INTEGRIDAD REFERENCIAL SGR</p>
+    <h1>Confirmar Eliminación / Baja de {{ entidad_nombre }}</h1>
+  </div>
+  <a href="{% url url_cancelar %}" class="btn-secundario">← Cancelar y Volver</a>
+</div>
+
+<div class="form-card" style="max-width: 680px; margin: 0 auto; border-left: 5px solid var(--rojo-serena);">
+  <h3 style="margin-top: 0; color: var(--rojo-serena); font-size: 1.2rem;">
+    ¿Confirma la operación sobre este registro de {{ entidad_nombre }}?
+  </h3>
+
+  <div style="background: #f8f9fa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; margin: 18px 0;">
+    <p style="margin: 4px 0;"><strong>Entidad:</strong> {{ entidad_nombre }}</p>
+    <p style="margin: 4px 0;"><strong>Registro Seleccionado:</strong> {{ objeto_nombre }}</p>
+    {% if objeto.estado %}
+    <p style="margin: 4px 0;"><strong>Estado Actual:</strong> {{ objeto.estado }}</p>
+    {% elif objeto.estado_validacion %}
+    <p style="margin: 4px 0;"><strong>Estado Validación:</strong> {{ objeto.estado_validacion }}</p>
+    {% endif %}
+  </div>
+
+  {% if tiene_relaciones %}
+  <div style="background: #fff3cd; border: 1px solid #ffeeba; border-radius: 6px; padding: 14px 16px; margin-bottom: 24px; font-size: 0.9rem; color: #856404;">
+    <strong>Protección de Integridad Histórica Activa:</strong><br>
+    Este registro posee dependencias vinculadas (<em>{{ detalle_relaciones }}</em>).
+    Al confirmar por POST, el sistema aplicará <strong>desactivación lógica (estado Inactivo/Inactiva)</strong> sin destruir la trazabilidad histórica.
+  </div>
+  {% else %}
+  <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 14px 16px; margin-bottom: 24px; font-size: 0.9rem; color: #991b1b;">
+    <strong>Eliminación Física Definitiva:</strong><br>
+    Este registro no posee dependencias históricas asociadas. Al confirmar mediante POST será eliminado permanentemente de la base de datos.
+  </div>
+  {% endif %}
+
+  <form method="post" action="">
+    {% csrf_token %}
+    <div class="form-acciones" style="display: flex; gap: 12px; justify-content: flex-end;">
+      <a href="{% url url_cancelar %}" class="btn-secundario">Cancelar</a>
+      <button type="submit" class="btn-eliminar" style="padding: 10px 22px; font-size: 0.92rem;">
+        {% if tiene_relaciones %}Confirmar Desactivación Lógica{% else %}Confirmar Eliminación Definitiva{% endif %}
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Rol: {{ rol.nombre }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #5 — ROL Y PERMISOS [{{ rol.codigo }}]</p>
+    <h1>{{ rol.nombre }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'roles_editar' rol.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'roles_eliminar' rol.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'roles_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Código Único</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ rol.codigo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Alcance Territorial</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{{ rol.get_alcance_autorizado_display }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Grupo Django Asociado</span>
+      <p style="margin: 4px 0 0; font-weight: 700;">{{ rol.grupo_django.name|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if rol.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ rol.estado }}</span>
+      </p>
+    </div>
+  </div>
+  <div style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 12px;">
+    <p style="margin: 0 0 8px;"><strong>Permisos Declarados:</strong> {{ rol.permisos }}</p>
+    <p style="margin: 0;"><strong>Descripción:</strong> {{ rol.descripcion|default:"—" }}</p>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Usuarios Asignados a este Rol ({{ usuarios.count }})</h3>
+  <table class="tabla-sgr">
+    <thead><tr><th>Usuario</th><th>Nombre Completo</th><th>Delegación</th><th>Estado</th></tr></thead>
+    <tbody>
+      {% for p in usuarios %}
+      <tr>
+        <td><strong>{{ p.user.username }}</strong></td>
+        <td>{{ p.user.get_full_name|default:"—" }}</td>
+        <td>{{ p.delegacion_activa.nombre|default:"—" }}</td>
+        <td>{{ p.estado }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4" style="text-align:center; color:var(--muted);">No hay usuarios asignados a este rol.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

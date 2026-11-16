@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Asignación de Meta: {{ asignacion.codigo }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #15 — ASIGNACIÓN DE META [{{ asignacion.codigo }}]</p>
+    <h1>{{ asignacion.id_funcionario.nombre }} — {{ asignacion.item }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'asignaciones_metas_editar' asignacion.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'asignaciones_metas_eliminar' asignacion.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'asignaciones_metas_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Código Asignación</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ asignacion.codigo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Funcionario Asignado</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{{ asignacion.id_funcionario.nombre }} ({{ asignacion.id_funcionario.id_delegacion.nombre }})</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Trimestre / Período</span>
+      <p style="margin: 4px 0 0;">{{ asignacion.id_periodo.nombre|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Meta Institucional</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{{ asignacion.item }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Cantidad Objetivo</span>
+      <p style="margin: 4px 0 0; font-weight: 700;">{{ asignacion.meta_periodo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Ponderación (%)</span>
+      <p style="margin: 4px 0 0; font-weight: 700;">{{ asignacion.ponderador }}%</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Avance Actual</span>
+      <p style="margin: 4px 0 0;">{{ asignacion.avance_actual }} ({{ asignacion.porcentaje_logro }}%)</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Fecha Asignación</span>
+      <p style="margin: 4px 0 0;">{{ asignacion.fecha_asignacion|date:"d/m/Y" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if asignacion.estado == 'Activa' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ asignacion.estado }}</span>
+      </p>
+    </div>
+  </div>
+  {% if asignacion.observacion %}
+  <div style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 12px;">
+    <p style="margin: 0;"><strong>Observación:</strong> {{ asignacion.observacion }}</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

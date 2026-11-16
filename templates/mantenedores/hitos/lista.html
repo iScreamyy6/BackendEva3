@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block titulo %}Catálogo de Hitos Territoriales | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD OBLIGATORIA #9 — HITOS TERRITORIALES</p>
+    <h1>Catálogo de Hitos Territoriales Programados</h1>
+  </div>
+  {% if puede_gestionar %}
+  <a href="{% url 'hitos_crear' %}" class="btn-primario-sgr">+ Crear Hito</a>
+  {% endif %}
+</div>
+
+<div class="tabla-herramientas">
+  <form method="get" action="" class="filtros-grupo" style="display: flex; gap: 8px; flex-wrap: wrap;">
+    <input type="text" name="q" value="{{ q }}" placeholder="Buscar por código, nombre, descripción, delegación..." class="input-busqueda">
+    <select name="delegacion" class="input-busqueda" style="width: auto;">
+      <option value="">-- Todas las Delegaciones --</option>
+      {% for d in delegaciones %}
+      <option value="{{ d.pk }}" {% if delegacion_filtro == d.pk|stringformat:"s" %}selected{% endif %}>{{ d.nombre }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn-buscar">Buscar</button>
+    {% if q or delegacion_filtro %}
+    <a href="{% url 'hitos_lista' %}" class="btn-secundario" style="padding: 8px 12px; font-size: 0.85rem;">Limpiar</a>
+    {% endif %}
+  </form>
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <span style="font-size: 0.88rem; color: var(--muted);">Total: <strong>{{ total_registros }}</strong> hitos</span>
+    <a href="?q={{ q }}&delegacion={{ delegacion_filtro }}&exportar=excel" class="btn-excel">Exportar a Excel</a>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <table class="tabla-sgr">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre del Hito</th>
+        <th>Periodicidad</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Término</th>
+        <th>Delegación / Territorio</th>
+        <th>Estado</th>
+        <th style="text-align: center;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for h in page_obj %}
+      <tr>
+        <td><strong>{{ h.codigo }}</strong></td>
+        <td><a href="{% url 'hitos_detalle' h.pk %}" style="font-weight: 600; color: #1e3a8a;">{{ h.nombre }}</a></td>
+        <td>{{ h.periodicidad }}</td>
+        <td>{{ h.fecha_inicio|date:"d/m/Y" }}</td>
+        <td>{{ h.fecha_termino|date:"d/m/Y" }}</td>
+        <td>{{ h.delegacion.nombre }}{% if h.territorio %}<br><small style="color:var(--muted);">{{ h.territorio.nombre }}</small>{% endif %}</td>
+        <td>
+          <span class="badge-estado {% if h.estado == 'Inactivo' %}badge-inactivo{% else %}badge-activo{% endif %}">{{ h.estado }}</span>
+        </td>
+        <td style="text-align: center;">
+          <div class="acciones-fila">
+            <a href="{% url 'hitos_detalle' h.pk %}" class="btn-secundario" style="padding: 5px 9px; font-size: 0.78rem;">Ver</a>
+            {% if puede_gestionar %}
+            <a href="{% url 'hitos_editar' h.pk %}" class="btn-modificar">Editar</a>
+            <a href="{% url 'hitos_eliminar' h.pk %}" class="btn-eliminar">Eliminar</a>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8" style="text-align: center; padding: 36px; color: var(--muted);">No se encontraron hitos registrados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

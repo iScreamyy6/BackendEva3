@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Usuario Funcionario: {{ user_obj.username }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #3 — USUARIO FUNCIONARIO (@{{ user_obj.username }})</p>
+    <h1>{{ user_obj.get_full_name|default:user_obj.username }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'usuarios_editar' user_obj.pk %}" class="btn-modificar">Editar</a>
+    {% if not user_obj.is_superuser %}
+    <a href="{% url 'usuarios_eliminar' user_obj.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    {% endif %}
+    <a href="{% url 'usuarios_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Username</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ user_obj.username }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">RUT Ficticio</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{% if perfil.rut %}{{ perfil.rut }}{% elif funcionario and funcionario.rut %}{{ funcionario.rut }}{% else %}—{% endif %}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Nombres y Apellidos</span>
+      <p style="margin: 4px 0 0;">{{ user_obj.first_name }} {{ user_obj.last_name }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Correo Electrónico</span>
+      <p style="margin: 4px 0 0;">{{ user_obj.email|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Teléfono</span>
+      <p style="margin: 4px 0 0;">{% if perfil.telefono %}{{ perfil.telefono }}{% elif funcionario and funcionario.telefono %}{{ funcionario.telefono }}{% else %}—{% endif %}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Cargo Asignado</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">{% if perfil.cargo %}{{ perfil.cargo.nombre }}{% elif funcionario and funcionario.cargo %}{{ funcionario.cargo }}{% else %}—{% endif %}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Delegación Principal</span>
+      <p style="margin: 4px 0 0;">{{ perfil.delegacion_activa.nombre|default:"—" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Rol Institucional</span>
+      <p style="margin: 4px 0 0;">{{ perfil.rol.nombre|default:"Sin Rol" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Grupo Django (Permisos)</span>
+      <p style="margin: 4px 0 0; font-weight: 700; color: var(--rojo-serena);">
+        {% for g in user_obj.groups.all %}{{ g.name }}{% if not forloop.last %}, {% endif %}{% empty %}Sin grupo{% endfor %}
+      </p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Último Inicio de Sesión</span>
+      <p style="margin: 4px 0 0;">{{ user_obj.last_login|date:"d/m/Y H:i"|default:"Sin accesos registrados" }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if perfil.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ perfil.estado }}</span>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

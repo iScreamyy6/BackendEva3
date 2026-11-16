@@ -1,0 +1,24 @@
+entorno/
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+db.sqlite3
+.env
+.env.*
+!.env.example
+
+# Django generated files
+staticfiles/
+media/
+
+# Editor and OS files
+.vscode/
+.idea/
+*.log
+Thumbs.db
+*.pem
+setup_user.sql
+~$*.docx
+*.backup.docx

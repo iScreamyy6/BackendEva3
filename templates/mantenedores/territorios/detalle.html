@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle Territorio: {{ territorio.nombre }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #2 — TERRITORIO [{{ territorio.codigo }}]</p>
+    <h1>{{ territorio.nombre }}</h1>
+  </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    {% if puede_gestionar %}
+    <a href="{% url 'territorios_editar' territorio.pk %}" class="btn-modificar">Editar</a>
+    <a href="{% url 'territorios_eliminar' territorio.pk %}" class="btn-eliminar">Eliminar / Desactivar</a>
+    {% endif %}
+    <a href="{% url 'territorios_lista' %}" class="btn-secundario">← Volver al Listado</a>
+  </div>
+</div>
+
+<div class="form-card" style="margin-bottom: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Código Único</span>
+      <p style="margin: 4px 0 0; font-weight: 700; font-family: monospace;">{{ territorio.codigo }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Delegación Asignada</span>
+      <p style="margin: 4px 0 0; font-weight: 600;">[{{ territorio.delegacion.codigo }}] {{ territorio.delegacion.nombre }}</p>
+    </div>
+    <div>
+      <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Estado</span>
+      <p style="margin: 4px 0 0;">
+        <span class="badge-estado {% if territorio.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ territorio.estado }}</span>
+      </p>
+    </div>
+  </div>
+  <div style="margin-top: 16px; border-top: 1px solid #eee; padding-top: 12px;">
+    <span style="font-size: 0.78rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">Descripción / Límites</span>
+    <p style="margin: 4px 0 0;">{{ territorio.descripcion|default:"Sin descripción adicional." }}</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+  <div class="tabla-contenedor">
+    <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Juntas de Vecinos en el Sector ({{ juntas.count }})</h3>
+    <table class="tabla-sgr">
+      <thead><tr><th>Código</th><th>Nombre</th><th>Estado</th></tr></thead>
+      <tbody>
+        {% for j in juntas %}
+        <tr>
+          <td><strong>{{ j.codigo }}</strong></td>
+          <td><a href="{% url 'juntas_vecinos_detalle' j.pk %}">{{ j.nombre }}</a></td>
+          <td>{{ j.estado }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3" style="text-align:center; color:var(--muted);">Sin juntas de vecinos registradas.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tabla-contenedor">
+    <h3 style="padding: 12px 16px; margin: 0; font-size: 1rem; border-bottom: 1px solid #eee;">Hitos Programados en el Sector ({{ hitos.count }})</h3>
+    <table class="tabla-sgr">
+      <thead><tr><th>Código</th><th>Hito</th><th>Fechas</th><th>Estado</th></tr></thead>
+      <tbody>
+        {% for h in hitos %}
+        <tr>
+          <td><strong>{{ h.codigo }}</strong></td>
+          <td><a href="{% url 'hitos_detalle' h.pk %}">{{ h.nombre }}</a></td>
+          <td>{{ h.fecha_inicio|date:"d/m/Y" }} - {{ h.fecha_termino|date:"d/m/Y" }}</td>
+          <td>{{ h.estado }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" style="text-align:center; color:var(--muted);">Sin hitos programados en este territorio.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

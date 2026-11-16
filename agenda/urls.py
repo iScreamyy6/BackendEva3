@@ -1,0 +1,12 @@
+from django.urls import path
+from . import views
+
+app_name = 'agenda'
+
+urlpatterns = [
+    path('', views.lista_compromisos, name='lista_compromisos'),
+    path('nuevo/', views.formulario_compromiso, name='formulario_compromiso'),
+    path('compromiso/<int:compromiso_id>/', views.detalle_compromiso, name='detalle_compromiso'),
+    path('resumen/', views.resumen_agenda, name='resumen_agenda'),
+    path('cambiar-estado/<int:compromiso_id>/<str:nuevo_estado>/', views.cambiar_estado_compromiso, name='cambiar_estado_compromiso'),
+]

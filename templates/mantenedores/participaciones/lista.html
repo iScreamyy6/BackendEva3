@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block titulo %}Participación en Juntas de Vecinos | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD OBLIGATORIA #8 — PARTICIPACIÓN EN JUNTAS DE VECINOS</p>
+    <h1>Registro de Participación Vecinal en Juntas</h1>
+  </div>
+  {% if puede_gestionar %}
+  <a href="{% url 'participaciones_crear' %}" class="btn-primario-sgr">+ Registrar Participación</a>
+  {% endif %}
+</div>
+
+<div class="tabla-herramientas">
+  <form method="get" action="" class="filtros-grupo" style="display: flex; gap: 8px; flex-wrap: wrap;">
+    <input type="text" name="q" value="{{ q }}" placeholder="Buscar por código, vecino, RUT, junta o cargo..." class="input-busqueda">
+    <select name="junta" class="input-busqueda" style="width: auto;">
+      <option value="">-- Todas las Juntas --</option>
+      {% for j in juntas %}
+      <option value="{{ j.pk }}" {% if junta_filtro == j.pk|stringformat:"s" %}selected{% endif %}>{{ j.nombre }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn-buscar">Buscar</button>
+    {% if q or junta_filtro %}
+    <a href="{% url 'participaciones_lista' %}" class="btn-secundario" style="padding: 8px 12px; font-size: 0.85rem;">Limpiar</a>
+    {% endif %}
+  </form>
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <span style="font-size: 0.88rem; color: var(--muted);">Total: <strong>{{ total_registros }}</strong> participaciones</span>
+    <a href="?q={{ q }}&junta={{ junta_filtro }}&exportar=excel" class="btn-excel">Exportar a Excel</a>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <table class="tabla-sgr">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Vecino / Vecina</th>
+        <th>RUT</th>
+        <th>Junta de Vecinos</th>
+        <th>Rol / Cargo</th>
+        <th>Dirigente</th>
+        <th>Fecha Inc.</th>
+        <th>Estado</th>
+        <th style="text-align: center;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in page_obj %}
+      <tr>
+        <td><strong>{{ p.codigo }}</strong></td>
+        <td><a href="{% url 'participaciones_detalle' p.pk %}" style="font-weight: 600; color: #1e3a8a;">{{ p.vecino.nombre }}</a></td>
+        <td>{{ p.vecino.rut }}</td>
+        <td>{{ p.junta.nombre }}</td>
+        <td>{{ p.cargo }}</td>
+        <td>{% if p.es_dirigente %}<strong>Sí</strong>{% else %}No{% endif %}</td>
+        <td>{{ p.fecha_incorporacion|date:"d/m/Y"|default:"—" }}</td>
+        <td>
+          <span class="badge-estado {% if p.estado == 'Activo' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ p.estado }}</span>
+        </td>
+        <td style="text-align: center;">
+          <div class="acciones-fila">
+            <a href="{% url 'participaciones_detalle' p.pk %}" class="btn-secundario" style="padding: 5px 9px; font-size: 0.78rem;">Ver</a>
+            {% if puede_gestionar %}
+            <a href="{% url 'participaciones_editar' p.pk %}" class="btn-modificar">Editar</a>
+            <a href="{% url 'participaciones_eliminar' p.pk %}" class="btn-eliminar">Eliminar</a>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="9" style="text-align: center; padding: 36px; color: var(--muted);">No se encontraron participaciones registradas.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

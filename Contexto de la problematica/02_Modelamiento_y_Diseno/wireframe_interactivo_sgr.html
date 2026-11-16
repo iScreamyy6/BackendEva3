@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mockups Interactivos — SGR Ilustre Municipalidad de La Serena | TI2043</title>
+  <!-- SweetAlert2 Oficial del Proyecto -->
+  <script>/* SweetAlert2 v11 — incrustado para funcionamiento offline y local */
+/*!
+* sweetalert2 v11.26.25
+* Released under the MIT License.
+*/
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):(e="undefined"!=typeof globalThis?globalThis:e||self).Sweetalert2=t()}(this,function(){"use strict";function e(e,t,n){if("function"==typeof e?e===t:e.has(t))return arguments.length<3?t:n;throw new TypeError("Private element is not present on this object")}function t(t,n){return t.get(e(t,n))}function n(e,t,n){(function(e,t){if(t.has(e))throw new TypeError("Cannot initialize the same private elements twice on an object")})(e,t),t.set(e,n)}const o={},i=e=>new Promise(t=>{if(!e)return t();const n=window.scrollX,i=window.scrollY;o.restoreFocusTimeout=setTimeout(()=>{o.previousActiveElement instanceof HTMLElement?(o.previousActiveElement.focus(),o.previousActiveElement=null):document.body&&document.body.focus(),t()},100),window.scrollTo(n,i)}),s="swal2-",r=["container","shown","height-auto","iosfix","popup","modal","no-backdrop","no-transition","toast","toast-shown","show","hide","close","title","html-container","actions","confirm","deny","cancel","footer","icon","icon-content","image","input","file","range","select","radio","checkbox","label","textarea","inputerror","input-label","validation-message","progress-steps","active-progress-step","progress-step","progress-step-line","loader","loading","styled","top","top-start","top-end","top-left","top-right","center","center-start","center-end","center-left","center-right","bottom","bottom-start","bottom-end","bottom-left","bottom-right","grow-row","grow-column","grow-fullscreen","rtl","timer-progress-bar","timer-progress-bar-container","scrollbar-measure","icon-success","icon-warning","icon-info","icon-question","icon-error","draggable","dragging"].reduce((e,t)=>(e[t]=s+t,e),{}),a=["success","warning","info","question","error"].reduce((e,t)=>(e[t]=s+t,e),{}),l="SweetAlert2:",c=e=>e.charAt(0).toUpperCase()+e.slice(1),u=e=>{console.warn(`${l} ${"object"==typeof e?e.join(" "):e}`)},d=e=>{console.error(`${l} ${e}`)},p=[],m=(e,t=null)=>{var n;n=`"${e}" is deprecated and will be removed in the next major release.${t?` Use "${t}" instead.`:""}`,p.includes(n)||(p.push(n),u(n))},h=e=>"function"==typeof e?e():e,g=e=>e&&"function"==typeof e.toPromise,f=e=>g(e)?e.toPromise():Promise.resolve(e),b=e=>e&&Promise.resolve(e)===e,y=()=>document.body.querySelector(`.${r.container}`),v=e=>{const t=y();return t?t.querySelector(e):null},w=e=>v(`.${e}`),C=()=>w(r.popup),A=()=>w(r.icon),E=()=>w(r.title),k=()=>w(r["html-container"]),B=()=>w(r.image),$=()=>w(r["progress-steps"]),L=()=>w(r["validation-message"]),P=()=>v(`.${r.actions} .${r.confirm}`),x=()=>v(`.${r.actions} .${r.cancel}`),T=()=>v(`.${r.actions} .${r.deny}`),S=()=>v(`.${r.loader}`),O=()=>w(r.actions),M=()=>w(r.footer),H=()=>w(r["timer-progress-bar"]),j=()=>w(r.close),I=()=>{const e=C();if(!e)return[];const t=e.querySelectorAll('[tabindex]:not([tabindex="-1"]):not([tabindex="0"])'),n=Array.from(t).sort((e,t)=>{const n=parseInt(e.getAttribute("tabindex")||"0"),o=parseInt(t.getAttribute("tabindex")||"0");return n>o?1:n<o?-1:0}),o=e.querySelectorAll('\n  a[href],\n  area[href],\n  input:not([disabled]),\n  select:not([disabled]),\n  textarea:not([disabled]),\n  button:not([disabled]),\n  iframe,\n  object,\n  embed,\n  [tabindex="0"],\n  [contenteditable],\n  audio[controls],\n  video[controls],\n  summary\n'),i=Array.from(o).filter(e=>"-1"!==e.getAttribute("tabindex"));return[...new Set(n.concat(i))].filter(e=>ee(e))},D=()=>N(document.body,r.shown)&&!N(document.body,r["toast-shown"])&&!N(document.body,r["no-backdrop"]),V=()=>{const e=C();return!!e&&N(e,r.toast)},q=(e,t)=>{if(e.textContent="",t){const n=(new DOMParser).parseFromString(t,"text/html"),o=n.querySelector("head");o&&Array.from(o.childNodes).forEach(t=>{e.appendChild(t)});const i=n.querySelector("body");i&&Array.from(i.childNodes).forEach(t=>{t instanceof HTMLVideoElement||t instanceof HTMLAudioElement?e.appendChild(t.cloneNode(!0)):e.appendChild(t)})}},N=(e,t)=>!!t&&t.split(/\s+/).every(t=>e.classList.contains(t)),_=(e,t,n)=>{if(((e,t)=>{Array.from(e.classList).forEach(n=>{Object.values(r).includes(n)||Object.values(a).includes(n)||Object.values(t.showClass||{}).includes(n)||e.classList.remove(n)})})(e,t),!t.customClass)return;const o=t.customClass[n];o&&("string"==typeof o||o.forEach?z(e,o):u(`Invalid type of customClass.${n}! Expected string or iterable object, got "${typeof o}"`))},F=(e,t)=>{if(!t)return null;switch(t){case"select":case"textarea":case"file":return e.querySelector(`.${r.popup} > .${r[t]}`);case"checkbox":return e.querySelector(`.${r.popup} > .${r.checkbox} input`);case"radio":return e.querySelector(`.${r.popup} > .${r.radio} input:checked`)||e.querySelector(`.${r.popup} > .${r.radio} input:first-child`);case"range":return e.querySelector(`.${r.popup} > .${r.range} input`);default:return e.querySelector(`.${r.popup} > .${r.input}`)}},R=e=>{if(e.focus(),"file"!==e.type){const t=e.value;e.value="",e.value=t}},U=(e,t,n)=>{if(!e||!t)return;const o="string"==typeof t?t.split(/\s+/).filter(Boolean):t;(Array.isArray(e)?e:[e]).forEach(e=>{o.forEach(t=>{n?e.classList.add(t):e.classList.remove(t)})})},z=(e,t)=>{U(e,t,!0)},W=(e,t)=>{U(e,t,!1)},K=(e,t)=>Array.from(e.children).find(e=>e instanceof HTMLElement&&N(e,t)),Y=(e,t,n)=>{n===`${parseInt(`${n}`)}`&&(n=parseInt(n)),n||0===n?e.style.setProperty(t,"number"==typeof n?`${n}px`:n):e.style.removeProperty(t)},X=(e,t="flex")=>{e&&(e.style.display=t)},Z=e=>{e&&(e.style.display="none")},J=(e,t="block")=>{e&&new MutationObserver(()=>{Q(e,e.innerHTML,t)}).observe(e,{childList:!0,subtree:!0})},G=(e,t,n,o)=>{const i=e.querySelector(t);i&&i.style.setProperty(n,o)},Q=(e,t,n="flex")=>{t?X(e,n):Z(e)},ee=e=>Boolean(e&&(e.offsetWidth||e.offsetHeight||e.getClientRects().length)),te=e=>Boolean(e.scrollHeight>e.clientHeight),ne=e=>{const t=window.getComputedStyle(e),n=parseFloat(t.getPropertyValue("animation-duration")||"0"),o=parseFloat(t.getPropertyValue("transition-duration")||"0");return n>0||o>0},oe=(e,t=!1)=>{const n=H();n&&ee(n)&&(t&&(n.style.transition="none",n.style.width="100%"),setTimeout(()=>{n.style.transition=`width ${e/1e3}s linear`,n.style.width="0%"},10))},ie=`\n <div aria-labelledby="${r.title}" aria-describedby="${r["html-container"]}" class="${r.popup}" tabindex="-1">\n   <button type="button" class="${r.close}"></button>\n   <ul class="${r["progress-steps"]}"></ul>\n   <div class="${r.icon}"></div>\n   <img class="${r.image}" />\n   <h2 class="${r.title}" id="${r.title}"></h2>\n   <div class="${r["html-container"]}" id="${r["html-container"]}"></div>\n   <input class="${r.input}" id="${r.input}" />\n   <input type="file" class="${r.file}" />\n   <div class="${r.range}">\n     <input type="range" />\n     <output></output>\n   </div>\n   <select class="${r.select}" id="${r.select}"></select>\n   <div class="${r.radio}"></div>\n   <label class="${r.checkbox}">\n     <input type="checkbox" id="${r.checkbox}" />\n     <span class="${r.label}"></span>\n   </label>\n   <textarea class="${r.textarea}" id="${r.textarea}"></textarea>\n   <div class="${r["validation-message"]}" id="${r["validation-message"]}"></div>\n   <div class="${r.actions}">\n     <div class="${r.loader}"></div>\n     <button type="button" class="${r.confirm}"></button>\n     <button type="button" class="${r.deny}"></button>\n     <button type="button" class="${r.cancel}"></button>\n   </div>\n   <div class="${r.footer}"></div>\n   <div class="${r["timer-progress-bar-container"]}">\n     <div class="${r["timer-progress-bar"]}"></div>\n   </div>\n </div>\n`.replace(/(^|\n)\s*/g,""),se=()=>{o.currentInstance&&o.currentInstance.resetValidationMessage()},re=e=>{const t=(()=>{const e=y();return!!e&&(e.remove(),W([document.documentElement,document.body],[r["no-backdrop"],r["toast-shown"],r["has-column"]]),!0)})();if("undefined"==typeof window||"undefined"==typeof document)return void d("SweetAlert2 requires document to initialize");const n=document.createElement("div");n.className=r.container,t&&z(n,r["no-transition"]),q(n,ie),n.dataset.swal2Theme=e.theme;const i=(e=>{if("string"==typeof e){const t=document.querySelector(e);if(!t)throw new Error(`Target element "${e}" not found`);return t}return e})(e.target||"body");i.appendChild(n),e.topLayer&&(n.setAttribute("popover",""),n.showPopover()),(e=>{const t=C();t&&(t.setAttribute("role",e.toast?"alert":"dialog"),t.setAttribute("aria-live",e.toast?"polite":"assertive"),e.toast||t.setAttribute("aria-modal","true"))})(e),(e=>{"rtl"===window.getComputedStyle(e).direction&&(z(y(),r.rtl),o.isRTL=!0)})(i),(()=>{const e=C();if(!e)return;const t=K(e,r.input),n=K(e,r.file),o=e.querySelector(`.${r.range} input`),i=e.querySelector(`.${r.range} output`),s=K(e,r.select),a=e.querySelector(`.${r.checkbox} input`),l=K(e,r.textarea);t&&(t.oninput=se),n&&(n.onchange=se),s&&(s.onchange=se),a&&(a.onchange=se),l&&(l.oninput=se),o&&i&&(o.oninput=()=>{se(),i.value=o.value},o.onchange=()=>{se(),i.value=o.value})})()},ae=(e,t)=>{e instanceof HTMLElement?t.appendChild(e):"object"==typeof e?le(e,t):e&&q(t,e)},le=(e,t)=>{"jquery"in e?ce(t,e):q(t,e.toString())},ce=(e,t)=>{if(e.textContent="",0 in t)for(let n=0;n in t;n++)e.appendChild(t[n].cloneNode(!0));else e.appendChild(t.cloneNode(!0))},ue=(e,t)=>{const n=O(),o=S();n&&o&&(t.showConfirmButton||t.showDenyButton||t.showCancelButton?X(n):Z(n),_(n,t,"actions"),function(e,t,n){const o=P(),i=T(),s=x();if(!o||!i||!s)return;de(o,"confirm",n),de(i,"deny",n),de(s,"cancel",n),function(e,t,n,o){if(!o.buttonsStyling)return void W([e,t,n],r.styled);z([e,t,n],r.styled);const i=[[e,"confirm",o.confirmButtonColor],[t,"deny",o.denyButtonColor],[n,"cancel",o.cancelButtonColor]];i.forEach(([e,t,n])=>{n&&e.style.setProperty(`--swal2-${t}-button-background-color`,n),function(e){const t=window.getComputedStyle(e);if(t.getPropertyValue("--swal2-action-button-focus-box-shadow"))return;const n=t.backgroundColor.replace(/rgba?\((\d+), (\d+), (\d+).*/,"rgba($1, $2, $3, 0.5)");e.style.setProperty("--swal2-action-button-focus-box-shadow",t.getPropertyValue("--swal2-outline").replace(/ rgba\(.*/,` ${n}`))}(e)})}(o,i,s,n),n.reverseButtons&&(n.toast?(e.insertBefore(s,o),e.insertBefore(i,o)):(e.insertBefore(s,t),e.insertBefore(i,t),e.insertBefore(o,t)))}(n,o,t),q(o,t.loaderHtml||""),_(o,t,"loader"))};function de(e,t,n){const o=c(t);Q(e,n[`show${o}Button`],"inline-block"),q(e,n[`${t}ButtonText`]||""),e.setAttribute("aria-label",n[`${t}ButtonAriaLabel`]||""),e.className=r[t],_(e,n,`${t}Button`)}const pe=(e,t)=>{const n=y();n&&(!function(e,t){"string"==typeof t?e.style.background=t:t||z([document.documentElement,document.body],r["no-backdrop"])}(n,t.backdrop),function(e,t){if(!t)return;t in r?z(e,r[t]):(u('The "position" parameter is not valid, defaulting to "center"'),z(e,r.center))}(n,t.position),function(e,t){if(!t)return;z(e,r[`grow-${t}`])}(n,t.grow),_(n,t,"container"))};var me={innerParams:new WeakMap,domCache:new WeakMap,focusedElement:new WeakMap};const he=["input","file","range","select","radio","checkbox","textarea"],ge=e=>{if(!e.input)return;if(!Ae[e.input])return void d(`Unexpected type of input! Expected ${Object.keys(Ae).join(" | ")}, got "${e.input}"`);const t=we(e.input);if(!t)return;const n=Ae[e.input](t,e);X(t),e.inputAutoFocus&&setTimeout(()=>{R(n)})},fe=(e,t)=>{const n=C();if(!n)return;const o=F(n,e);if(o){(e=>{for(const{name:t}of Array.from(e.attributes))["id","type","value","style"].includes(t)||e.removeAttribute(t)})(o);for(const e in t)o.setAttribute(e,t[e])}},be=e=>{if(!e.input)return;const t=we(e.input);t&&_(t,e,"input")},ye=(e,t)=>{!e.placeholder&&t.inputPlaceholder&&(e.placeholder=t.inputPlaceholder)},ve=(e,t,n)=>{if(n.inputLabel){const o=document.createElement("label"),i=r["input-label"];o.setAttribute("for",e.id),o.className=i,"object"==typeof n.customClass&&z(o,n.customClass.inputLabel),o.innerText=n.inputLabel,t.insertAdjacentElement("beforebegin",o)}},we=e=>{const t=C();if(t)return K(t,r[e]||r.input)},Ce=(e,t)=>{["string","number"].includes(typeof t)?e.value=`${t}`:b(t)||u(`Unexpected type of inputValue! Expected "string", "number" or "Promise", got "${typeof t}"`)},Ae={};Ae.text=Ae.email=Ae.password=Ae.number=Ae.tel=Ae.url=Ae.search=Ae.date=Ae["datetime-local"]=Ae.time=Ae.week=Ae.month=(e,t)=>{const n=e;return Ce(n,t.inputValue),ve(n,n,t),ye(n,t),n.type=t.input,n},Ae.file=(e,t)=>{const n=e;return ve(n,n,t),ye(n,t),n},Ae.range=(e,t)=>{const n=e,o=n.querySelector("input"),i=n.querySelector("output");return o&&(Ce(o,t.inputValue),o.type=t.input,ve(o,e,t)),i&&Ce(i,t.inputValue),e},Ae.select=(e,t)=>{const n=e;if(n.textContent="",t.inputPlaceholder){const e=document.createElement("option");q(e,t.inputPlaceholder),e.value="",e.disabled=!0,e.selected=!0,n.appendChild(e)}return ve(n,n,t),n},Ae.radio=e=>(e.textContent="",e),Ae.checkbox=(e,t)=>{const n=C();if(!n)throw new Error("Popup not found");const o=F(n,"checkbox");if(!o)throw new Error("Checkbox input not found");o.value="1",o.checked=Boolean(t.inputValue);const i=e.querySelector("span");if(i){const e=t.inputPlaceholder||t.inputLabel;e&&q(i,e)}return o},Ae.textarea=(e,t)=>{const n=e;Ce(n,t.inputValue),ye(n,t),ve(n,n,t);return setTimeout(()=>{if("MutationObserver"in window){const e=C();if(!e)return;const o=parseInt(window.getComputedStyle(e).width);new MutationObserver(()=>{if(!document.body.contains(n))return;const e=n.offsetWidth+(i=n,parseInt(window.getComputedStyle(i).marginLeft)+parseInt(window.getComputedStyle(i).marginRight));var i;const s=C();s&&(e>o?s.style.width=`${e}px`:Y(s,"width",t.width))}).observe(n,{attributes:!0,attributeFilter:["style"]})}}),n};const Ee=(e,t)=>{const n=k();n&&(J(n),_(n,t,"htmlContainer"),t.html?(ae(t.html,n),X(n,"block")):t.text?(n.textContent=t.text,X(n,"block")):Z(n),((e,t)=>{const n=C();if(!n)return;const o=me.innerParams.get(e),i=!o||t.input!==o.input;he.forEach(e=>{const o=K(n,r[e]);o&&(fe(e,t.inputAttributes),o.className=r[e],i&&Z(o))}),t.input&&(i&&ge(t),be(t))})(e,t))},ke=(e,t)=>{for(const[n,o]of Object.entries(a))t.icon!==n&&W(e,o);z(e,t.icon&&a[t.icon]),Le(e,t),Be(),_(e,t,"icon")},Be=()=>{const e=C();if(!e)return;const t=window.getComputedStyle(e).getPropertyValue("background-color");e.querySelectorAll("[class^=swal2-success-circular-line], .swal2-success-fix").forEach(e=>{e.style.backgroundColor=t})},$e=(e,t)=>{if(!t.icon&&!t.iconHtml)return;let n=e.innerHTML,o="";if(t.iconHtml)o=Pe(t.iconHtml);else if("success"===t.icon)o=(e=>`\n  ${e.animation?'<div class="swal2-success-circular-line-left"></div>':""}\n  <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>\n  <div class="swal2-success-ring"></div>\n  ${e.animation?'<div class="swal2-success-fix"></div>':""}\n  ${e.animation?'<div class="swal2-success-circular-line-right"></div>':""}\n`)(t),n=n.replace(/ style=".*?"/g,"");else if("error"===t.icon)o='\n  <span class="swal2-x-mark">\n    <span class="swal2-x-mark-line-left"></span>\n    <span class="swal2-x-mark-line-right"></span>\n  </span>\n';else if(t.icon){o=Pe({question:"?",warning:"!",info:"i"}[t.icon])}n.trim()!==o.trim()&&q(e,o)},Le=(e,t)=>{if(t.iconColor){e.style.color=t.iconColor,e.style.borderColor=t.iconColor;for(const n of[".swal2-success-line-tip",".swal2-success-line-long",".swal2-x-mark-line-left",".swal2-x-mark-line-right"])G(e,n,"background-color",t.iconColor);G(e,".swal2-success-ring","border-color",t.iconColor)}},Pe=e=>`<div class="${r["icon-content"]}">${e}</div>`;let xe=!1,Te=0,Se=0,Oe=0,Me=0;const He=e=>{const t=C();if(!t)return;const n=A();if(e.target===t||n&&n.contains(e.target)){xe=!0;const n=De(e);Te=n.clientX,Se=n.clientY,Oe=parseInt(t.style.insetInlineStart)||0,Me=parseInt(t.style.insetBlockStart)||0,z(t,"swal2-dragging")}},je=e=>{const t=C();if(t&&xe){let{clientX:n,clientY:i}=De(e);const s=n-Te;t.style.insetInlineStart=`${Oe+(o.isRTL?-s:s)}px`,t.style.insetBlockStart=`${Me+(i-Se)}px`}},Ie=()=>{const e=C();xe=!1,W(e,"swal2-dragging")},De=e=>{const t=e.type.startsWith("touch")?e.touches[0]:e;return{clientX:t.clientX,clientY:t.clientY}},Ve=(e,t)=>{const n=y(),o=C();if(n&&o){if(t.toast){Y(n,"width",t.width),o.style.width="100%";const e=S();e&&o.insertBefore(e,A())}else Y(o,"width",t.width);Y(o,"padding",t.padding),t.color&&(o.style.color=t.color),t.background&&(o.style.background=t.background),Z(L()),qe(o,t),t.draggable&&!t.toast?(z(o,r.draggable),(e=>{e.addEventListener("mousedown",He),document.body.addEventListener("mousemove",je),e.addEventListener("mouseup",Ie),e.addEventListener("touchstart",He),document.body.addEventListener("touchmove",je),e.addEventListener("touchend",Ie)})(o)):(W(o,r.draggable),(e=>{e.removeEventListener("mousedown",He),document.body.removeEventListener("mousemove",je),e.removeEventListener("mouseup",Ie),e.removeEventListener("touchstart",He),document.body.removeEventListener("touchmove",je),e.removeEventListener("touchend",Ie)})(o))}},qe=(e,t)=>{const n=t.showClass||{};e.className=`${r.popup} ${ee(e)?n.popup:""}`,t.toast?(z([document.documentElement,document.body],r["toast-shown"]),z(e,r.toast)):z(e,r.modal),_(e,t,"popup"),"string"==typeof t.customClass&&z(e,t.customClass),t.icon&&z(e,r[`icon-${t.icon}`])},Ne=e=>{const t=document.createElement("li");return z(t,r["progress-step"]),q(t,e),t},_e=e=>{const t=document.createElement("li");return z(t,r["progress-step-line"]),e.progressStepsDistance&&Y(t,"width",e.progressStepsDistance),t},Fe=(e,t)=>{var n;Ve(0,t),pe(0,t),((e,t)=>{const n=$();if(!n)return;const{progressSteps:o,currentProgressStep:i}=t;o&&0!==o.length&&void 0!==i?(X(n),n.textContent="",i>=o.length&&u("Invalid currentProgressStep parameter, it should be less than progressSteps.length (currentProgressStep like JS arrays starts from 0)"),o.forEach((e,s)=>{const a=Ne(e);if(n.appendChild(a),s===i&&z(a,r["active-progress-step"]),s!==o.length-1){const e=_e(t);n.appendChild(e)}})):Z(n)})(0,t),((e,t)=>{const n=me.innerParams.get(e),o=A();if(!o)return;if(n&&t.icon===n.icon)return $e(o,t),void ke(o,t);if(!t.icon&&!t.iconHtml)return void Z(o);if(t.icon&&-1===Object.keys(a).indexOf(t.icon))return d(`Unknown icon! Expected "success", "error", "warning", "info" or "question", got "${t.icon}"`),void Z(o);X(o),$e(o,t),ke(o,t),z(o,t.showClass&&t.showClass.icon),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",Be)})(e,t),((e,t)=>{const n=B();n&&(t.imageUrl?(X(n,""),n.setAttribute("src",t.imageUrl),n.setAttribute("alt",t.imageAlt||""),Y(n,"width",t.imageWidth),Y(n,"height",t.imageHeight),n.className=r.image,_(n,t,"image")):Z(n))})(0,t),((e,t)=>{const n=E();n&&(J(n),Q(n,Boolean(t.title||t.titleText),"block"),t.title&&ae(t.title,n),t.titleText&&(n.innerText=t.titleText),_(n,t,"title"))})(0,t),((e,t)=>{const n=j();n&&(q(n,t.closeButtonHtml||""),_(n,t,"closeButton"),Q(n,t.showCloseButton),n.setAttribute("aria-label",t.closeButtonAriaLabel||""))})(0,t),Ee(e,t),ue(0,t),((e,t)=>{const n=M();n&&(J(n),Q(n,Boolean(t.footer),"block"),t.footer&&ae(t.footer,n),_(n,t,"footer"))})(0,t);const i=C();"function"==typeof t.didRender&&i&&t.didRender(i),null===(n=o.eventEmitter)||void 0===n||n.emit("didRender",i)},Re=()=>{var e;return null===(e=P())||void 0===e?void 0:e.click()},Ue=Object.freeze({cancel:"cancel",backdrop:"backdrop",close:"close",esc:"esc",timer:"timer"}),ze=e=>{if(e.keydownTarget&&e.keydownHandlerAdded&&e.keydownHandler){const t=e.keydownHandler;e.keydownTarget.removeEventListener("keydown",t,{capture:e.keydownListenerCapture}),e.keydownHandlerAdded=!1}},We=(e,t)=>{var n;const o=I();return o.length?(-2===(e+=t)&&(e=o.length-1),e===o.length?e=0:-1===e&&(e=o.length-1),o[e].focus(),!(navigator.userAgent.includes("Firefox")&&o[e]instanceof HTMLIFrameElement)):(null===(n=C())||void 0===n||n.focus(),!0)},Ke=["ArrowRight","ArrowDown"],Ye=["ArrowLeft","ArrowUp"],Xe=(e,t,n)=>{e&&(t.isComposing||229===t.keyCode||(e.stopKeydownPropagation&&t.stopPropagation(),"Enter"===t.key?Ze(t,e):"Tab"===t.key?Je(t):[...Ke,...Ye].includes(t.key)?Ge(t.key):"Escape"===t.key&&Qe(t,e,n)))},Ze=(e,t)=>{if(!h(t.allowEnterKey))return;const n=C();if(!n||!t.input)return;const o=F(n,t.input);if(e.target&&o&&e.target instanceof HTMLElement&&e.target.outerHTML===o.outerHTML){if(["textarea","file"].includes(t.input))return;Re(),e.preventDefault()}},Je=e=>{const t=e.target,n=I().findIndex(e=>e===t);let o=!0;o=e.shiftKey?We(n,-1):We(n,1),e.stopPropagation(),o&&e.preventDefault()},Ge=e=>{const t=O(),n=P(),o=T(),i=x();if(!(t&&n&&o&&i))return;const s=[n,o,i];if(document.activeElement instanceof HTMLElement&&!s.includes(document.activeElement))return;const r=Ke.includes(e)?"nextElementSibling":"previousElementSibling";let a=document.activeElement;if(a){for(let e=0;e<t.children.length;e++){if(a=a[r],!a)return;if(a instanceof HTMLButtonElement&&ee(a))break}a instanceof HTMLButtonElement&&a.focus()}},Qe=(e,t,n)=>{e.preventDefault(),h(t.allowEscapeKey)&&n(Ue.esc)};var et={swalPromiseResolve:new WeakMap,swalPromiseReject:new WeakMap};const tt=()=>{Array.from(document.body.children).forEach(e=>{e.hasAttribute("data-previous-aria-hidden")?(e.setAttribute("aria-hidden",e.getAttribute("data-previous-aria-hidden")||""),e.removeAttribute("data-previous-aria-hidden")):e.removeAttribute("aria-hidden")})},nt="undefined"!=typeof window&&Boolean(window.GestureEvent),ot=nt&&/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream,it=()=>{const e=y();if(!e)return;let t;e.ontouchstart=e=>{t=st(e)},e.ontouchmove=e=>{t&&(e.preventDefault(),e.stopPropagation())}},st=e=>{const t=e.target,n=y(),o=k();return!(!n||!o)&&(!rt(e)&&!at(e)&&(t===n||!(te(n)||!(t instanceof HTMLElement)||((e,t)=>{let n=e;for(;n&&n!==t;){if(te(n))return!0;n=n.parentElement}return!1})(t,o)||"INPUT"===t.tagName||"TEXTAREA"===t.tagName||te(o)&&o.contains(t))))},rt=e=>Boolean(e.touches&&e.touches.length&&"stylus"===e.touches[0].touchType),at=e=>e.touches&&e.touches.length>1;let lt=null;const ct=e=>{null===lt&&(document.body.scrollHeight>window.innerHeight||"scroll"===e)&&(lt=parseInt(window.getComputedStyle(document.body).getPropertyValue("padding-right")),document.body.style.paddingRight=`${lt+(()=>{const e=document.createElement("div");e.className=r["scrollbar-measure"],document.body.appendChild(e);const t=e.getBoundingClientRect().width-e.clientWidth;return document.body.removeChild(e),t})()}px`)};function ut(e,t,n,s){V()?yt(e,s):(i(n).then(()=>yt(e,s)),ze(o)),nt?(t.setAttribute("style","display:none !important"),t.removeAttribute("class"),t.innerHTML=""):t.remove(),D()&&(null!==lt&&(document.body.style.paddingRight=`${lt}px`,lt=null),(()=>{if(N(document.body,r.iosfix)){const e=parseInt(document.body.style.top,10);W(document.body,r.iosfix),document.body.style.top="",document.body.scrollTop=-1*e}})(),tt()),W([document.documentElement,document.body],[r.shown,r["height-auto"],r["no-backdrop"],r["toast-shown"]])}function dt(e){e=gt(e);const t=et.swalPromiseResolve.get(this),n=pt(this);this.isAwaitingPromise?e.isDismissed||(ht(this),t(e)):n&&t(e)}const pt=e=>{const t=C();if(!t)return!1;const n=me.innerParams.get(e);if(!n||N(t,n.hideClass.popup))return!1;W(t,n.showClass.popup),z(t,n.hideClass.popup);const o=y();return W(o,n.showClass.backdrop),z(o,n.hideClass.backdrop),ft(e,t,n),!0};function mt(e){const t=et.swalPromiseReject.get(this);ht(this),t&&t(e)}const ht=e=>{e.isAwaitingPromise&&(delete e.isAwaitingPromise,me.innerParams.get(e)||e._destroy())},gt=e=>void 0===e?{isConfirmed:!1,isDenied:!1,isDismissed:!0}:Object.assign({isConfirmed:!1,isDenied:!1,isDismissed:!1},e),ft=(e,t,n)=>{var i;const s=y(),r=ne(t);"function"==typeof n.willClose&&n.willClose(t),null===(i=o.eventEmitter)||void 0===i||i.emit("willClose",t),r&&s?bt(e,t,s,Boolean(n.returnFocus),n.didClose):s&&ut(e,s,Boolean(n.returnFocus),n.didClose)},bt=(e,t,n,i,s)=>{o.swalCloseEventFinishedCallback=ut.bind(null,e,n,i,s);const r=function(e){var n;e.target===t&&(null===(n=o.swalCloseEventFinishedCallback)||void 0===n||n.call(o),delete o.swalCloseEventFinishedCallback,t.removeEventListener("animationend",r),t.removeEventListener("transitionend",r))};t.addEventListener("animationend",r),t.addEventListener("transitionend",r)},yt=(e,t)=>{setTimeout(()=>{var n;"function"==typeof t&&t.bind(e.params)(),null===(n=o.eventEmitter)||void 0===n||n.emit("didClose"),e._destroy&&e._destroy()})},vt=e=>{let t=C();if(t||new Gn,t=C(),!t)return;const n=S();V()?Z(A()):wt(t,e),X(n),t.setAttribute("data-loading","true"),t.setAttribute("aria-busy","true"),t.focus()},wt=(e,t)=>{const n=O(),o=S();n&&o&&(!t&&ee(P())&&(t=P()),X(n),t&&(Z(t),o.setAttribute("data-button-to-replace",t.className),n.insertBefore(o,t)),z([e,n],r.loading))},Ct=e=>e.checked?1:0,At=e=>e.checked?e.value:null,Et=e=>e.files&&e.files.length?null!==e.getAttribute("multiple")?e.files:e.files[0]:null,kt=(e,t)=>{const n=C();if(!n)return;const o=e=>{"select"===t.input?function(e,t,n){const o=K(e,r.select);if(!o)return;const i=(e,t,o)=>{const i=document.createElement("option");i.value=o,q(i,t),i.selected=Lt(o,n.inputValue),e.appendChild(i)};t.forEach(e=>{const t=e[0],n=e[1];if(Array.isArray(n)){const e=document.createElement("optgroup");e.label=t,e.disabled=!1,o.appendChild(e),n.forEach(t=>i(e,t[1],t[0]))}else i(o,n,t)}),o.focus()}(n,$t(e),t):"radio"===t.input&&function(e,t,n){const o=K(e,r.radio);if(!o)return;t.forEach(e=>{const t=e[0],i=e[1],s=document.createElement("input"),a=document.createElement("label");s.type="radio",s.name=r.radio,s.value=t,Lt(t,n.inputValue)&&(s.checked=!0);const l=document.createElement("span");q(l,i),l.className=r.label,a.appendChild(s),a.appendChild(l),o.appendChild(a)});const i=o.querySelectorAll("input");i.length&&i[0].focus()}(n,$t(e),t)};g(t.inputOptions)||b(t.inputOptions)?(vt(P()),f(t.inputOptions).then(t=>{e.hideLoading(),o(t)})):"object"==typeof t.inputOptions?o(t.inputOptions):d("Unexpected type of inputOptions! Expected object, Map or Promise, got "+typeof t.inputOptions)},Bt=(e,t)=>{const n=e.getInput();n&&(Z(n),f(t.inputValue).then(o=>{n.value="number"===t.input?`${parseFloat(o)||0}`:`${o}`,X(n),n.focus(),e.hideLoading()}).catch(t=>{d(`Error in inputValue promise: ${t}`),n.value="",X(n),n.focus(),e.hideLoading()}))};const $t=e=>(e instanceof Map?Array.from(e):Object.entries(e)).map(([e,t])=>[e,"object"==typeof t?$t(t):t]),Lt=(e,t)=>Boolean(t)&&null!=t&&t.toString()===e.toString(),Pt=(e,t)=>{const n=me.innerParams.get(e);if(!n.input)return void d(`The "input" parameter is needed to be set when using returnInputValueOn${c(t)}`);const o=e.getInput(),i=((e,t)=>{const n=e.getInput();if(!n)return null;switch(t.input){case"checkbox":return Ct(n);case"radio":return At(n);case"file":return Et(n);default:return t.inputAutoTrim?n.value.trim():n.value}})(e,n);n.inputValidator?xt(e,i,t):o&&!o.checkValidity()?(e.enableButtons(),e.showValidationMessage(n.validationMessage||o.validationMessage)):"deny"===t?Tt(e,i):Mt(e,i)},xt=(e,t,n)=>{const o=me.innerParams.get(e);e.disableInput();Promise.resolve().then(()=>f(o.inputValidator(t,o.validationMessage))).then(o=>{e.enableButtons(),e.enableInput(),o?e.showValidationMessage(o):"deny"===n?Tt(e,t):Mt(e,t)})},Tt=(e,t)=>{const n=me.innerParams.get(e);if(n.showLoaderOnDeny&&vt(T()),n.preDeny){e.isAwaitingPromise=!0;Promise.resolve().then(()=>f(n.preDeny(t,n.validationMessage))).then(n=>{!1===n?(e.hideLoading(),ht(e)):e.close({isDenied:!0,value:void 0===n?t:n})}).catch(t=>Ot(e,t))}else e.close({isDenied:!0,value:t})},St=(e,t)=>{e.close({isConfirmed:!0,value:t})},Ot=(e,t)=>{e.rejectPromise(t)},Mt=(e,t)=>{const n=me.innerParams.get(e);if(n.showLoaderOnConfirm&&vt(),n.preConfirm){e.resetValidationMessage(),e.isAwaitingPromise=!0;Promise.resolve().then(()=>f(n.preConfirm(t,n.validationMessage))).then(n=>{ee(L())||!1===n?(e.hideLoading(),ht(e)):St(e,void 0===n?t:n)}).catch(t=>Ot(e,t))}else St(e,t)};function Ht(){const e=me.innerParams.get(this);if(!e)return;const t=me.domCache.get(this);Z(t.loader),V()?e.icon&&X(A()):jt(t),W([t.popup,t.actions],r.loading),t.popup.removeAttribute("aria-busy"),t.popup.removeAttribute("data-loading"),this.enableButtons()}const jt=e=>{const t=e.loader.getAttribute("data-button-to-replace"),n=t?e.popup.getElementsByClassName(t):[];n.length?X(n[0],"inline-block"):ee(P())||ee(T())||ee(x())||Z(e.actions)};function It(){const e=me.innerParams.get(this),t=me.domCache.get(this);return t?F(t.popup,e.input):null}function Dt(e,t,n){const o=me.domCache.get(e);t.forEach(e=>{o[e].disabled=n})}function Vt(e,t){const n=C();if(n&&e)if("radio"===e.type){n.querySelectorAll(`[name="${r.radio}"]`).forEach(e=>{e.disabled=t})}else e.disabled=t}function qt(){Dt(this,["confirmButton","denyButton","cancelButton"],!1);const e=me.focusedElement.get(this);e instanceof HTMLElement&&document.activeElement===document.body&&e.focus(),me.focusedElement.delete(this)}function Nt(){me.focusedElement.set(this,document.activeElement),Dt(this,["confirmButton","denyButton","cancelButton"],!0)}function _t(){Vt(this.getInput(),!1)}function Ft(){Vt(this.getInput(),!0)}function Rt(e){const t=me.domCache.get(this),n=me.innerParams.get(this);q(t.validationMessage,e),t.validationMessage.className=r["validation-message"],n.customClass&&n.customClass.validationMessage&&z(t.validationMessage,n.customClass.validationMessage),X(t.validationMessage);const o=this.getInput();o&&(o.setAttribute("aria-invalid","true"),o.setAttribute("aria-describedby",r["validation-message"]),R(o),z(o,r.inputerror))}function Ut(){const e=me.domCache.get(this);e.validationMessage&&Z(e.validationMessage);const t=this.getInput();t&&(t.removeAttribute("aria-invalid"),t.removeAttribute("aria-describedby"),W(t,r.inputerror))}const zt={title:"",titleText:"",text:"",html:"",footer:"",icon:void 0,iconColor:void 0,iconHtml:void 0,template:void 0,toast:!1,draggable:!1,animation:!0,theme:"light",showClass:{popup:"swal2-show",backdrop:"swal2-backdrop-show",icon:"swal2-icon-show"},hideClass:{popup:"swal2-hide",backdrop:"swal2-backdrop-hide",icon:"swal2-icon-hide"},customClass:{},target:"body",color:void 0,backdrop:!0,heightAuto:!0,allowOutsideClick:!0,allowEscapeKey:!0,allowEnterKey:!0,stopKeydownPropagation:!0,keydownListenerCapture:!1,showConfirmButton:!0,showDenyButton:!1,showCancelButton:!1,preConfirm:void 0,preDeny:void 0,confirmButtonText:"OK",confirmButtonAriaLabel:"",confirmButtonColor:void 0,denyButtonText:"No",denyButtonAriaLabel:"",denyButtonColor:void 0,cancelButtonText:"Cancel",cancelButtonAriaLabel:"",cancelButtonColor:void 0,buttonsStyling:!0,reverseButtons:!1,focusConfirm:!0,focusDeny:!1,focusCancel:!1,returnFocus:!0,showCloseButton:!1,closeButtonHtml:"&times;",closeButtonAriaLabel:"Close this dialog",loaderHtml:"",showLoaderOnConfirm:!1,showLoaderOnDeny:!1,imageUrl:void 0,imageWidth:void 0,imageHeight:void 0,imageAlt:"",timer:void 0,timerProgressBar:!1,width:void 0,padding:void 0,background:void 0,input:void 0,inputPlaceholder:"",inputLabel:"",inputValue:"",inputOptions:{},inputAutoFocus:!0,inputAutoTrim:!0,inputAttributes:{},inputValidator:void 0,returnInputValueOnDeny:!1,validationMessage:void 0,grow:!1,position:"center",progressSteps:[],currentProgressStep:void 0,progressStepsDistance:void 0,willOpen:void 0,didOpen:void 0,didRender:void 0,willClose:void 0,didClose:void 0,didDestroy:void 0,scrollbarPadding:!0,topLayer:!1},Wt=["allowEscapeKey","allowOutsideClick","background","buttonsStyling","cancelButtonAriaLabel","cancelButtonColor","cancelButtonText","closeButtonAriaLabel","closeButtonHtml","color","confirmButtonAriaLabel","confirmButtonColor","confirmButtonText","currentProgressStep","customClass","denyButtonAriaLabel","denyButtonColor","denyButtonText","didClose","didDestroy","draggable","footer","hideClass","html","icon","iconColor","iconHtml","imageAlt","imageHeight","imageUrl","imageWidth","preConfirm","preDeny","progressSteps","returnFocus","reverseButtons","showCancelButton","showCloseButton","showConfirmButton","showDenyButton","text","title","titleText","theme","willClose"],Kt={allowEnterKey:void 0},Yt=["allowOutsideClick","allowEnterKey","backdrop","draggable","focusConfirm","focusDeny","focusCancel","returnFocus","heightAuto","keydownListenerCapture"],Xt=e=>Object.prototype.hasOwnProperty.call(zt,e),Zt=e=>-1!==Wt.indexOf(e),Jt=e=>Kt[e],Gt=e=>{Xt(e)||u(`Unknown parameter "${e}"`)},Qt=e=>{Yt.includes(e)&&u(`The parameter "${e}" is incompatible with toasts`)},en=e=>{const t=Jt(e);t&&m(e,t)},tn=e=>{!1===e.backdrop&&e.allowOutsideClick&&u('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`'),e.theme&&!["light","dark","auto","minimal","borderless","bootstrap-4","bootstrap-4-light","bootstrap-4-dark","bootstrap-5","bootstrap-5-light","bootstrap-5-dark","material-ui","material-ui-light","material-ui-dark","embed-iframe","bulma","bulma-light","bulma-dark"].includes(e.theme)&&u(`Invalid theme "${e.theme}"`);for(const t in e)Gt(t),e.toast&&Qt(t),en(t)};function nn(e){const t=y(),n=C(),o=me.innerParams.get(this);if(!n||N(n,o.hideClass.popup))return void u("You're trying to update the closed or closing popup, that won't work. Use the update() method in preConfirm parameter or show a new popup.");const i=on(e),s=Object.assign({},o,i);tn(s),t&&(t.dataset.swal2Theme=s.theme),Fe(this,s),me.innerParams.set(this,s),Object.defineProperties(this,{params:{value:Object.assign({},this.params,e),writable:!1,enumerable:!0}})}const on=e=>{const t={};return Object.keys(e).forEach(n=>{if(Zt(n)){const o=e;t[n]=o[n]}else u(`Invalid parameter to update: ${n}`)}),t};function sn(){var e;const t=me.domCache.get(this),n=me.innerParams.get(this);n?(t.popup&&o.swalCloseEventFinishedCallback&&(o.swalCloseEventFinishedCallback(),delete o.swalCloseEventFinishedCallback),"function"==typeof n.didDestroy&&n.didDestroy(),null===(e=o.eventEmitter)||void 0===e||e.emit("didDestroy"),rn(this)):an(this)}const rn=e=>{an(e),delete e.params,delete o.keydownHandler,delete o.keydownTarget,delete o.currentInstance},an=e=>{e.isAwaitingPromise?(ln(me,e),e.isAwaitingPromise=!0):(ln(et,e),ln(me,e),delete e.isAwaitingPromise,delete e.disableButtons,delete e.enableButtons,delete e.getInput,delete e.disableInput,delete e.enableInput,delete e.hideLoading,delete e.disableLoading,delete e.showValidationMessage,delete e.resetValidationMessage,delete e.close,delete e.closePopup,delete e.closeModal,delete e.closeToast,delete e.rejectPromise,delete e.update,delete e._destroy)},ln=(e,t)=>{for(const n in e)e[n].delete(t)};var cn=Object.freeze({__proto__:null,_destroy:sn,close:dt,closeModal:dt,closePopup:dt,closeToast:dt,disableButtons:Nt,disableInput:Ft,disableLoading:Ht,enableButtons:qt,enableInput:_t,getInput:It,handleAwaitingPromise:ht,hideLoading:Ht,rejectPromise:mt,resetValidationMessage:Ut,showValidationMessage:Rt,update:nn});const un=(e,t,n)=>{t.popup.onclick=()=>{e&&(dn(e)||e.timer||e.input)||n(Ue.close)}},dn=e=>Boolean(e.showConfirmButton||e.showDenyButton||e.showCancelButton||e.showCloseButton);let pn=!1;const mn=e=>{e.popup.onmousedown=()=>{e.container.onmouseup=function(t){e.container.onmouseup=()=>{},t.target===e.container&&(pn=!0)}}},hn=e=>{e.container.onmousedown=t=>{t.target===e.container&&t.preventDefault(),e.popup.onmouseup=function(t){e.popup.onmouseup=()=>{},(t.target===e.popup||t.target instanceof HTMLElement&&e.popup.contains(t.target))&&(pn=!0)}}},gn=(e,t,n)=>{t.container.onclick=o=>{pn?pn=!1:o.target===t.container&&h(e.allowOutsideClick)&&n(Ue.backdrop)}},fn=e=>e instanceof Element||(e=>"object"==typeof e&&null!==e&&"jquery"in e)(e);const bn=()=>{if(o.timeout)return(()=>{const e=H();if(!e)return;const t=parseInt(window.getComputedStyle(e).width);e.style.removeProperty("transition"),e.style.width="100%";const n=t/parseInt(window.getComputedStyle(e).width)*100;e.style.width=`${n}%`})(),o.timeout.stop()},yn=()=>{if(o.timeout){const e=o.timeout.start();return oe(e),e}};let vn=!1;const wn={};const Cn=e=>{for(let t=e.target;t&&t!==document;t=t.parentNode)for(const e in wn){const n=t.getAttribute&&t.getAttribute(e);if(n)return void wn[e].fire({template:n})}};o.eventEmitter=new class{constructor(){this.events={}}_getHandlersByEventName(e){return void 0===this.events[e]&&(this.events[e]=[]),this.events[e]}on(e,t){const n=this._getHandlersByEventName(e);n.includes(t)||n.push(t)}once(e,t){const n=(...o)=>{this.removeListener(e,n),t.apply(this,o)};this.on(e,n)}emit(e,...t){this._getHandlersByEventName(e).forEach(e=>{try{e.apply(this,t)}catch(e){console.error(e)}})}removeListener(e,t){const n=this._getHandlersByEventName(e),o=n.indexOf(t);o>-1&&n.splice(o,1)}removeAllListeners(e){void 0!==this.events[e]&&(this.events[e].length=0)}reset(){this.events={}}};var An=Object.freeze({__proto__:null,argsToParams:e=>{const t={};return"object"!=typeof e[0]||fn(e[0])?["title","html","icon"].forEach((n,o)=>{const i=e[o];"string"==typeof i||fn(i)?t[n]=i:void 0!==i&&d(`Unexpected type of ${n}! Expected "string" or "Element", got ${typeof i}`)}):Object.assign(t,e[0]),t},bindClickHandler:function(e="data-swal-template"){wn[e]=this,vn||(document.body.addEventListener("click",Cn),vn=!0)},clickCancel:()=>{var e;return null===(e=x())||void 0===e?void 0:e.click()},clickConfirm:Re,clickDeny:()=>{var e;return null===(e=T())||void 0===e?void 0:e.click()},enableLoading:vt,fire:function(...e){return new this(...e)},getActions:O,getCancelButton:x,getCloseButton:j,getConfirmButton:P,getContainer:y,getDenyButton:T,getFocusableElements:I,getFooter:M,getHtmlContainer:k,getIcon:A,getIconContent:()=>w(r["icon-content"]),getImage:B,getInputLabel:()=>w(r["input-label"]),getLoader:S,getPopup:C,getProgressSteps:$,getTimerLeft:()=>o.timeout&&o.timeout.getTimerLeft(),getTimerProgressBar:H,getTitle:E,getValidationMessage:L,increaseTimer:e=>{if(o.timeout){const t=o.timeout.increase(e);return oe(t,!0),t}},isDeprecatedParameter:Jt,isLoading:()=>{const e=C();return!!e&&e.hasAttribute("data-loading")},isTimerRunning:()=>Boolean(o.timeout&&o.timeout.isRunning()),isUpdatableParameter:Zt,isValidParameter:Xt,isVisible:()=>ee(C()),mixin:function(e){return class extends(this){_main(t,n){return super._main(t,Object.assign({},e,n))}}},off:(e,t)=>{o.eventEmitter&&(e?t?o.eventEmitter.removeListener(e,t):o.eventEmitter.removeAllListeners(e):o.eventEmitter.reset())},on:(e,t)=>{o.eventEmitter&&o.eventEmitter.on(e,t)},once:(e,t)=>{o.eventEmitter&&o.eventEmitter.once(e,t)},resumeTimer:yn,showLoading:vt,stopTimer:bn,toggleTimer:()=>{const e=o.timeout;return e&&(e.running?bn():yn())}});class En{constructor(e,t){this.callback=e,this.remaining=t,this.running=!1,this.start()}start(){return this.running||(this.running=!0,this.started=new Date,this.id=setTimeout(this.callback,this.remaining)),this.remaining}stop(){return this.started&&this.running&&(this.running=!1,clearTimeout(this.id),this.remaining-=(new Date).getTime()-this.started.getTime()),this.remaining}increase(e){const t=this.running;return t&&this.stop(),this.remaining+=e,t&&this.start(),this.remaining}getTimerLeft(){return this.running&&(this.stop(),this.start()),this.remaining}isRunning(){return this.running}}const kn=["swal-title","swal-html","swal-footer"],Bn=e=>{const t={};return Array.from(e.querySelectorAll("swal-param")).forEach(e=>{Mn(e,["name","value"]);const n=e.getAttribute("name"),o=e.getAttribute("value");n&&o&&(t[n]=n in zt&&"boolean"==typeof zt[n]?"false"!==o:n in zt&&"object"==typeof zt[n]?JSON.parse(o):o)}),t},$n=e=>{const t={};return Array.from(e.querySelectorAll("swal-function-param")).forEach(e=>{const n=e.getAttribute("name"),o=e.getAttribute("value");n&&o&&(t[n]=new Function(`return ${o}`)())}),t},Ln=e=>{const t={};return Array.from(e.querySelectorAll("swal-button")).forEach(e=>{Mn(e,["type","color","aria-label"]);const n=e.getAttribute("type");if(!n||!["confirm","cancel","deny"].includes(n))return;t[`${n}ButtonText`]=e.innerHTML,t[`show${c(n)}Button`]=!0;const o=e.getAttribute("color");null!==o&&(t[`${n}ButtonColor`]=o);const i=e.getAttribute("aria-label");null!==i&&(t[`${n}ButtonAriaLabel`]=i)}),t},Pn=e=>{const t={},n=e.querySelector("swal-image");if(n){Mn(n,["src","width","height","alt"]);const e=n.getAttribute("src");null!==e&&(t.imageUrl=e||void 0);const o=n.getAttribute("width");null!==o&&(t.imageWidth=o||void 0);const i=n.getAttribute("height");null!==i&&(t.imageHeight=i||void 0);const s=n.getAttribute("alt");null!==s&&(t.imageAlt=s||void 0)}return t},xn=e=>{const t={},n=e.querySelector("swal-icon");return n&&(Mn(n,["type","color"]),n.hasAttribute("type")&&(t.icon=n.getAttribute("type")),n.hasAttribute("color")&&(t.iconColor=n.getAttribute("color")),t.iconHtml=n.innerHTML),t},Tn=e=>{const t={},n=e.querySelector("swal-input");n&&(Mn(n,["type","label","placeholder","value"]),t.input=n.getAttribute("type")||"text",n.hasAttribute("label")&&(t.inputLabel=n.getAttribute("label")),n.hasAttribute("placeholder")&&(t.inputPlaceholder=n.getAttribute("placeholder")),n.hasAttribute("value")&&(t.inputValue=n.getAttribute("value")));const o=Array.from(e.querySelectorAll("swal-input-option"));return o.length&&(t.inputOptions={},o.forEach(e=>{Mn(e,["value"]);const n=e.getAttribute("value");if(!n)return;const o=e.innerHTML;t.inputOptions[n]=o})),t},Sn=(e,t)=>{const n={};for(const o in t){const i=t[o],s=e.querySelector(i);s&&(Mn(s,[]),n[i.replace(/^swal-/,"")]=s.innerHTML.trim())}return n},On=e=>{const t=kn.concat(["swal-param","swal-function-param","swal-button","swal-image","swal-icon","swal-input","swal-input-option"]);Array.from(e.children).forEach(e=>{const n=e.tagName.toLowerCase();t.includes(n)||u(`Unrecognized element <${n}>`)})},Mn=(e,t)=>{Array.from(e.attributes).forEach(n=>{-1===t.indexOf(n.name)&&u([`Unrecognized attribute "${n.name}" on <${e.tagName.toLowerCase()}>.`,""+(t.length?`Allowed attributes are: ${t.join(", ")}`:"To set the value, use HTML within the element.")])})},Hn=e=>{var t,n;const i=y(),s=C();if(!i||!s)return;"function"==typeof e.willOpen&&e.willOpen(s),null===(t=o.eventEmitter)||void 0===t||t.emit("willOpen",s);const r=window.getComputedStyle(document.body).overflowY;if(Vn(i,s,e),setTimeout(()=>{In(i,s)},10),D()&&(Dn(i,void 0!==e.scrollbarPadding&&e.scrollbarPadding,r),(()=>{const e=y();Array.from(document.body.children).forEach(t=>{t.contains(e)||(t.hasAttribute("aria-hidden")&&t.setAttribute("data-previous-aria-hidden",t.getAttribute("aria-hidden")||""),t.setAttribute("aria-hidden","true"))})})()),ot&&!1===e.backdrop&&s.scrollHeight>i.clientHeight&&(i.style.pointerEvents="auto"),V()||o.previousActiveElement||(o.previousActiveElement=document.activeElement),"function"==typeof e.didOpen){const t=e.didOpen;setTimeout(()=>t(s))}null===(n=o.eventEmitter)||void 0===n||n.emit("didOpen",s)},jn=e=>{const t=C();if(!t||e.target!==t)return;const n=y();n&&(t.removeEventListener("animationend",jn),t.removeEventListener("transitionend",jn),n.style.overflowY="auto",W(n,r["no-transition"]))},In=(e,t)=>{ne(t)?(e.style.overflowY="hidden",t.addEventListener("animationend",jn),t.addEventListener("transitionend",jn)):e.style.overflowY="auto"},Dn=(e,t,n)=>{(()=>{if(nt&&!N(document.body,r.iosfix)){const e=document.body.scrollTop;document.body.style.top=-1*e+"px",z(document.body,r.iosfix),it()}})(),t&&"hidden"!==n&&ct(n),setTimeout(()=>{e.scrollTop=0})},Vn=(e,t,n)=>{var o;null!==(o=n.showClass)&&void 0!==o&&o.backdrop&&z(e,n.showClass.backdrop),n.animation?(t.style.setProperty("opacity","0","important"),X(t,"grid"),setTimeout(()=>{var e;null!==(e=n.showClass)&&void 0!==e&&e.popup&&z(t,n.showClass.popup),t.style.removeProperty("opacity")},10)):X(t,"grid"),z([document.documentElement,document.body],r.shown),n.heightAuto&&n.backdrop&&!n.toast&&z([document.documentElement,document.body],r["height-auto"])};var qn=(e,t)=>/^[a-zA-Z0-9.+_'-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]+$/.test(e)?Promise.resolve():Promise.resolve(t||"Invalid email address"),Nn=(e,t)=>/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)$/.test(e)?Promise.resolve():Promise.resolve(t||"Invalid URL");function _n(e){!function(e){e.inputValidator||("email"===e.input&&(e.inputValidator=qn),"url"===e.input&&(e.inputValidator=Nn))}(e),e.showLoaderOnConfirm&&!e.preConfirm&&u("showLoaderOnConfirm is set to true, but preConfirm is not defined.\nshowLoaderOnConfirm should be used together with preConfirm, see usage example:\nhttps://sweetalert2.github.io/#ajax-request"),function(e){(!e.target||"string"==typeof e.target&&!document.querySelector(e.target)||"string"!=typeof e.target&&!e.target.appendChild)&&(u('Target parameter is not valid, defaulting to "body"'),e.target="body")}(e),"string"==typeof e.title&&(e.title=e.title.split("\n").join("<br />")),re(e)}let Fn;var Rn=new WeakMap;class Un{constructor(...t){if(n(this,Rn,Promise.resolve({isConfirmed:!1,isDenied:!1,isDismissed:!0})),"undefined"==typeof window)return;Fn=this;const o=Object.freeze(this.constructor.argsToParams(t));var i,s,r;this.params=o,this.isAwaitingPromise=!1,i=Rn,s=this,r=this._main(Fn.params),i.set(e(i,s),r)}_main(e,t={}){if(tn(Object.assign({},t,e)),o.currentInstance){const e=et.swalPromiseResolve.get(o.currentInstance),{isAwaitingPromise:t}=o.currentInstance;o.currentInstance._destroy(),t||e({isDismissed:!0}),D()&&tt()}o.currentInstance=Fn;const n=Wn(e,t);_n(n),Object.freeze(n),o.timeout&&(o.timeout.stop(),delete o.timeout),clearTimeout(o.restoreFocusTimeout);const i=Kn(Fn);return Fe(Fn,n),me.innerParams.set(Fn,n),zn(Fn,i,n)}then(e){return t(Rn,this).then(e)}finally(e){return t(Rn,this).finally(e)}}const zn=(e,t,n)=>new Promise((i,s)=>{const r=t=>{e.close({isDismissed:!0,dismiss:t,isConfirmed:!1,isDenied:!1})};et.swalPromiseResolve.set(e,i),et.swalPromiseReject.set(e,s),t.confirmButton.onclick=()=>{(e=>{const t=me.innerParams.get(e);e.disableButtons(),t.input?Pt(e,"confirm"):Mt(e,!0)})(e)},t.denyButton.onclick=()=>{(e=>{const t=me.innerParams.get(e);e.disableButtons(),t.returnInputValueOnDeny?Pt(e,"deny"):Tt(e,!1)})(e)},t.cancelButton.onclick=()=>{((e,t)=>{e.disableButtons(),t(Ue.cancel)})(e,r)},t.closeButton.onclick=()=>{r(Ue.close)},((e,t,n)=>{e.toast?un(e,t,n):(mn(t),hn(t),gn(e,t,n))})(n,t,r),((e,t,n)=>{if(ze(e),!t.toast){const o=e=>Xe(t,e,n);e.keydownHandler=o;const i=t.keydownListenerCapture?window:C();if(i){e.keydownTarget=i,e.keydownListenerCapture=t.keydownListenerCapture;const n=o;e.keydownTarget.addEventListener("keydown",n,{capture:e.keydownListenerCapture}),e.keydownHandlerAdded=!0}}})(o,n,r),((e,t)=>{"select"===t.input||"radio"===t.input?kt(e,t):["text","email","number","tel","textarea"].some(e=>e===t.input)&&(g(t.inputValue)||b(t.inputValue))&&(vt(P()),Bt(e,t))})(e,n),Hn(n),Yn(o,n,r),Xn(t,n),setTimeout(()=>{t.container.scrollTop=0})}),Wn=(e,t)=>{const n=(e=>{const t="string"==typeof e.template?document.querySelector(e.template):e.template;if(!t)return{};const n=t.content;return On(n),Object.assign(Bn(n),$n(n),Ln(n),Pn(n),xn(n),Tn(n),Sn(n,kn))})(e),o=Object.assign({},zt,t,n,e);return o.showClass=Object.assign({},zt.showClass,o.showClass),o.hideClass=Object.assign({},zt.hideClass,o.hideClass),!1===o.animation&&(o.showClass={backdrop:"swal2-noanimation"},o.hideClass={}),o},Kn=e=>{const t={popup:C(),container:y(),actions:O(),confirmButton:P(),denyButton:T(),cancelButton:x(),loader:S(),closeButton:j(),validationMessage:L(),progressSteps:$()};return me.domCache.set(e,t),t},Yn=(e,t,n)=>{const o=H();Z(o),t.timer&&(e.timeout=new En(()=>{n("timer"),delete e.timeout},t.timer),t.timerProgressBar&&o&&(X(o),_(o,t,"timerProgressBar"),setTimeout(()=>{e.timeout&&e.timeout.running&&oe(t.timer)})))},Xn=(e,t)=>{if(!t.toast)return h(t.allowEnterKey)?void(Zn(e)||Jn(e,t)||We(-1,1)):(m("allowEnterKey","preConfirm: () => false"),void e.popup.focus())},Zn=e=>{const t=Array.from(e.popup.querySelectorAll("[autofocus]"));for(const e of t)if(e instanceof HTMLElement&&ee(e))return e.focus(),!0;return!1},Jn=(e,t)=>t.focusDeny&&ee(e.denyButton)?(e.denyButton.focus(),!0):t.focusCancel&&ee(e.cancelButton)?(e.cancelButton.focus(),!0):!(!t.focusConfirm||!ee(e.confirmButton))&&(e.confirmButton.focus(),!0);Un.prototype.disableButtons=Nt,Un.prototype.enableButtons=qt,Un.prototype.getInput=It,Un.prototype.disableInput=Ft,Un.prototype.enableInput=_t,Un.prototype.hideLoading=Ht,Un.prototype.disableLoading=Ht,Un.prototype.showValidationMessage=Rt,Un.prototype.resetValidationMessage=Ut,Un.prototype.close=dt,Un.prototype.closePopup=dt,Un.prototype.closeModal=dt,Un.prototype.closeToast=dt,Un.prototype.rejectPromise=mt,Un.prototype.update=nn,Un.prototype._destroy=sn,Object.assign(Un,An),Object.keys(cn).forEach(e=>{Un[e]=function(...t){if(Fn&&Fn[e])return Fn[e](...t)}}),Un.DismissReason=Ue,Un.version="11.26.25";const Gn=Un;return Gn.default=Gn,Gn}),void 0!==this&&this.Sweetalert2&&(this.swal=this.sweetAlert=this.Swal=this.SweetAlert=this.Sweetalert2);
+"undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,":root{--swal2-outline: 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-container-padding: 0.625em;--swal2-backdrop: rgba(0, 0, 0, 0.4);--swal2-backdrop-transition: background-color 0.15s;--swal2-width: 32em;--swal2-padding: 0 0 1.25em;--swal2-border: none;--swal2-border-radius: 0.3125rem;--swal2-background: white;--swal2-color: #545454;--swal2-show-animation: swal2-show 0.3s;--swal2-hide-animation: swal2-hide 0.15s forwards;--swal2-icon-zoom: 1;--swal2-title-padding: 0.8em 1em 0;--swal2-html-container-padding: 1em 1.6em 0.3em;--swal2-input-border: 1px solid #d9d9d9;--swal2-input-border-radius: 0.1875em;--swal2-input-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-background: transparent;--swal2-input-transition: border-color 0.2s, box-shadow 0.2s;--swal2-input-hover-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-focus-border: 1px solid #b4dbed;--swal2-input-focus-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-progress-step-background: #add8e6;--swal2-validation-message-background: #f0f0f0;--swal2-validation-message-color: #666;--swal2-footer-border-color: #eee;--swal2-footer-background: transparent;--swal2-footer-color: inherit;--swal2-timer-progress-bar-background: rgba(0, 0, 0, 0.3);--swal2-close-button-position: initial;--swal2-close-button-inset: auto;--swal2-close-button-font-size: 2.5em;--swal2-close-button-color: #ccc;--swal2-close-button-transition: color 0.2s, box-shadow 0.2s;--swal2-close-button-outline: initial;--swal2-close-button-box-shadow: inset 0 0 0 3px transparent;--swal2-close-button-focus-box-shadow: inset var(--swal2-outline);--swal2-close-button-hover-transform: none;--swal2-actions-justify-content: center;--swal2-actions-width: auto;--swal2-actions-margin: 1.25em auto 0;--swal2-actions-padding: 0;--swal2-actions-border-radius: 0;--swal2-actions-background: transparent;--swal2-action-button-transition: background-color 0.2s, box-shadow 0.2s;--swal2-action-button-hover: black 10%;--swal2-action-button-active: black 10%;--swal2-confirm-button-box-shadow: none;--swal2-confirm-button-border-radius: 0.25em;--swal2-confirm-button-background-color: #7066e0;--swal2-confirm-button-color: #fff;--swal2-deny-button-box-shadow: none;--swal2-deny-button-border-radius: 0.25em;--swal2-deny-button-background-color: #dc3741;--swal2-deny-button-color: #fff;--swal2-cancel-button-box-shadow: none;--swal2-cancel-button-border-radius: 0.25em;--swal2-cancel-button-background-color: #6e7881;--swal2-cancel-button-color: #fff;--swal2-toast-show-animation: swal2-toast-show 0.5s;--swal2-toast-hide-animation: swal2-toast-hide 0.1s forwards;--swal2-toast-border: none;--swal2-toast-box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.075), 0 1px 2px hsl(0deg 0% 0% / 0.075), 1px 2px 4px hsl(0deg 0% 0% / 0.075), 1px 3px 8px hsl(0deg 0% 0% / 0.075), 2px 4px 16px hsl(0deg 0% 0% / 0.075)}[data-swal2-theme=dark]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}@media(prefers-color-scheme: dark){[data-swal2-theme=auto]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:auto}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px var(--swal2-backdrop)}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}@media print{body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown) .swal2-container{position:static !important}}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:\"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:var(--swal2-container-padding);overflow-x:hidden;transition:var(--swal2-backdrop-transition);-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:var(--swal2-backdrop)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container)[popover]{width:auto;border:0}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:var(--swal2-width);max-width:100%;padding:var(--swal2-padding);border:var(--swal2-border);border-radius:var(--swal2-border-radius);background:var(--swal2-background);color:var(--swal2-color);font-family:inherit;font-size:1rem}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable{cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable div:where(.swal2-icon){cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging{cursor:grabbing}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging div:where(.swal2-icon){cursor:grabbing}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:var(--swal2-title-padding);color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;overflow-wrap:break-word;cursor:initial}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:var(--swal2-actions-justify-content);width:var(--swal2-actions-width);margin:var(--swal2-actions-margin);padding:var(--swal2-actions-padding);border-radius:var(--swal2-actions-border-radius);background:var(--swal2-actions-background)}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:var(--swal2-action-button-transition);border:none;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border-radius:var(--swal2-confirm-button-border-radius);background:initial;background-color:var(--swal2-confirm-button-background-color);box-shadow:var(--swal2-confirm-button-box-shadow);color:var(--swal2-confirm-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):hover{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):active{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border-radius:var(--swal2-deny-button-border-radius);background:initial;background-color:var(--swal2-deny-button-background-color);box-shadow:var(--swal2-deny-button-box-shadow);color:var(--swal2-deny-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):hover{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):active{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border-radius:var(--swal2-cancel-button-border-radius);background:initial;background-color:var(--swal2-cancel-button-background-color);box-shadow:var(--swal2-cancel-button-box-shadow);color:var(--swal2-cancel-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):hover{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):active{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none;box-shadow:var(--swal2-action-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-styled)[disabled]:not(.swal2-loading){opacity:.4}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid var(--swal2-footer-border-color);background:var(--swal2-footer-background);color:var(--swal2-footer-color);font-size:1em;text-align:center;cursor:initial}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:var(--swal2-border-radius);border-bottom-left-radius:var(--swal2-border-radius)}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:var(--swal2-timer-progress-bar-background)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em;cursor:initial}div:where(.swal2-container) button:where(.swal2-close){position:var(--swal2-close-button-position);inset:var(--swal2-close-button-inset);z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:var(--swal2-close-button-transition);border:none;border-radius:var(--swal2-border-radius);outline:var(--swal2-close-button-outline);background:rgba(0,0,0,0);color:var(--swal2-close-button-color);font-family:monospace;font-size:var(--swal2-close-button-font-size);cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:var(--swal2-close-button-hover-transform);background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:var(--swal2-close-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-html-container){z-index:1;justify-content:center;margin:0;padding:var(--swal2-html-container-padding);overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;overflow-wrap:break-word;word-break:break-word;cursor:initial}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:var(--swal2-input-transition);border:var(--swal2-input-border);border-radius:var(--swal2-input-border-radius);background:var(--swal2-input-background);box-shadow:var(--swal2-input-box-shadow);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):hover,div:where(.swal2-container) input:where(.swal2-file):hover,div:where(.swal2-container) textarea:where(.swal2-textarea):hover{box-shadow:var(--swal2-input-hover-box-shadow)}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:var(--swal2-input-focus-border);outline:none;box-shadow:var(--swal2-input-focus-box-shadow)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:var(--swal2-background)}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:var(--swal2-input-background);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:var(--swal2-input-background);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:var(--swal2-background);color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:var(--swal2-validation-message-background);color:var(--swal2-validation-message-color);font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:var(--swal2-progress-step-background);color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:var(--swal2-progress-step-background)}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;zoom:var(--swal2-icon-zoom);border:.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}div:where(.swal2-icon).swal2-warning{border-color:#f8bb86;color:#f8bb86}div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}div:where(.swal2-icon).swal2-info{border-color:#3fc3ee;color:#3fc3ee}div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}div:where(.swal2-icon).swal2-question{border-color:#87adbd;color:#87adbd}div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:var(--swal2-show-animation)}.swal2-hide{animation:var(--swal2-hide-animation)}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;border:var(--swal2-toast-border);background:var(--swal2-background);box-shadow:var(--swal2-toast-box-shadow);pointer-events:auto}.swal2-toast>*{grid-column:2}.swal2-toast h2:where(.swal2-title){margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-toast .swal2-loading{justify-content:center}.swal2-toast input:where(.swal2-input){height:2em;margin:.5em;font-size:1em}.swal2-toast .swal2-validation-message{font-size:1em}.swal2-toast div:where(.swal2-footer){margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-toast button:where(.swal2-close){grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-toast div:where(.swal2-html-container){margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-toast div:where(.swal2-html-container):empty{padding:0}.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-toast div:where(.swal2-actions){justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-toast button:where(.swal2-styled){margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}.swal2-toast.swal2-show{animation:var(--swal2-toast-show-animation)}.swal2-toast.swal2-hide{animation:var(--swal2-toast-hide-animation)}@keyframes swal2-show{0%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}100%{transform:translate3d(0, 0, 0) scale(1);opacity:1}}@keyframes swal2-hide{0%{transform:translate3d(0, 0, 0) scale(1);opacity:1}100%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}");
+</script>
+  <style>
+    :root {
+      --petroleo: #AD0000;
+      --petroleo-profundo: #8a0000;
+      --cobre: #AD0000;
+      --cobre-claro: #ff6b6b;
+      --rojo-serena: #AD0000;
+      --rojo-oscuro: #850000;
+      --marfil: #f8f9fa;
+      --papel: #ffffff;
+      --tinta: #212529;
+      --muted: #6c757d;
+      --linea: #dee2e6;
+      --verde: #198754;
+      --rojo: #dc3545;
+      --azul: #0d6efd;
+      --amarillo: #ffc107;
+      --sombra: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --badge-ges: #e0f2fe;
+      --badge-ges-txt: #0369a1;
+      --badge-tub: #fef3c7;
+      --badge-tub-txt: #b45309;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    body { background-color: var(--marfil); color: var(--tinta); padding: 18px; line-height: 1.5; }
+
+    /* Barra Superior de Pestañas Selectoras de Mockups (Sin Iconos) */
+    .wire-tabs {
+      display: flex;
+      gap: 6px;
+      border-bottom: 2px solid var(--linea);
+      margin-bottom: 22px;
+      overflow-x: auto;
+      background: white;
+      padding: 8px 12px 0 12px;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+    .wire-tab-btn {
+      padding: 10px 16px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .wire-tab-btn:hover {
+      color: var(--rojo-serena);
+      background: rgba(173, 0, 0, 0.04);
+      border-radius: 6px 6px 0 0;
+    }
+    .wire-tab-btn.active {
+      color: var(--rojo-serena);
+      border-bottom-color: var(--rojo-serena);
+      background: white;
+      border-radius: 6px 6px 0 0;
+    }
+
+    /* Contenedor Lienzo del Prototipo */
+    .canvas-container {
+      background: white;
+      border: 1px solid var(--linea);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: var(--sombra);
+      margin-bottom: 30px;
+    }
+
+    /* Trazabilidad Formal Callout */
+    .trazabilidad-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid var(--rojo-serena);
+      border-radius: 6px;
+      padding: 10px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+    }
+    .trazabilidad-box .step {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+    }
+    .callout-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 6px;
+      background: var(--rojo-serena);
+      color: white;
+      border-radius: 4px;
+      font-size: 0.70rem;
+      font-weight: 700;
+    }
+    .arrow { color: var(--muted); font-size: 0.85rem; }
+
+    /* Barra Superior Real del SGR (Contexto y Delegación Activa) */
+    .sgr-header-sup {
+      background: #7a0000;
+      color: #ffffff;
+      padding: 7px 18px;
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sgr-delegacion-chip {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .sgr-user-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sgr-rol-tag {
+      background: #ffda6a;
+      color: #000;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.70rem;
+    }
+
+    /* Cabecera Principal Real del SGR */
+    .sgr-navbar {
+      background: var(--rojo-serena);
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      border-bottom: 3px solid #ffda6a;
+    }
+    .sgr-marca {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: white;
+    }
+    .sgr-marca .logo-txt-main { font-size: 1.25rem; font-weight: 800; letter-spacing: 0.05em; line-height: 1; }
+    .sgr-marca .logo-txt-sub { font-size: 0.70rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.1em; }
+    .sgr-nav-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .sgr-nav-links a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .sgr-nav-links a:hover, .sgr-nav-links a.active {
+      background: rgba(0,0,0,0.2);
+      color: white;
+    }
+
+    /* Botones y Controles */
+    .btn-sgr {
+      padding: 8px 16px;
+      border-radius: 5px;
+      border: none;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn-sgr-primary { background: var(--rojo-serena); color: white; }
+    .btn-sgr-primary:hover { background: var(--rojo-oscuro); }
+    .btn-sgr-success { background: var(--verde); color: white; }
+    .btn-sgr-outline { background: white; border: 1px solid var(--linea); color: var(--tinta); }
+    .btn-sgr-outline:hover { background: #f8f9fa; border-color: #adb5bd; }
+    .btn-sgr-sm { padding: 4px 10px; font-size: 0.75rem; }
+
+    /* Tarjetas y Formularios */
+    .form-card {
+      background: white;
+      border: 1px solid var(--linea);
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 0.78rem; font-weight: 700; color: #495057; margin-bottom: 4px; }
+    .form-input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--linea);
+      border-radius: 5px;
+      font-size: 0.85rem;
+      color: var(--tinta);
+      background: white;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { outline: none; border-color: var(--rojo-serena); box-shadow: 0 0 0 2px rgba(173,0,0,0.15); }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+
+    /* Tablero Kanban */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      align-items: start;
+      margin-top: 16px;
+    }
+    .kanban-col {
+      background: #f8fafc;
+      border: 1px solid var(--linea);
+      border-radius: 6px;
+      padding: 12px;
+      min-height: 380px;
+    }
+    .kanban-col-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--linea);
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .kanban-counter {
+      background: #e2e8f0;
+      color: #334155;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+    }
+    .k-card {
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid var(--azul);
+      border-radius: 5px;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .k-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+    .k-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .badge-tub { background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; }
+    .badge-ges { background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; text-decoration: underline; cursor: pointer; }
+
+    /* Semáforos y Estados */
+    .semaforo-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .dot-optimo { background: #198754; box-shadow: 0 0 6px rgba(25,135,84,0.6); }
+    .dot-alerta { background: #ffc107; box-shadow: 0 0 6px rgba(255,193,7,0.6); }
+    .dot-critico { background: #dc3545; box-shadow: 0 0 6px rgba(220,53,69,0.6); }
+
+    .badge-estado-sgr {
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.70rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+    }
+    .badge-optimo { background: #d1e7dd; color: #0f5132; }
+    .badge-alerta { background: #fff3cd; color: #664d03; }
+    .badge-critico { background: #f8d7da; color: #842029; }
+
+    /* Barra de Progreso */
+    .progress-bar-wrap {
+      background: #e9ecef;
+      border-radius: 10px;
+      height: 9px;
+      overflow: hidden;
+      width: 100%;
+      margin-top: 4px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    /* Casilleros PIN */
+    .pin-container { display: flex; gap: 8px; justify-content: center; margin: 18px 0; }
+    .pin-digit {
+      width: 44px;
+      height: 52px;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 800;
+      border: 2px solid var(--linea);
+      border-radius: 6px;
+      color: var(--rojo-serena);
+      background: #fafafa;
+      transition: all 0.2s;
+    }
+    .pin-digit:focus { outline: none; border-color: var(--rojo-serena); background: white; transform: scale(1.05); }
+
+    /* Barra Informativa de Ayuda */
+    .interactive-guide {
+      background: #fff8e1;
+      border-left: 4px solid #ffb300;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 0.80rem;
+      margin-bottom: 16px;
+      color: #6d4c41;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pestañas Selectoras de Wireframe (Limpias y Sin Iconos) -->
+  <div class="wire-tabs">
+    <button class="wire-tab-btn active" onclick="showTab('flujo-login')">
+      Mockup 1: Iniciar Sesión y Recuperar Contraseña
+    </button>
+    <button class="wire-tab-btn" onclick="showTab('flujo-dashboard')">
+      Mockup 2: Panel de Inicio y Roles
+    </button>
+    <button class="wire-tab-btn" onclick="showTab('flujo-gestiones')">
+      Mockup 3: Registrar Gestiones
+    </button>
+    <button class="wire-tab-btn" onclick="showTab('flujo-kanban')">
+      Mockup 4: Tubo de Trabajo y Kanban
+    </button>
+    <button class="wire-tab-btn" onclick="showTab('flujo-social')">
+      Mockup 5: Ficha Social y Casos Críticos
+    </button>
+    <button class="wire-tab-btn" onclick="showTab('flujo-metas')">
+      Mockup 6: Metas SGR y Semáforo
+    </button>
+    <button class="wire-tab-btn" onclick="showTab('flujo-crud')">
+      Mockup 7: Mantenedores CRUD
+    </button>
+      <button class="wire-tab-btn" onclick="showTab('flujo-evidencias')">
+        Mockup 8: Bandeja de Evidencias (CU-08)
+      </button>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MOCKUP 1: INICIAR SESIÓN Y RECUPERAR CONTRASEÑA -->
+  <!-- ========================================================================= -->
+  <div id="flujo-login" class="canvas-container">
+    <div class="trazabilidad-box">
+      <span class="step"><span class="callout-badge">RF</span> RF-001 al RF-004</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#7c3aed;">CU</span> CU-01 & CU-02</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#dc2626;">RNF</span> Seguridad PBKDF2 + SMTP TLS</span>
+      <span class="arrow">➜</span>
+      <span class="step" style="color:var(--rojo-serena); font-weight:700;">Acceso Seguro y Restablecimiento por PIN</span>
+    </div>
+
+    <div class="interactive-guide">
+      <span><strong>Interacción Disponible:</strong> Puedes ingresar credenciales y pulsar "Ingresar al Sistema" (simula acceso real), usar los botones de llenado rápido, o cambiar a la pestaña de recuperación para probar los 6 casilleros de PIN reactivos.</span>
+    </div>
+
+    <div style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 10px;">
+      
+      <!-- Sub-panel Login Real SGR -->
+      <div id="login-panel" style="width: 100%; max-width: 440px; border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.06); background: white;">
+        <div style="background: var(--rojo-serena); color: white; padding: 22px; text-align: center;">
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Acceso al Sistema SGR</h2>
+          <p style="font-size: 0.80rem; opacity: 0.95;">Ilustre Municipalidad de La Serena</p>
+        </div>
+        <div style="padding: 24px;">
+          <div style="margin-bottom: 12px; display: flex; gap: 6px; justify-content: center;">
+            <button onclick="autollenarLogin('admin', 'admin')" class="btn-sgr btn-sgr-outline btn-sgr-sm">Auto: Admin</button>
+            <button onclick="autollenarLogin('acuaman', 'admin')" class="btn-sgr btn-sgr-outline btn-sgr-sm">Auto: Supervisor</button>
+            <button onclick="autollenarLogin('flash', 'admin')" class="btn-sgr btn-sgr-outline btn-sgr-sm">Auto: Operador</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Usuario o Correo Institucional</label>
+            <input type="text" id="login-user" class="form-input" placeholder="ej: admin o acuaman@correo.cl" value="admin">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contraseña</label>
+            <input type="password" id="login-pass" class="form-input" placeholder="••••••••" value="admin">
+          </div>
+          <button onclick="simularLogin()" class="btn-sgr btn-sgr-primary" style="width: 100%; justify-content: center; padding: 11px; margin-top: 6px;">
+            Ingresar al Sistema
+          </button>
+          <div style="text-align: center; margin-top: 16px;">
+            <a href="javascript:void(0)" onclick="mostrarRecuperacion(true)" style="font-size: 0.82rem; color: var(--rojo-serena); text-decoration: underline; font-weight: 600;">
+              ¿Olvidó su contraseña? Recupérela aquí
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-panel Recuperación Real por Correo -->
+      <div id="recovery-panel" style="width: 100%; max-width: 440px; border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.06); background: white; display: none;">
+        <div style="background: #1e293b; color: white; padding: 22px; text-align: center;">
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;">Recuperación de Contraseña</h2>
+          <p style="font-size: 0.80rem; color: #94a3b8;">Verificación Criptográfica por Correo (SMTP TLS)</p>
+        </div>
+        <div style="padding: 24px;">
+          <p style="font-size: 0.80rem; color: #475569; margin-bottom: 12px; text-align: center;">
+            Ingrese el código PIN de 6 dígitos enviado a su correo institucional:
+          </p>
+          <div class="pin-container">
+            <input type="text" class="pin-digit" maxlength="1" id="p1" oninput="moverPin(this, 'p2')" value="7">
+            <input type="text" class="pin-digit" maxlength="1" id="p2" oninput="moverPin(this, 'p3')" value="4">
+            <input type="text" class="pin-digit" maxlength="1" id="p3" oninput="moverPin(this, 'p4')" value="9">
+            <input type="text" class="pin-digit" maxlength="1" id="p4" oninput="moverPin(this, 'p5')" value="1">
+            <input type="text" class="pin-digit" maxlength="1" id="p5" oninput="moverPin(this, 'p6')" value="8">
+            <input type="text" class="pin-digit" maxlength="1" id="p6" oninput="moverPin(this, null)" value="3">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nueva Contraseña</label>
+            <input type="password" id="nueva-clave" class="form-input" placeholder="Nueva clave segura">
+          </div>
+          <button onclick="simularValidarPin()" class="btn-sgr btn-sgr-success" style="width: 100%; justify-content: center; padding: 11px;">
+            Validar PIN y Guardar Contraseña
+          </button>
+          <div style="text-align: center; margin-top: 14px;">
+            <a href="javascript:void(0)" onclick="mostrarRecuperacion(false)" style="font-size: 0.80rem; color: var(--muted); text-decoration: underline;">
+              ← Volver al formulario de acceso
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MOCKUP 2: PANEL DE INICIO Y ROLES -->
+  <!-- ========================================================================= -->
+  <div id="flujo-dashboard" class="canvas-container" style="display: none;">
+    <div class="trazabilidad-box">
+      <span class="step"><span class="callout-badge">RF</span> RF-005, RF-007</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#7c3aed;">CU</span> CU-03 & CU-09</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#dc2626;">RNF</span> RBAC 3 Niveles (Grupos Django)</span>
+      <span class="arrow">➜</span>
+      <span class="step" style="color:var(--rojo-serena); font-weight:700;">Dashboard Dinámico y Control Territorial</span>
+    </div>
+
+    <!-- Barra Real SGR Superior -->
+    <div class="sgr-header-sup">
+      <div>
+        <strong>Ilustre Municipalidad de La Serena</strong> · 
+        <span class="sgr-delegacion-chip" id="chip-del-actual">Contexto: [TODAS] Todas las Delegaciones</span>
+      </div>
+      <div class="sgr-user-chip">
+        <span id="user-display-name">Emanuel Román (admin)</span>
+        <span class="sgr-rol-tag" id="user-display-rol">ADMINISTRADOR</span>
+      </div>
+    </div>
+
+    <!-- Barra Real SGR Navbar -->
+    <div class="sgr-navbar">
+      <a class="sgr-marca" href="javascript:void(0)">
+        <div style="width: 32px; height: 36px; background: white; border-radius: 3px; display: flex; align-items: center; justify-content: center; color: var(--rojo-serena); font-weight: 900; font-size: 1.1rem;"></div>
+        <div>
+          <div class="logo-txt-main">SGR</div>
+          <div class="logo-txt-sub">Municipalidad de La Serena</div>
+        </div>
+      </a>
+      <div class="sgr-nav-links">
+        <a href="javascript:void(0)" class="active">Inicio</a>
+        <a href="javascript:void(0)" onclick="showTab('flujo-gestiones')">Gestiones</a>
+        <a href="javascript:void(0)" onclick="showTab('flujo-kanban')">Tubo de Trabajo</a>
+        <a href="javascript:void(0)" onclick="showTab('flujo-metas')">Metas SGR</a>
+        <a href="javascript:void(0)" onclick="showTab('flujo-crud')" id="nav-mantenedores">Mantenedores CRUD</a>
+      </div>
+    </div>
+
+    <!-- Controles de Simulación de Rol y Delegación -->
+    <div style="background: #f1f5f9; padding: 12px 16px; border-radius: 0 0 6px 6px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 0.80rem; font-weight: 700; color: #334155;">Simular Perfil de Usuario:</span>
+        <button onclick="cambiarPerfilSimulado('admin')" class="btn-sgr btn-sgr-sm btn-sgr-primary" id="btn-perfil-admin">Administrador</button>
+        <button onclick="cambiarPerfilSimulado('supervisor')" class="btn-sgr btn-sgr-sm btn-sgr-outline" id="btn-perfil-sup">Supervisor (Acuaman)</button>
+        <button onclick="cambiarPerfilSimulado('operador')" class="btn-sgr btn-sgr-sm btn-sgr-outline" id="btn-perfil-ope">Operador (Flash)</button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 0.80rem; font-weight: 700; color: #334155;">Filtrar Delegación:</span>
+        <select id="select-del-simulada" onchange="filtrarDelegacionSimulada(this.value)" style="padding: 4px 8px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 0.78rem;">
+          <option value="TODAS">[COMUNAL] Todas las Delegaciones</option>
+          <option value="D01">[D01] Las Compañías</option>
+          <option value="D02">[D02] La Antena</option>
+          <option value="D03">[D03] Centro y Casco Histórico</option>
+          <option value="D04">[D04] Rural</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Indicador de Vista Personal para Operador -->
+    <div id="banner-vista-personal" style="display: none; background: #e0f2fe; border-left: 4px solid #0284c7; padding: 8px 14px; border-radius: 4px; font-size: 0.80rem; margin-bottom: 16px; color: #0369a1;">
+      <strong>Vista Personal Activa:</strong> Mostrando únicamente las gestiones asignadas a su cuenta personal.
+    </div>
+
+    <!-- Métricas KPIs Dinámicas -->
+    <div class="grid-4" style="margin-bottom: 20px;">
+      <div style="background: white; border: 1px solid var(--linea); border-left: 4px solid var(--rojo-serena); padding: 14px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <div style="font-size: 0.70rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Total Gestiones</div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: var(--tinta);" id="kpi-gestiones">24</div>
+        <div style="font-size: 0.72rem; color: var(--muted);" id="kpi-gestiones-det">Comuna de La Serena</div>
+      </div>
+      <div style="background: white; border: 1px solid var(--linea); border-left: 4px solid #f59e0b; padding: 14px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <div style="font-size: 0.70rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Compromisos Tubo</div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: var(--tinta);" id="kpi-tubo">13</div>
+        <div style="font-size: 0.72rem; color: var(--muted);">Actividades en terreno</div>
+      </div>
+      <div style="background: white; border: 1px solid var(--linea); border-left: 4px solid var(--verde); padding: 14px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <div style="font-size: 0.70rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Eficacia de Cumplimiento</div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: var(--verde);" id="kpi-eficacia">87.5%</div>
+        <div style="font-size: 0.72rem; color: var(--muted);">Semáforo en verde</div>
+      </div>
+      <div style="background: white; border: 1px solid var(--linea); border-left: 4px solid var(--azul); padding: 14px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <div style="font-size: 0.70rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Usuarios Activos</div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: var(--tinta);" id="kpi-usuarios">10</div>
+        <div style="font-size: 0.72rem; color: var(--muted);">4 delegaciones conectadas</div>
+      </div>
+    </div>
+
+    <!-- Tabla Dinámica del Dashboard -->
+    <div class="form-card" style="padding: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #1e293b;" id="titulo-tabla-dash">Últimas Gestiones Registradas en el Sistema</h4>
+        <button onclick="showTab('flujo-gestiones')" class="btn-sgr btn-sgr-primary btn-sgr-sm">+ Nueva Gestión</button>
+      </div>
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.80rem;">
+        <thead>
+          <tr style="background: #f8fafc; border-bottom: 2px solid var(--linea); color: #475569;">
+            <th style="padding: 8px; text-align: left;">Código</th>
+            <th style="padding: 8px; text-align: left;">Solicitante</th>
+            <th style="padding: 8px; text-align: left;">Delegación</th>
+            <th style="padding: 8px; text-align: left;">Tipo / Motivo</th>
+            <th style="padding: 8px; text-align: left;">Estado</th>
+            <th style="padding: 8px; text-align: center;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-dash">
+          <!-- Poblado dinamicamente con JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MOCKUP 3: REGISTRAR GESTIONES -->
+  <!-- ========================================================================= -->
+  <div id="flujo-gestiones" class="canvas-container" style="display: none;">
+    <div class="trazabilidad-box">
+      <span class="step"><span class="callout-badge">RF</span> RF-009 / RF-010</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#7c3aed;">CU</span> CU-04</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#059669;">DT</span> Registro y Derivación Reactiva</span>
+      <span class="arrow">➜</span>
+      <span class="step" style="color:var(--rojo-serena); font-weight:700;">Formulario Unificado con AJAX</span>
+    </div>
+
+    <div class="interactive-guide">
+      <span><strong>Interacción Disponible:</strong> Escribe cualquier número en el RUT y pulsa "Autocompletar Vecino" para ver el AJAX en acción. Cambia el Tipo de Atención para actualizar las subatenciones en cascada, o activa el Switch para derivar al Tubo de Trabajo.</span>
+    </div>
+
+    <!-- Formulario Unificado -->
+    <div class="form-card">
+      <div style="border-bottom: 1px solid var(--linea); padding-bottom: 10px; margin-bottom: 16px;">
+        <h3 style="font-size: 1.1rem; color: var(--rojo-serena);">Registro Unificado de Atención Ciudadana / Gestión</h3>
+        <p style="font-size: 0.78rem; color: var(--muted);">Centraliza requerimientos barriales, operativos comunitarios y compromisos en terreno</p>
+      </div>
+
+      <!-- Datos del Solicitante con AJAX -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: #1e293b;">1. Identificación del Vecino / Solicitante (Búsqueda Asíncrona AJAX)</span>
+          <button type="button" onclick="autollenarRUT()" class="btn-sgr btn-sgr-outline btn-sgr-sm" style="color: var(--azul);">Autocompletar Vecino por RUT</button>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label class="form-label">RUT Solicitante</label>
+            <input type="text" id="rut-input" class="form-input" placeholder="ej: 12.345.678-5" value="12.345.678-5">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre Completo</label>
+            <input type="text" id="nombre-input" class="form-input" placeholder="Nombre y Apellido" value="Juan Pérez González">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono de Contacto</label>
+            <input type="text" id="fono-input" class="form-input" placeholder="+56 9 8765 4321" value="+56 9 8765 4321">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Dirección / Sector Poblacional</label>
+          <input type="text" id="dir-input" class="form-input" placeholder="Calle, Pasaje, Número o Sector" value="Pasaje Los Claveles #1420, Las Compañías">
+        </div>
+      </div>
+
+      <!-- Clasificación y Cascada AJAX -->
+      <div class="grid-2" style="margin-bottom: 16px;">
+        <div class="form-group">
+          <label class="form-label">Tipo de Atención (Cascada Nivel 1)</label>
+          <select id="tipo-select" onchange="cambiarCascada(this.value)" class="form-input">
+            <option value="1">Atención Social y Beneficios Comunitarios</option>
+            <option value="2" selected>Operativo Territorial e Infraestructura</option>
+            <option value="3">Seguridad Ciudadana y Tránsito</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subatención Específica (Cascada Nivel 2)</label>
+          <select id="sub-select" class="form-input">
+            <option>Bacheo y Pavimentación Participativa (SUB-04)</option>
+            <option>Reparación de Luminarias Públicas (SUB-05)</option>
+            <option>Poda de Árboles en Vía Pública (SUB-06)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Detalle y Descripción del Requerimiento</label>
+        <textarea id="desc-gestion" rows="3" class="form-input">Vecino solicita urgente bacheo de calzada en Pasaje Los Claveles por socavón producido tras filtración de matriz de agua potable. Se coordina con cuadrilla territorial.</textarea>
+      </div>
+
+      <!-- Switch Reactivo Tubo de Trabajo -->
+      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <label style="font-size: 0.85rem; font-weight: 700; color: #1e40af; cursor: pointer;">
+              <input type="checkbox" id="switch-tubo" onchange="toggleTuboBox(this.checked)" checked style="margin-right: 8px;">
+              ¿Derivar esta solicitud directamente al Tubo de Trabajo (Método de Compromisos)?
+            </label>
+            <p style="font-size: 0.75rem; color: #3b82f6; margin-top: 2px;">Crea automáticamente un compromiso correlativo TUB-XXXXX visible en el Tablero Kanban</p>
+          </div>
+          <span class="badge-tub" id="tubo-folio-preview">TUB-00201</span>
+        </div>
+
+        <div id="tubo-extra-fields" style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #bfdbfe;">
+          <div class="grid-3">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Prioridad en Terreno</label>
+              <select class="form-input">
+                <option>Alta (Atención en menos de 48 hrs)</option>
+                <option selected>Media (Plazo estándar 5 días)</option>
+                <option>Baja (Coordinación periódica)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Fecha Límite de Cumplimiento</label>
+              <input type="date" class="form-input" value="2026-11-20">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Unidad de Apoyo Requerida</label>
+              <select class="form-input">
+                <option selected>Dirección de Operaciones (DOM)</option>
+                <option>Aseo y Ornato</option>
+                <option>Seguridad Ciudadana</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-sgr btn-sgr-outline">Cancelar</button>
+        <button type="button" onclick="guardarGestionSimulada()" class="btn-sgr btn-sgr-primary">
+          Guardar Gestión en el Sistema
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MOCKUP 4: TUBO DE TRABAJO Y KANBAN -->
+  <!-- ========================================================================= -->
+  <div id="flujo-kanban" class="canvas-container" style="display: none;">
+    <div class="trazabilidad-box">
+      <span class="step"><span class="callout-badge">RF</span> RF-011 / RF-012</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#7c3aed;">CU</span> CU-06</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#059669;">DT</span> Tubo de Trabajo 4 Columnas</span>
+      <span class="arrow">➜</span>
+      <span class="step" style="color:var(--rojo-serena); font-weight:700;">Tablero de Compromisos en Terreno</span>
+    </div>
+
+    <div class="interactive-guide">
+      <span><strong>Interacción Disponible:</strong> Haz clic en los botones de acción en cada tarjeta ("Avanzar →" o "✓ Realizado") para ver cómo las tarjetas se trasladan físicamente de columna en columna en tiempo real, actualizando sus contadores.</span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <h3 style="font-size: 1.15rem; color: var(--rojo-serena);">Tablero Kanban — Método Tubo de Trabajo</h3>
+        <p style="font-size: 0.78rem; color: var(--muted);">Seguimiento visual de compromisos con la comunidad y control de plazos</p>
+      </div>
+      <div>
+        <button onclick="agregarTarjetaDemo()" class="btn-sgr btn-sgr-primary btn-sgr-sm">+ Nuevo Compromiso Rápido</button>
+      </div>
+    </div>
+
+    <!-- Tablero de 4 Columnas -->
+    <div class="kanban-board">
+      
+      <!-- Columna 1: Ingresado -->
+      <div class="kanban-col" id="col-1">
+        <div class="kanban-col-head" style="border-bottom-color: var(--azul); color: var(--azul);">
+          <span>1. Ingresado</span>
+          <span class="kanban-counter" id="cnt-1">2</span>
+        </div>
+        <div id="cards-col-1">
+          <div class="k-card" id="card-101">
+            <div class="k-card-top">
+              <span class="badge-tub">TUB-00125</span>
+              <span class="badge-ges" onclick="verGestionDetalle('GES-00132')">[GES-00132]</span>
+            </div>
+            <div style="font-size: 0.80rem; font-weight: 700; margin-bottom: 4px;">Instalación de reductores en Pasaje Rosas</div>
+            <div style="font-size: 0.72rem; color: var(--muted); margin-bottom: 8px;">
+              <strong>Vecino:</strong> Marta Henríquez<br>
+              <strong>Sector:</strong> La Antena<br>
+              <strong>Plazo:</strong> 18 Nov 2026
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 4px;">
+              <button onclick="moverTarjeta('card-101', 'col-2')" class="btn-sgr btn-sgr-outline btn-sgr-sm">A Pendiente →</button>
+            </div>
+          </div>
+
+          <div class="k-card" id="card-102">
+            <div class="k-card-top">
+              <span class="badge-tub">TUB-00126</span>
+              <span class="badge-ges" onclick="verGestionDetalle('GES-00133')">[GES-00133]</span>
+            </div>
+            <div style="font-size: 0.80rem; font-weight: 700; margin-bottom: 4px;">Retiro de escombros en multicancha</div>
+            <div style="font-size: 0.72rem; color: var(--muted); margin-bottom: 8px;">
+              <strong>Vecino:</strong> Carmen Valenzuela<br>
+              <strong>Sector:</strong> Las Compañías
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 4px;">
+              <button onclick="moverTarjeta('card-102', 'col-2')" class="btn-sgr btn-sgr-outline btn-sgr-sm">A Pendiente →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna 2: Pendiente -->
+      <div class="kanban-col" id="col-2">
+        <div class="kanban-col-head" style="border-bottom-color: #d97706; color: #b45309;">
+          <span>2. Pendiente</span>
+          <span class="kanban-counter" id="cnt-2">1</span>
+        </div>
+        <div id="cards-col-2">
+          <div class="k-card" id="card-201" style="border-left-color: #d97706;">
+            <div class="k-card-top">
+              <span class="badge-tub">TUB-00127</span>
+              <span class="badge-ges" onclick="verGestionDetalle('SOC-00134')">[SOC-00134]</span>
+            </div>
+            <div style="font-size: 0.80rem; font-weight: 700; margin-bottom: 4px;">Reparación techumbre adulto mayor</div>
+            <div style="font-size: 0.72rem; color: var(--muted); margin-bottom: 8px;">
+              <strong>Vecino:</strong> Guillermo Cortés<br>
+              <strong>Sector:</strong> Centro Histórico
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 4px;">
+              <button onclick="moverTarjeta('card-201', 'col-3')" class="btn-sgr btn-sgr-outline btn-sgr-sm">A Proceso →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna 3: En Proceso -->
+      <div class="kanban-col" id="col-3">
+        <div class="kanban-col-head" style="border-bottom-color: #7c3aed; color: #6d28d9;">
+          <span>3. En Proceso</span>
+          <span class="kanban-counter" id="cnt-3">1</span>
+        </div>
+        <div id="cards-col-3">
+          <div class="k-card" id="card-301" style="border-left-color: #7c3aed;">
+            <div class="k-card-top">
+              <span class="badge-tub">TUB-00122</span>
+              <span class="badge-ges" onclick="verGestionDetalle('GES-00120')">[GES-00120]</span>
+            </div>
+            <div style="font-size: 0.80rem; font-weight: 700; margin-bottom: 4px;">Bacheo y pavimentación calle Brasil</div>
+            <div style="font-size: 0.72rem; color: var(--muted); margin-bottom: 8px;">
+              <strong>Vecino:</strong> JJVV Centro<br>
+              <strong>Cuadrilla:</strong> DOM La Serena
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 4px;">
+              <button onclick="moverTarjeta('card-301', 'col-4')" class="btn-sgr btn-sgr-success btn-sgr-sm">Completar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna 4: Realizado -->
+      <div class="kanban-col" id="col-4">
+        <div class="kanban-col-head" style="border-bottom-color: var(--verde); color: var(--verde);">
+          <span>4. Realizado</span>
+          <span class="kanban-counter" id="cnt-4">1</span>
+        </div>
+        <div id="cards-col-4">
+          <div class="k-card" id="card-401" style="border-left-color: var(--verde); opacity: 0.9;">
+            <div class="k-card-top">
+              <span class="badge-tub">TUB-00118</span>
+              <span class="badge-ges" onclick="verGestionDetalle('GES-00115')">[GES-00115]</span>
+            </div>
+            <div style="font-size: 0.80rem; font-weight: 700; text-decoration: line-through; color: #64748b; margin-bottom: 4px;">Poda de eucaliptus vía pública</div>
+            <div style="font-size: 0.72rem; color: var(--muted); margin-bottom: 8px;">
+              <strong>Vecino:</strong> Carlos Muñoz<br>
+              ✓ <strong>Cerrado:</strong> Con evidencia fotográfica
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.70rem; color: var(--verde); font-weight: 700;">Cumplido 100%</span>
+              <button onclick="verEvidenciaDemo()" class="btn-sgr btn-sgr-outline btn-sgr-sm">Ver Evidencia</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MOCKUP 5: FICHA SOCIAL Y CASOS CRÍTICOS -->
+  <!-- ========================================================================= -->
+  <div id="flujo-social" class="canvas-container" style="display: none;">
+    <div class="trazabilidad-box">
+      <span class="step"><span class="callout-badge">RF</span> RF-013 & RF-014</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#7c3aed;">CU</span> CU-07</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#dc2626;">RNF</span> Ley 19.628 Protección de Datos</span>
+      <span class="arrow">➜</span>
+      <span class="step" style="color:var(--rojo-serena); font-weight:700;">Ficha Social FIBE y Beneficios Comunitarios</span>
+    </div>
+
+    <div class="interactive-guide">
+      <span><strong>Interacción Disponible:</strong> Cambia el tramo de vulnerabilidad RSH para ver el cambio de semáforo social. Marca o desmarca beneficios solicitados y pulsa "Guardar Expediente Social" para simular el almacenamiento con estricta privacidad de datos.</span>
+    </div>
+
+    <!-- Ficha Social Integral -->
+    <div class="form-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--linea); padding-bottom: 12px; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <h3 style="font-size: 1.15rem; color: #0284c7;">Expediente Social Comunal: Familia Pérez González</h3>
+          <p style="font-size: 0.78rem; color: var(--muted);">Registro Social de Hogares · Folio RSH: 2026-LS-00892</p>
+        </div>
+        <div>
+          <span class="badge-sgr" id="tag-vulnerabilidad" style="background: #fee2e2; color: #991b1b; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.80rem;">
+            RSH: Tramo 40% (Alta Vulnerabilidad)
+          </span>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-bottom: 16px;">
+        <div class="form-group">
+          <label class="form-label">Calificación Socioeconómica (RSH)</label>
+          <select id="select-rsh" onchange="cambiarRSH(this.value)" class="form-input">
+            <option value="40" selected>Tramo 40% (Máxima Prioridad)</option>
+            <option value="60">Tramo 60% (Vulnerabilidad Media)</option>
+            <option value="80">Tramo 80% (Sin Subsidio Directo)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado Ficha FIBE (Emergencias)</label>
+          <select class="form-input">
+            <option selected>FIBE Aplicada - Daño Mayor Techumbre</option>
+            <option>FIBE Pendiente de Visita Técnica</option>
+            <option>FIBE Derivada a MIDESO</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Delegación Asignada</label>
+          <input type="text" class="form-input" readonly value="[D01] Las Compañías">
+        </div>
+      </div>
+
+      <!-- Beneficios Solicitados Checkboxes Interactivos -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px; margin-bottom: 16px;">
+        <span style="font-size: 0.80rem; font-weight: 700; color: #334155; display: block; margin-bottom: 10px;">Beneficios y Ayudas Sociales Vinculadas:</span>
+        <div class="grid-2">
+          <label style="font-size: 0.80rem; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" checked> Subsidio al Pago de Consumo de Agua Potable (SAP)
+          </label>
+          <label style="font-size: 0.80rem; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" checked> Canasta de Alimentos de Emergencia Municipal
+          </label>
+          <label style="font-size: 0.80rem; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox"> Subsidio Habitacional DS-49 (Asistencia SERVIU)
+          </label>
+          <label style="font-size: 0.80rem; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" checked> Planchas de Zinc para Reparación de Techumbre
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Informe de Visita Domiciliaria del Gestor Social</label>
+        <textarea rows="3" class="form-input" style="font-size: 0.82rem;">Se efectúa visita técnica domiciliaria en conjunto con el Gestor Social territorial. Familia monoparental con dos menores de edad y adulto mayor con movilidad reducida. Se constata filtración grave en techumbre tras lluvias. Se prioriza entrega inmediata de materiales y postulación a subsidio de agua potable.</textarea>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" onclick="Swal.fire('Exportar Ficha', 'Generando documento oficial PDF con sello de agua municipal...', 'info')" class="btn-sgr btn-sgr-outline">
+          Generar Ficha PDF
+        </button>
+        <button type="button" onclick="guardarFichaSocial()" class="btn-sgr btn-sgr-success">
+          Guardar Expediente Social
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MOCKUP 6: METAS SGR Y SEMÁFORO DE CUMPLIMIENTO -->
+  <!-- ========================================================================= -->
+  <div id="flujo-metas" class="canvas-container" style="display: none;">
+    <div class="trazabilidad-box">
+      <span class="step"><span class="callout-badge">RF</span> RF-015 (Monitoreo Ponderado)</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#7c3aed;">CU</span> CU-09 (Metas SGR)</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#059669;">DT</span> Algoritmo Semáforo Ponderado</span>
+      <span class="arrow">➜</span>
+      <span class="step" style="color:var(--rojo-serena); font-weight:700;">Evaluación de Metas Institucionales</span>
+    </div>
+
+    <div class="interactive-guide">
+      <span><strong>Interacción Disponible:</strong> Puedes buscar áreas o delegaciones en tiempo real. En la tabla, pulsa el botón <strong>"+5% Avance"</strong> en cualquier meta para ver cómo la barra progresa y cambia de color (CRÍTICO ➜ ALERTA ➜ ÓPTIMO) recalculando el promedio comunal.</span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <p style="font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px;">MÓDULO RESULTADOS — MONITOREO Y EVALUACIÓN (EP-02, EP-05)</p>
+        <h3 style="font-size: 1.25rem; color: var(--rojo-serena); font-weight: 800;">Semáforo de Cumplimiento de Metas SGR</h3>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button onclick="verInformeEjecutivoMetas()" class="btn-sgr btn-sgr-primary btn-sgr-sm">Informe Ejecutivo Comunal</button>
+        <button onclick="resetearMetasDemo()" class="btn-sgr btn-sgr-outline btn-sgr-sm">↺ Restaurar Valores</button>
+      </div>
+    </div>
+
+    <!-- Resumen de Semáforos -->
+    <div class="grid-4" style="margin-bottom: 20px;">
+      <div style="background: white; border: 1px solid var(--linea); border-left: 4px solid var(--verde); padding: 14px; border-radius: 5px;">
+        <div style="font-size: 0.70rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Promedio Comunal</div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: var(--verde);" id="promedio-comunal-meta">87.5%</div>
+        <div style="font-size: 0.72rem; color: #198754; font-weight: 600;"><span class="semaforo-dot dot-optimo"></span>Rango Óptimo Global</div>
+      </div>
+      <div style="background: white; border: 1px solid var(--linea); border-left: 4px solid #198754; padding: 14px; border-radius: 5px;">
+        <div style="font-size: 0.70rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Metas en Rango Óptimo</div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: #198754;" id="cnt-metas-optimas">4</div>
+        <div style="font-size: 0.72rem; color: var(--muted);">&gt; 80% de cumplimiento</div>
+      </div>
+      <div style="background: white; border: 1px solid var(--linea); border-left: 4px solid #ffc107; padding: 14px; border-radius: 5px;">
+        <div style="font-size: 0.70rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Metas en Alerta</div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: #b45309;" id="cnt-metas-alerta">1</div>
+        <div style="font-size: 0.72rem; color: var(--muted);">Entre 60% y 79%</div>
+      </div>
+      <div style="background: white; border: 1px solid var(--linea); border-left: 4px solid #dc3545; padding: 14px; border-radius: 5px;">
+        <div style="font-size: 0.70rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Metas Críticas</div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: #dc3545;" id="cnt-metas-criticas">1</div>
+        <div style="font-size: 0.72rem; color: var(--muted);">&lt; 60% de cumplimiento</div>
+      </div>
+    </div>
+
+    <!-- Barra de Herramientas de Metas -->
+    <div style="background: #f8fafc; border: 1px solid var(--linea); padding: 10px 14px; border-radius: 6px 6px 0 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <input type="text" id="filtro-metas-input" oninput="filtrarMetas(this.value)" placeholder="Buscar por área o responsable..." class="form-input" style="max-width: 280px; padding: 5px 10px; font-size: 0.80rem;">
+      </div>
+      <span style="font-size: 0.78rem; color: var(--muted);">Indicadores evaluados: <strong>6 unidades comunales</strong></span>
+    </div>
+
+    <!-- Tabla del Semáforo -->
+    <div style="border: 1px solid var(--linea); border-top: none; border-radius: 0 0 6px 6px; overflow-x: auto; background: white;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;">
+        <thead>
+          <tr style="background: #f1f5f9; border-bottom: 2px solid var(--linea); color: #334155;">
+            <th style="padding: 10px 12px; text-align: left;">Área / Unidad Territorial</th>
+            <th style="padding: 10px 12px; text-align: left;">Responsable Oficial</th>
+            <th style="padding: 10px 12px; text-align: left; width: 220px;">Avance Ponderado</th>
+            <th style="padding: 10px 12px; text-align: center; width: 130px;">Semáforo</th>
+            <th style="padding: 10px 12px; text-align: center; width: 150px;">Simulación</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-metas">
+          <!-- Poblado dinamicamente con JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MOCKUP 7: MANTENEDORES CRUD (ADMINISTRACIÓN Y CATÁLOGOS) -->
+  <!-- ========================================================================= -->
+  <div id="flujo-crud" class="canvas-container" style="display: none;">
+    <div class="trazabilidad-box">
+      <span class="step"><span class="callout-badge">RF</span> RF-007 & RF-008</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#7c3aed;">CU</span> CU-03 & CU-10</span>
+      <span class="arrow">➜</span>
+      <span class="step"><span class="callout-badge" style="background:#059669;">DT</span> Mantenedores CRUD + Exportación XLSX</span>
+      <span class="arrow">➜</span>
+      <span class="step" style="color:var(--rojo-serena); font-weight:700;">Administración de Catálogos y Entidades Base</span>
+    </div>
+
+    <div class="interactive-guide">
+      <span><strong>Interacción Disponible:</strong> Cambia de catálogo (Delegaciones, Usuarios RBAC, Roles) usando las pestañas internas. Escribe en el buscador en vivo, pulsa "+ Crear Registro" para simular el alta o "Exportar a Excel" para simular la descarga openpyxl.</span>
+    </div>
+
+    <!-- Pestañas Internas de Mantenedores -->
+    <div style="display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; flex-wrap: wrap;">
+      <button onclick="cambiarCatCRUD('delegaciones')" id="tab-crud-del" class="btn-sgr btn-sgr-sm btn-sgr-primary">
+        Delegaciones Municipales (4)
+      </button>
+      <button onclick="cambiarCatCRUD('usuarios')" id="tab-crud-usr" class="btn-sgr btn-sgr-sm btn-sgr-outline">
+        Usuarios y Grupos RBAC (10)
+      </button>
+      <button onclick="cambiarCatCRUD('roles')" id="tab-crud-rol" class="btn-sgr btn-sgr-sm btn-sgr-outline">
+        Roles y Cargos (6)
+      </button>
+    </div>
+
+    <!-- Barra de Controles CRUD -->
+    <div style="background: #f8fafc; border: 1px solid var(--linea); border-radius: 6px 6px 0 0; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <input type="text" id="input-buscar-crud" oninput="filtrarTablaCRUD(this.value)" placeholder="Buscar en este mantenedor..." class="form-input" style="width: 260px; padding: 6px 12px; font-size: 0.80rem;">
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button onclick="simularExportarExcel()" class="btn-sgr btn-sgr-outline btn-sgr-sm" style="color: #198754; font-weight: 700;">
+          Exportar a Excel (.xlsx)
+        </button>
+        <button onclick="abrirModalCrearCRUD()" class="btn-sgr btn-sgr-primary btn-sgr-sm" id="btn-crear-crud">
+          + Crear Nueva Delegación
+        </button>
+      </div>
+    </div>
+
+    <!-- Contenedor Tabla CRUD -->
+    <div style="border: 1px solid var(--linea); border-top: none; border-radius: 0 0 6px 6px; overflow-x: auto; background: white;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;" id="tabla-crud-main">
+        <thead id="thead-crud">
+          <!-- Encabezados dinamicos segun catalogo -->
+        </thead>
+        <tbody id="tbody-crud">
+          <!-- Filas dinamicas segun catalogo -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: LÓGICA DE INTERACTIVIDAD Y REACTIVIDAD -->
+  <!-- ========================================================================= -->
+  
+    <!-- ========================================================================= -->
+    <!-- MOCKUP 8: BANDEJA Y VALIDACIÓN DE EVIDENCIAS FOTOGRÁFICAS (CU-08) -->
+    <!-- ========================================================================= -->
+    <div id="flujo-evidencias" class="canvas-container" style="display: none;">
+      <div class="trazabilidad-box">
+        <span class="step"><span class="callout-badge">RF</span> RF-017 & RF-018</span>
+        <span class="arrow">➔</span>
+        <span class="step"><span class="callout-badge" style="background:#7c3aed;">CU</span> CU-08</span>
+        <span class="arrow">➔</span>
+        <span class="step"><span class="callout-badge" style="background:#0891b2;">Épica</span> EP-04: Trazabilidad y Evidencia en Terreno</span>
+        <span class="arrow">➔</span>
+        <span class="step" style="font-weight:700; color: var(--rojo-serena);">Endpoint: /actividades/evidencias/</span>
+      </div>
+
+      <!-- Marco de la Aplicación Institucional -->
+      <div class="mock-nav">
+        <div class="mock-nav-left">
+          <div class="mock-nav-logo">SGR</div>
+          <span style="font-size: 0.90rem; font-weight: 700;">BANDEJA DE EVIDENCIAS FOTOGRÁFICAS</span>
+          <span class="badge-tag" style="background: rgba(255,255,255,0.18); font-size: 0.70rem;">Inspección & Validación</span>
+        </div>
+        <div class="mock-nav-right">
+          <span class="badge-tag" style="background: rgba(255,255,255,0.2);">Supervisor: Arthur Curry</span>
+          <button onclick="abrirModalSubirEvidenciaDirecta()" class="btn-sgr btn-sgr-sm" style="background: white; color: var(--rojo-serena); font-weight: 700;">
+            + Subir Evidencia a Gestión
+          </button>
+        </div>
+      </div>
+
+      <div style="background: white; border: 1px solid var(--linea); border-top: none; border-radius: 0 0 8px 8px; padding: 20px;">
+        
+        <!-- Banner Explicativo del Ciclo Dual de Evidencias -->
+        <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px 16px; border-radius: 4px; margin-bottom: 20px; font-size: 0.82rem; color: #1e40af;">
+          <strong>Ciclo de Vida de las Evidencias en SGR:</strong> Las evidencias fotográficas pueden adjuntarse 
+          <strong>al crear la gestión</strong> (foto inicial del requerimiento en <em>Mockup 3</em>) y también 
+          <strong>posteriormente en el seguimiento</strong> (foto de cuadrilla en terreno, reparación final o acta firmada al consultar la gestión). 
+          En esta bandeja, el Supervisor revisa y valida formalmente cada registro.
+        </div>
+
+        <!-- Barra de Métricas y Filtros -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--linea);">
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 0.82rem; font-weight: 700; color: var(--texto);">Filtro por Validación:</span>
+            <button onclick="filtrarEvidencias('todas')" class="btn-sgr btn-sgr-sm btn-sgr-primary" id="btn-filtro-evi-todas">
+              Todas (<span id="cnt-evi-total">4</span>)
+            </button>
+            <button onclick="filtrarEvidencias('Pendiente')" class="btn-sgr btn-sgr-sm btn-sgr-outline" id="btn-filtro-evi-pen" style="color: #d97706; border-color: #f59e0b;">
+              Pendientes (<span id="cnt-evi-pen">2</span>)
+            </button>
+            <button onclick="filtrarEvidencias('Aprobada')" class="btn-sgr btn-sgr-sm btn-sgr-outline" id="btn-filtro-evi-apr" style="color: #16a34a; border-color: #22c55e;">
+              Aprobadas (<span id="cnt-evi-apr">2</span>)
+            </button>
+            <button onclick="filtrarEvidencias('Rechazada')" class="btn-sgr btn-sgr-sm btn-sgr-outline" id="btn-filtro-evi-rec" style="color: #dc2626; border-color: #ef4444;">
+              Rechazadas (<span id="cnt-evi-rec">0</span>)
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="text" id="busq-evidencias" placeholder="Buscar por código EVI, folio GES o responsable..." 
+                   oninput="buscarEvidencias(this.value)"
+                   style="padding: 7px 12px; font-size: 0.80rem; border: 1px solid var(--linea); border-radius: 4px; width: 280px;">
+          </div>
+        </div>
+
+        <!-- Galería de Tarjetas de Evidencias -->
+        <div id="grid-evidencias" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;">
+          <!-- Se renderiza dinámicamente mediante renderGridEvidencias() -->
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+    // -------------------------------------------------------------
+    // Base de datos simulada para dinamismo
+    // -------------------------------------------------------------
+    const gestionesDemo = [
+      { cod: 'GES-00132', vecino: 'Marta Henríquez', del: 'D02', delNom: 'La Antena', tipo: 'Infraestructura', estado: 'Ingresado', resp: 'acuaman' },
+      { cod: 'GES-00133', vecino: 'Carmen Valenzuela', del: 'D01', delNom: 'Las Compañías', tipo: 'Operativo', estado: 'Pendiente', resp: 'acuaman' },
+      { cod: 'SOC-00134', vecino: 'Guillermo Cortés', del: 'D03', delNom: 'Centro Histórico', tipo: 'Social (FIBE)', estado: 'En Proceso', resp: 'flash' },
+      { cod: 'GES-00120', vecino: 'JJVV Centro', del: 'D03', delNom: 'Centro Histórico', tipo: 'Vialidad', estado: 'En Proceso', resp: 'admin' },
+      { cod: 'GES-00115', vecino: 'Carlos Muñoz', del: 'D01', delNom: 'Las Compañías', tipo: 'Aseo y Ornato', estado: 'Realizado', resp: 'flash' }
+    ];
+
+    let metasDemo = [
+      { id: 1, area: 'Delegación Las Compañías [D01]', resp: 'Arthur Curry (Acuaman)', ponderacion: 25, avance: 92, estado: 'optimo' },
+      { id: 2, area: 'Delegación La Antena [D02]', resp: 'Barry Allen (Flash)', ponderacion: 20, avance: 88, estado: 'optimo' },
+      { id: 3, area: 'Delegación Centro Histórico [D03]', resp: 'Emanuel Román (Admin)', ponderacion: 20, avance: 95, estado: 'optimo' },
+      { id: 4, area: 'Delegación Rural [D04]', resp: 'Carol Danvers (Cap. Marvel)', ponderacion: 15, avance: 82, estado: 'optimo' },
+      { id: 5, area: 'Dirección de Operaciones Comunitarias', resp: 'Peter Parker (Spider-Man)', ponderacion: 10, avance: 74, estado: 'alerta' },
+      { id: 6, area: 'Gestión Social y Emergencias FIBE', resp: 'Steve Rogers (Cap. América)', ponderacion: 10, avance: 52, estado: 'critico' }
+    ];
+
+    let catDelegaciones = [
+      { cod: 'D01', nombre: 'Delegación Municipal Las Compañías', dir: 'Esmeralda #2451', comuna: 'La Serena', ambito: 'Sector Norte', resp: 'Arthur Curry (Acuaman)', estado: 'Activa' },
+      { cod: 'D02', nombre: 'Delegación Municipal La Antena', dir: '11 de Septiembre #520', comuna: 'La Serena', ambito: 'Sector Oriente', resp: 'Barry Allen (Flash)', estado: 'Activa' },
+      { cod: 'D03', nombre: 'Delegación Centro y Casco Histórico', dir: 'Los Carrera #301', comuna: 'La Serena', ambito: 'Zona Cívica', resp: 'Emanuel Román', estado: 'Activa' },
+      { cod: 'D04', nombre: 'Delegación Municipal Rural', dir: 'Ruta 41 Km 12', comuna: 'La Serena', ambito: 'Cuenca del Elqui', resp: 'Carol Danvers', estado: 'Activa' }
+    ];
+
+    let catUsuarios = [
+      { user: 'admin', nombre: 'Emanuel Román', email: 'admin@correo.cl', del: '[D03] Centro', grupo: 'Administrador', estado: 'Activo' },
+      { user: 'coordinador', nombre: 'Coordinador General', email: 'coordinador@correo.cl', del: '[D01] Las Compañías', grupo: 'Supervisor', estado: 'Activo' },
+      { user: 'acuaman', nombre: 'Arthur Curry', email: 'acuaman@correo.cl', del: '[D01] Las Compañías', grupo: 'Supervisor', estado: 'Activo' },
+      { user: 'flash', nombre: 'Barry Allen', email: 'flash@correo.cl', del: '[D02] La Antena', grupo: 'Operador', estado: 'Activo' },
+      { user: 'spiderman', nombre: 'Peter Parker', email: 'spiderman@correo.cl', del: '[D01] Las Compañías', grupo: 'Operador', estado: 'Activo' },
+      { user: 'capitanamerica', nombre: 'Steve Rogers', email: 'capitanamerica@correo.cl', del: '[D02] La Antena', grupo: 'Operador', estado: 'Activo' },
+      { user: 'panteranegra', nombre: "T'Challa", email: 'panteranegra@correo.cl', del: '[D03] Centro', grupo: 'Operador', estado: 'Activo' },
+      { user: 'hulk', nombre: 'Bruce Banner', email: 'hulk@correo.cl', del: '[D03] Centro', grupo: 'Operador', estado: 'Activo' }
+    ];
+
+    let catRoles = [
+      { cod: 'ROL-ADM', nombre: 'Administrador General SGR', jerarquia: 'Nivel 1 (Comunal)', total: 1, desc: 'Acceso total y mantenedor' },
+      { cod: 'ROL-COORD', nombre: 'Coordinador Municipal', jerarquia: 'Nivel 2 (Ejecutivo)', total: 1, desc: 'Supervisión y reportes' },
+      { cod: 'ROL-DEL', nombre: 'Delegado Territorial', jerarquia: 'Nivel 2 (Territorial)', total: 2, desc: 'Gestión de delegación' },
+      { cod: 'ROL-GES', nombre: 'Gestor Social y FIBE', jerarquia: 'Nivel 3 (Operativo)', total: 3, desc: 'Fichas sociales y RSH' },
+      { cod: 'ROL-TER', nombre: 'Encargado Territorial', jerarquia: 'Nivel 3 (Operativo)', total: 2, desc: 'Tubo de Trabajo en terreno' },
+      { cod: 'ROL-OPE', nombre: 'Operador Ventanilla', jerarquia: 'Nivel 3 (Operativo)', total: 1, desc: 'Atención vecinal directa' }
+    ];
+
+    let catalogoActual = 'delegaciones';
+
+    // -------------------------------------------------------------
+    // Cambio de Pestañas Global
+    // -------------------------------------------------------------
+    function showTab(tabId) {
+      const tabs = ['flujo-login', 'flujo-dashboard', 'flujo-gestiones', 'flujo-kanban', 'flujo-social', 'flujo-metas', 'flujo-crud', 'flujo-evidencias'];
+      tabs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = (id === tabId) ? 'block' : 'none';
+      });
+      
+      const buttons = document.querySelectorAll('.wire-tab-btn');
+      tabs.forEach((id, index) => {
+        if (buttons[index]) {
+          buttons[index].classList.toggle('active', id === tabId);
+        }
+      });
+
+      if (tabId === 'flujo-metas') renderTablaMetas(metasDemo);
+      if (tabId === 'flujo-crud') cambiarCatCRUD(catalogoActual);
+      if (tabId === 'flujo-evidencias') renderGridEvidencias();
+    }
+
+    // -------------------------------------------------------------
+    // Interacción Mockup 1: Login
+    // -------------------------------------------------------------
+    function autollenarLogin(usuario, pass) {
+      document.getElementById('login-user').value = (usuario === 'admin') ? 'admin' : (usuario + '@correo.cl');
+      document.getElementById('login-pass').value = pass;
+    }
+
+    function simularLogin() {
+      const user = document.getElementById('login-user').value.toLowerCase();
+      if (!user) {
+        Swal.fire('Atención', 'Por favor ingrese su usuario o correo', 'warning');
+        return;
+      }
+
+      let rol = 'ADMINISTRADOR';
+      let nombre = 'Emanuel Román (admin)';
+      let perfilId = 'admin';
+
+      if (user.includes('acuaman')) {
+        rol = 'SUPERVISOR';
+        nombre = 'Arthur Curry (acuaman)';
+        perfilId = 'supervisor';
+      } else if (user.includes('flash')) {
+        rol = 'OPERADOR';
+        nombre = 'Barry Allen (flash)';
+        perfilId = 'operador';
+      }
+
+      Swal.fire({
+        title: '¡Acceso Concedido!',
+        text: `Bienvenido al SGR La Serena como ${nombre} [${rol}].`,
+        icon: 'success',
+        timer: 1600,
+        showConfirmButton: false
+      }).then(() => {
+        cambiarPerfilSimulado(perfilId);
+        showTab('flujo-dashboard');
+      });
+    }
+
+    function mostrarRecuperacion(mostrar) {
+      document.getElementById('login-panel').style.display = mostrar ? 'none' : 'block';
+      document.getElementById('recovery-panel').style.display = mostrar ? 'block' : 'none';
+    }
+
+    function moverPin(actual, siguienteId) {
+      if (actual.value.length >= 1 && siguienteId) {
+        document.getElementById(siguienteId).focus();
+      }
+    }
+
+    function simularValidarPin() {
+      const pin = ['p1','p2','p3','p4','p5','p6'].map(id => document.getElementById(id).value).join('');
+      if (pin.length < 6) {
+        Swal.fire('PIN Incompleto', 'Debe ingresar los 6 dígitos recibidos en su correo.', 'warning');
+        return;
+      }
+      Swal.fire({
+        title: '¡PIN Verificado con Éxito!',
+        text: 'Token HMAC-SHA256 validado. Su nueva contraseña ha sido actualizada.',
+        icon: 'success',
+        confirmButtonColor: '#AD0000'
+      }).then(() => {
+        mostrarRecuperacion(false);
+      });
+    }
+
+    // -------------------------------------------------------------
+    // Interacción Mockup 2: Dashboard Dinámico
+    // -------------------------------------------------------------
+    function renderTablaDash(lista) {
+      const tbody = document.getElementById('tbody-dash');
+      tbody.innerHTML = '';
+      lista.forEach(g => {
+        let badgeColor = '#94a3b8';
+        if (g.estado === 'Ingresado') badgeColor = '#0d6efd';
+        else if (g.estado === 'Pendiente') badgeColor = '#d97706';
+        else if (g.estado === 'En Proceso') badgeColor = '#7c3aed';
+        else if (g.estado === 'Realizado') badgeColor = '#198754';
+
+        tbody.innerHTML += `
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="padding: 8px; font-weight: 700; color: #AD0000;">${g.cod}</td>
+            <td style="padding: 8px;">${g.vecino}</td>
+            <td style="padding: 8px;"><span style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-size: 0.70rem;">[${g.del}] ${g.delNom}</span></td>
+            <td style="padding: 8px;">${g.tipo}</td>
+            <td style="padding: 8px;"><span style="color: white; background: ${badgeColor}; padding: 2px 7px; border-radius: 12px; font-size: 0.70rem; font-weight: 700;">${g.estado}</span></td>
+            <td style="padding: 8px; text-align: center;">
+              <button onclick="verGestionDetalle('${g.cod}')" class="btn-sgr btn-sgr-outline btn-sgr-sm">Ver Ficha</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function cambiarPerfilSimulado(perfil) {
+      const btnAdmin = document.getElementById('btn-perfil-admin');
+      const btnSup = document.getElementById('btn-perfil-sup');
+      const btnOpe = document.getElementById('btn-perfil-ope');
+      const bannerPersonal = document.getElementById('banner-vista-personal');
+      const userDisplay = document.getElementById('user-display-name');
+      const rolDisplay = document.getElementById('user-display-rol');
+      const navMantenedores = document.getElementById('nav-mantenedores');
+
+      btnAdmin.className = 'btn-sgr btn-sgr-sm ' + (perfil === 'admin' ? 'btn-sgr-primary' : 'btn-sgr-outline');
+      btnSup.className = 'btn-sgr btn-sgr-sm ' + (perfil === 'supervisor' ? 'btn-sgr-primary' : 'btn-sgr-outline');
+      btnOpe.className = 'btn-sgr btn-sgr-sm ' + (perfil === 'operador' ? 'btn-sgr-primary' : 'btn-sgr-outline');
+
+      if (perfil === 'admin') {
+        userDisplay.innerText = 'Emanuel Román (admin)';
+        rolDisplay.innerText = 'ADMINISTRADOR';
+        rolDisplay.style.background = '#ffda6a';
+        bannerPersonal.style.display = 'none';
+        navMantenedores.style.display = 'inline-block';
+        document.getElementById('kpi-gestiones').innerText = '24';
+        document.getElementById('kpi-tubo').innerText = '13';
+        renderTablaDash(gestionesDemo);
+      } else if (perfil === 'supervisor') {
+        userDisplay.innerText = 'Arthur Curry (acuaman)';
+        rolDisplay.innerText = 'SUPERVISOR';
+        rolDisplay.style.background = '#bae6fd';
+        bannerPersonal.style.display = 'none';
+        navMantenedores.style.display = 'inline-block';
+        document.getElementById('kpi-gestiones').innerText = '14';
+        document.getElementById('kpi-tubo').innerText = '8';
+        renderTablaDash(gestionesDemo.filter(g => g.del === 'D01' || g.del === 'D02'));
+      } else {
+        userDisplay.innerText = 'Barry Allen (flash)';
+        rolDisplay.innerText = 'OPERADOR';
+        rolDisplay.style.background = '#dcfce7';
+        bannerPersonal.style.display = 'block';
+        navMantenedores.style.display = 'none'; // Restricción RBAC
+        document.getElementById('kpi-gestiones').innerText = '3';
+        document.getElementById('kpi-tubo').innerText = '2';
+        renderTablaDash(gestionesDemo.filter(g => g.resp === 'flash'));
+      }
+    }
+
+    function filtrarDelegacionSimulada(del) {
+      document.getElementById('chip-del-actual').innerText = (del === 'TODAS') ? 'Contexto: [TODAS] Todas las Delegaciones' : `Contexto: [${del}] Delegación Activa`;
+      if (del === 'TODAS') {
+        renderTablaDash(gestionesDemo);
+      } else {
+        renderTablaDash(gestionesDemo.filter(g => g.del === del));
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Interacción Mockup 3: Formulario Gestiones
+    // -------------------------------------------------------------
+    function autollenarRUT() {
+      document.getElementById('rut-input').value = '14.892.301-K';
+      document.getElementById('nombre-input').value = 'Rosa María Castillos';
+      document.getElementById('fono-input').value = '+56 9 9123 4567';
+      document.getElementById('dir-input').value = 'Calle Brasil #450, Centro Histórico';
+      Swal.fire({
+        title: 'Vecino Encontrado (AJAX)',
+        text: 'Datos recuperados desde la base de datos comunal en 18 ms.',
+        icon: 'info',
+        timer: 1200,
+        showConfirmButton: false
+      });
+    }
+
+    function cambiarCascada(tipoId) {
+      const sub = document.getElementById('sub-select');
+      sub.innerHTML = '';
+      if (tipoId === '1') {
+        sub.innerHTML = '<option>Subsidios de Agua Potable y Vivienda (SUB-01)</option><option>Ficha Básica de Emergencia FIBE (SUB-02)</option><option>Canastas y Ayudas de Emergencia (SUB-03)</option>';
+      } else if (tipoId === '2') {
+        sub.innerHTML = '<option>Bacheo y Pavimentación Participativa (SUB-04)</option><option>Reparación de Luminarias Públicas (SUB-05)</option><option>Poda de Árboles en Vía Pública (SUB-06)</option>';
+      } else {
+        sub.innerHTML = '<option>Patrullaje Preventivo Municipal (SUB-07)</option><option>Retiro de Vehículos Abandonados (SUB-08)</option>';
+      }
+    }
+
+    function toggleTuboBox(activado) {
+      document.getElementById('tubo-extra-fields').style.display = activado ? 'block' : 'none';
+      document.getElementById('tubo-folio-preview').style.display = activado ? 'inline-block' : 'none';
+    }
+
+    function guardarGestionSimulada() {
+      const vecino = document.getElementById('nombre-input').value || 'Vecino General';
+      Swal.fire({
+        title: '¡Gestión Registrada Exitosamente!',
+        html: `Se ha generado el folio <strong>GES-00201</strong> y el compromiso <strong>TUB-00201</strong> para <strong>${vecino}</strong>.`,
+        icon: 'success',
+        confirmButtonColor: '#AD0000',
+        confirmButtonText: 'Ver en Tablero Kanban'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          showTab('flujo-kanban');
+        }
+      });
+    }
+
+    // -------------------------------------------------------------
+    // Interacción Mockup 4: Kanban Dinámico
+    // -------------------------------------------------------------
+    function moverTarjeta(cardId, destinoColId) {
+      const card = document.getElementById(cardId);
+      const contenedorDestino = document.getElementById('cards-' + destinoColId);
+      if (!card || !contenedorDestino) return;
+
+      contenedorDestino.appendChild(card);
+
+      const accionesDiv = card.querySelector('div:last-child');
+      if (destinoColId === 'col-2') {
+        accionesDiv.innerHTML = `<button onclick="moverTarjeta('${cardId}', 'col-3')" class="btn-sgr btn-sgr-outline btn-sgr-sm">A Proceso →</button>`;
+        card.style.borderLeftColor = '#d97706';
+      } else if (destinoColId === 'col-3') {
+        accionesDiv.innerHTML = `<button onclick="moverTarjeta('${cardId}', 'col-4')" class="btn-sgr btn-sgr-success btn-sgr-sm">Completar</button>`;
+        card.style.borderLeftColor = '#7c3aed';
+      } else if (destinoColId === 'col-4') {
+        accionesDiv.innerHTML = `<span style="font-size: 0.70rem; color: #198754; font-weight: 700;">Cumplido 100%</span>`;
+        card.style.borderLeftColor = '#198754';
+        card.style.opacity = '0.9';
+        Swal.fire('¡Compromiso Realizado!', 'El estado se actualizó en la base de datos comunal.', 'success');
+      }
+
+      for (let i = 1; i <= 4; i++) {
+        const cntEl = document.getElementById('cnt-' + i);
+        const colCards = document.getElementById('cards-col-' + i).querySelectorAll('.k-card').length;
+        if (cntEl) cntEl.innerText = colCards;
+      }
+    }
+
+    function agregarTarjetaDemo() {
+      const nuevoId = 'card-new-' + Math.floor(Math.random() * 1000);
+      const folioTub = 'TUB-00' + (130 + Math.floor(Math.random() * 50));
+      const folioGes = 'GES-00' + (140 + Math.floor(Math.random() * 50));
+      const html = `
+        <div class="k-card" id="${nuevoId}">
+          <div class="k-card-top">
+            <span class="badge-tub">${folioTub}</span>
+            <span class="badge-ges" onclick="verGestionDetalle('${folioGes}')">[${folioGes}]</span>
+          </div>
+          <div style="font-size: 0.80rem; font-weight: 700; margin-bottom: 4px;">Poda preventiva por tendido eléctrico</div>
+          <div style="font-size: 0.72rem; color: var(--muted); margin-bottom: 8px;">
+            <strong>Vecino:</strong> Junta de Vecinos N° 4<br>
+            <strong>Sector:</strong> La Antena
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 4px;">
+            <button onclick="moverTarjeta('${nuevoId}', 'col-2')" class="btn-sgr btn-sgr-outline btn-sgr-sm">A Pendiente →</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('cards-col-1').insertAdjacentHTML('afterbegin', html);
+      moverTarjeta(nuevoId, 'col-1');
+    }
+
+    // -------------------------------------------------------------
+    // CATÁLOGO DINÁMICO DE EVIDENCIAS FOTOGRÁFICAS (CU-08)
+    // -------------------------------------------------------------
+    let catalogoEvidencias = [
+      {
+        id: 'EVI-20261102-0042',
+        folioGes: 'GES-00120',
+        tipoAdjunto: 'Posterior (Término de Obra)',
+        titulo: 'Bacheo asfáltico finalizado en Calle Brasil',
+        funcionario: 'Barry Allen (flash)',
+        delegacion: '[D03] Centro',
+        fecha: '02/11/2026 16:30',
+        estado: 'Aprobada',
+        observacion: 'Se aplicaron 1.5 m³ de asfalto en frío. Tránsito vehicular completamente normalizado.',
+        icono: '',
+        bg: '#f0fdf4',
+        border: '#22c55e'
+      },
+      {
+        id: 'EVI-20261104-0012',
+        folioGes: 'GES-00132',
+        tipoAdjunto: 'Inicial (Foto al Ingreso)',
+        titulo: 'Reductor de velocidad deteriorado',
+        funcionario: 'Peter Parker (spiderman)',
+        delegacion: '[D02] La Antena',
+        fecha: '04/11/2026 10:15',
+        estado: 'Pendiente',
+        observacion: 'Evidencia fotográfica levantada en terreno durante visita a la JJVV Pasaje Rosas.',
+        icono: '',
+        bg: '#fffbeb',
+        border: '#f59e0b'
+      },
+      {
+        id: 'EVI-20261104-0089',
+        folioGes: 'SOC-00126',
+        tipoAdjunto: 'Posterior (Entrega de Beneficio)',
+        titulo: 'Acta de firma subsidio de agua potable',
+        funcionario: 'Barry Allen (flash)',
+        delegacion: '[D01] Las Compañías',
+        fecha: '04/11/2026 11:45',
+        estado: 'Aprobada',
+        observacion: 'Vecina Carmen Gloria Flores firma comprobante municipal de postulación aprobada.',
+        icono: '',
+        bg: '#f0fdf4',
+        border: '#22c55e'
+      },
+      {
+        id: 'EVI-20261105-0015',
+        folioGes: 'GES-00133',
+        tipoAdjunto: 'Inicial (Denuncia Vecinal)',
+        titulo: 'Escombros acumulados en multicancha',
+        funcionario: 'Arthur Curry (acuaman)',
+        delegacion: '[D01] Las Compañías',
+        fecha: '05/11/2026 09:00',
+        estado: 'Pendiente',
+        observacion: 'Microbasural detectado en borde de plaza comunitaria. Requiere camión tolva.',
+        icono: '',
+        bg: '#fffbeb',
+        border: '#f59e0b'
+      }
+    ];
+
+    let filtroEvidenciaActual = 'todas';
+
+    function actualizarContadoresEvidencias() {
+      const tot = catalogoEvidencias.length;
+      const pen = catalogoEvidencias.filter(e => e.estado === 'Pendiente').length;
+      const apr = catalogoEvidencias.filter(e => e.estado === 'Aprobada').length;
+      const rec = catalogoEvidencias.filter(e => e.estado === 'Rechazada').length;
+
+      const elTot = document.getElementById('cnt-evi-total');
+      const elPen = document.getElementById('cnt-evi-pen');
+      const elApr = document.getElementById('cnt-evi-apr');
+      const elRec = document.getElementById('cnt-evi-rec');
+
+      if (elTot) elTot.innerText = tot;
+      if (elPen) elPen.innerText = pen;
+      if (elApr) elApr.innerText = apr;
+      if (elRec) elRec.innerText = rec;
+    }
+
+    function renderGridEvidencias(lista) {
+      const data = lista || ((filtroEvidenciaActual === 'todas') 
+        ? catalogoEvidencias 
+        : catalogoEvidencias.filter(e => e.estado === filtroEvidenciaActual));
+
+      actualizarContadoresEvidencias();
+
+      const grid = document.getElementById('grid-evidencias');
+      if (!grid) return;
+
+      if (data.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted); font-size: 0.90rem;">No se encontraron evidencias para el filtro seleccionado.</div>';
+        return;
+      }
+
+      let html = '';
+      data.forEach(e => {
+        let badgeColor = '#d97706';
+        let badgeBg = '#fef3c7';
+        if (e.estado === 'Aprobada') {
+          badgeColor = '#16a34a';
+          badgeBg = '#dcfce7';
+        } else if (e.estado === 'Rechazada') {
+          badgeColor = '#dc2626';
+          badgeBg = '#fee2e2';
+        }
+
+        html += `
+          <div style="background: white; border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04); display: flex; flex-direction: column;">
+            <!-- Cabecera de la tarjeta fotográfica -->
+            <div style="background: #f8fafc; padding: 10px 14px; border-bottom: 1px solid var(--linea); display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="font-family: monospace; font-weight: 700; font-size: 0.84rem; color: var(--rojo-serena);">${e.id}</span>
+                <span style="font-size: 0.70rem; color: var(--muted); margin-left: 6px;">(${e.tipoAdjunto})</span>
+              </div>
+              <span style="background: ${badgeBg}; color: ${badgeColor}; font-size: 0.70rem; font-weight: 700; padding: 2px 8px; border-radius: 10px;">
+                ${e.estado}
+              </span>
+            </div>
+
+            <!-- Preview fotográfica realista simulada -->
+            <div style="height: 120px; background: ${e.bg}; border-bottom: 1px solid var(--linea); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+              <span style="font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; color: #475569; background: white; border: 1px solid var(--linea); padding: 4px 12px; border-radius: 4px;">REGISTRO FOTOGRÁFICO DE TERRENO</span>
+              <span style="font-size: 0.74rem; font-weight: 700; color: var(--texto); margin-top: 4px;">${e.titulo}</span>
+              <span style="position: absolute; bottom: 6px; right: 8px; font-size: 0.68rem; background: rgba(0,0,0,0.6); color: white; padding: 2px 6px; border-radius: 4px; font-family: monospace;">
+                Geo: -29.9027, -71.2520
+              </span>
+            </div>
+
+            <!-- Cuerpo con metadatos de trazabilidad -->
+            <div style="padding: 12px 14px; flex-grow: 1; font-size: 0.76rem; color: var(--texto);">
+              <div style="margin-bottom: 6px;">
+                <strong>Gestión Enlazada:</strong> 
+                <a href="javascript:void(0)" onclick="verGestionDetalle('${e.folioGes}')" style="color: var(--azul); font-weight: 700; text-decoration: underline;">
+                  [${e.folioGes}]
+                </a>
+              </div>
+              <div style="margin-bottom: 4px; color: var(--muted);">
+                <strong>Funcionario:</strong> ${e.funcionario} · ${e.delegacion}
+              </div>
+              <div style="margin-bottom: 8px; color: var(--muted);">
+                <strong>Fecha Carga:</strong> ${e.fecha}
+              </div>
+              <div style="background: #f8fafc; padding: 8px; border-radius: 4px; border: 1px dashed var(--linea); font-style: italic; color: #475569;">
+                "${e.observacion}"
+              </div>
+            </div>
+
+            <!-- Barra de acciones de supervisión (CU-08) -->
+            <div style="padding: 10px 14px; background: #fafafa; border-top: 1px solid var(--linea); display: flex; justify-content: space-between; align-items: center; gap: 6px;">
+              <button onclick="verGestionDetalle('${e.folioGes}')" class="btn-sgr btn-sgr-outline btn-sgr-sm" style="font-size: 0.72rem;">
+                Ver Gestión
+              </button>
+              <div style="display: flex; gap: 4px;">
+                <button onclick="cambiarEstadoEvidencia('${e.id}', 'Aprobada')" class="btn-sgr btn-sgr-success btn-sgr-sm" style="font-size: 0.72rem; padding: 4px 8px;">
+                  Aprobar
+                </button>
+                <button onclick="cambiarEstadoEvidencia('${e.id}', 'Rechazada')" class="btn-sgr btn-sgr-outline btn-sgr-sm" style="font-size: 0.72rem; padding: 4px 8px; color: #dc2626; border-color: #dc2626;">
+                  Rechazar
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      grid.innerHTML = html;
+    }
+
+    function filtrarEvidencias(estado) {
+      filtroEvidenciaActual = estado;
+      const ids = ['btn-filtro-evi-todas', 'btn-filtro-evi-pen', 'btn-filtro-evi-apr', 'btn-filtro-evi-rec'];
+      ids.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.className = 'btn-sgr btn-sgr-sm btn-sgr-outline';
+      });
+
+      if (estado === 'todas') document.getElementById('btn-filtro-evi-todas').className = 'btn-sgr btn-sgr-sm btn-sgr-primary';
+      if (estado === 'Pendiente') document.getElementById('btn-filtro-evi-pen').className = 'btn-sgr btn-sgr-sm btn-sgr-primary';
+      if (estado === 'Aprobada') document.getElementById('btn-filtro-evi-apr').className = 'btn-sgr btn-sgr-sm btn-sgr-primary';
+      if (estado === 'Rechazada') document.getElementById('btn-filtro-evi-rec').className = 'btn-sgr btn-sgr-sm btn-sgr-primary';
+
+      renderGridEvidencias();
+    }
+
+    function buscarEvidencias(q) {
+      const query = q.toLowerCase().trim();
+      if (!query) {
+        renderGridEvidencias();
+        return;
+      }
+      const filtradas = catalogoEvidencias.filter(e => 
+        e.id.toLowerCase().includes(query) ||
+        e.folioGes.toLowerCase().includes(query) ||
+        e.funcionario.toLowerCase().includes(query) ||
+        e.titulo.toLowerCase().includes(query) ||
+        e.observacion.toLowerCase().includes(query)
+      );
+      renderGridEvidencias(filtradas);
+    }
+
+    function cambiarEstadoEvidencia(idEvidencia, nuevoEstado) {
+      const evi = catalogoEvidencias.find(e => e.id === idEvidencia);
+      if (!evi) return;
+
+      if (nuevoEstado === 'Aprobada') {
+        evi.estado = 'Aprobada';
+        renderGridEvidencias();
+        Swal.fire({
+          title: '¡Evidencia Validada y Aprobada!',
+          html: `La evidencia <strong>${idEvidencia}</strong> asociada a la gestión <strong>${evi.folioGes}</strong> ha sido verificada conforme a los estándares municipales.`,
+          icon: 'success',
+          confirmButtonColor: '#16a34a'
+        });
+      } else {
+        Swal.fire({
+          title: `Rechazar Evidencia ${idEvidencia}`,
+          input: 'textarea',
+          inputLabel: 'Motivo del rechazo o corrección requerida:',
+          inputPlaceholder: 'Ej: La fotografía no muestra con claridad la reparación o falta acta firmada...',
+          showCancelButton: true,
+          confirmButtonText: 'Confirmar Rechazo',
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#dc2626',
+          preConfirm: (motivo) => {
+            if (!motivo) {
+              Swal.showValidationMessage('Debe especificar un motivo de rechazo');
+            }
+            return motivo;
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            evi.estado = 'Rechazada';
+            evi.observacion += ` [RECHAZADA: ${result.value}]`;
+            renderGridEvidencias();
+            Swal.fire('Evidencia Rechazada', 'Se ha notificado al funcionario para solicitar nueva captura.', 'info');
+          }
+        });
+      }
+    }
+
+    // -------------------------------------------------------------
+    // MODAL DETALLE DE GESTIÓN Y ADJUNTAR EVIDENCIA POSTERIOR (CU-08)
+    // -------------------------------------------------------------
+    function verGestionDetalle(folio) {
+      // Buscar si tenemos datos de la gestión o usar valores coherentes
+      const gDemo = gestionesDemo.find(g => g.cod === folio);
+      const vecinoNom = gDemo ? gDemo.vecino : 'Vecino Registrado Comuna de La Serena';
+      const delNom = gDemo ? `${gDemo.del} · ${gDemo.delNom}` : '[D02] La Antena';
+      const tipoGes = gDemo ? gDemo.tipo : 'Operativo / Infraestructura Comunal';
+      const estadoGes = gDemo ? gDemo.estado : 'En Proceso';
+
+      // Evidencias vinculadas a esta gestión
+      const evidenciasVinculadas = catalogoEvidencias.filter(e => e.folioGes === folio);
+      let evidenciasHtml = '';
+
+      if (evidenciasVinculadas.length === 0) {
+        evidenciasHtml = `
+          <div style="background: #f8fafc; border: 1px dashed var(--linea); border-radius: 6px; padding: 12px; text-align: center; color: var(--muted); font-size: 0.80rem;">
+            Esta gestión no cuenta con evidencias fotográficas adjuntas aún.
+          </div>
+        `;
+      } else {
+        evidenciasHtml = '<div style="display: flex; flex-direction: column; gap: 8px;">';
+        evidenciasVinculadas.forEach(ev => {
+          let badgeColor = (ev.estado === 'Aprobada') ? '#16a34a' : ((ev.estado === 'Pendiente') ? '#d97706' : '#dc2626');
+          evidenciasHtml += `
+            <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid var(--linea); border-radius: 6px; padding: 8px 12px;">
+              <div>
+                <span style="font-family: monospace; font-weight: 700; color: var(--rojo-serena); font-size: 0.82rem;">${ev.id}</span>
+                <span style="font-size: 0.72rem; color: var(--muted); margin-left: 6px;">(${ev.tipoAdjunto})</span>
+                <div style="font-size: 0.74rem; font-weight: 600; color: var(--texto);">${ev.titulo}</div>
+              </div>
+              <span style="font-size: 0.70rem; font-weight: 700; color: ${badgeColor}; background: white; border: 1px solid ${badgeColor}; padding: 2px 8px; border-radius: 10px;">
+                ${ev.estado}
+              </span>
+            </div>
+          `;
+        });
+        evidenciasHtml += '</div>';
+      }
+
+      Swal.fire({
+        title: `Ficha de Gestión [${folio}]`,
+        html: `
+          <div style="text-align: left; font-size: 0.82rem; color: var(--texto); line-height: 1.5;">
+            <div style="background: #f1f5f9; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="font-weight: 700; color: #1e293b;">Delegación:</span> ${delNom}<br>
+                <span style="font-weight: 700; color: #1e293b;">Clasificación:</span> ${tipoGes}
+              </div>
+              <span style="background: #AD0000; color: white; padding: 3px 9px; border-radius: 12px; font-weight: 700; font-size: 0.72rem;">
+                ${estadoGes}
+              </span>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+              <strong>Solicitante:</strong> ${vecinoNom}<br>
+              <strong>Territorio:</strong> Comuna de La Serena · Zona Urbana
+            </div>
+
+            <div style="margin-top: 14px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; font-size: 0.84rem; color: var(--rojo-serena);">
+                Evidencias Fotográficas Vinculadas (CU-08)
+              </span>
+              <button type="button" onclick="adjuntarEvidenciaPosterior('${folio}')" class="btn-sgr btn-sgr-sm btn-sgr-outline" style="font-size: 0.72rem; color: var(--rojo-serena); border-color: var(--rojo-serena);">
+                + Adjuntar Foto Posterior
+              </button>
+            </div>
+            ${evidenciasHtml}
+          </div>
+        `,
+        width: '580px',
+        showCancelButton: true,
+        cancelButtonText: 'Cerrar Ficha',
+        confirmButtonText: '+ Subir Nueva Evidencia a esta Gestión',
+        confirmButtonColor: '#AD0000'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          adjuntarEvidenciaPosterior(folio);
+        }
+      });
+    }
+
+    function adjuntarEvidenciaPosterior(folio) {
+      const hoy = new Date();
+      const anio = hoy.getFullYear();
+      const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+      const dia = String(hoy.getDate()).padStart(2, '0');
+      const correlativo = String(Math.floor(Math.random() * 900) + 100);
+      const codigoNuevo = `EVI-${anio}${mes}${dia}-${correlativo}`;
+
+      Swal.fire({
+        title: `Adjuntar Evidencia Posterior a [${folio}]`,
+        html: `
+          <div style="text-align: left; font-size: 0.82rem;">
+            <p style="color: var(--muted); margin-bottom: 12px;">
+              Este formulario simula el endpoint <code>/actividades/&lt;id&gt;/subir-evidencia/</code> utilizado por cuadrillas en terreno para cargar fotografías de avance o conclusión.
+            </p>
+
+            <label style="display:block; font-weight:700; margin-bottom:4px;">Código de Evidencia Asignado</label>
+            <input type="text" id="evi-post-cod" class="swal2-input" value="${codigoNuevo}" readonly style="background:#f1f5f9; font-family:monospace; margin-bottom:12px; width:92%;">
+
+            <label style="display:block; font-weight:700; margin-bottom:4px;">Momento / Etapa del Registro</label>
+            <select id="evi-post-etapa" class="swal2-input" style="margin-bottom:12px; width:92%;">
+              <option value="Posterior (Avance en Terreno)">Posterior: Foto de Avance en Terreno</option>
+              <option value="Posterior (Término de Obra)">Posterior: Obra o Reparación Terminada</option>
+              <option value="Posterior (Acta Firmada)">Posterior: Acta Firmada por el Vecino</option>
+            </select>
+
+            <label style="display:block; font-weight:700; margin-bottom:4px;">Título o Resumen de la Foto</label>
+            <input type="text" id="evi-post-titulo" class="swal2-input" placeholder="Ej: Sellado de grietas y limpieza" style="margin-bottom:12px; width:92%;">
+
+            <label style="display:block; font-weight:700; margin-bottom:4px;">Observación Técnica de Terreno</label>
+            <textarea id="evi-post-obs" class="swal2-textarea" placeholder="Describa el trabajo realizado, materiales aplicados o funcionario a cargo..." style="width:92%; height:80px;"></textarea>
+          </div>
+        `,
+        width: '560px',
+        showCancelButton: true,
+        confirmButtonText: 'Guardar y Vincular Evidencia',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#AD0000',
+        preConfirm: () => {
+          const tit = document.getElementById('evi-post-titulo').value.trim();
+          const obs = document.getElementById('evi-post-obs').value.trim();
+          const etapa = document.getElementById('evi-post-etapa').value;
+          if (!tit) {
+            Swal.showValidationMessage('Debe ingresar un título para la evidencia');
+            return false;
+          }
+          return { tit, obs, etapa, cod: codigoNuevo };
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const nuevaEvi = {
+            id: result.value.cod,
+            folioGes: folio,
+            tipoAdjunto: result.value.etapa,
+            titulo: result.value.tit,
+            funcionario: 'Arthur Curry (Supervisor)',
+            delegacion: 'Municipalidad de La Serena',
+            fecha: `${dia}/${mes}/${anio} 17:00`,
+            estado: 'Pendiente',
+            observacion: result.value.obs || 'Evidencia fotográfica levantada en terreno e incorporada al expediente digital.',
+            icono: '',
+            bg: '#fffbeb',
+            border: '#f59e0b'
+          };
+
+          catalogoEvidencias.unshift(nuevaEvi);
+          actualizarContadoresEvidencias();
+
+          Swal.fire({
+            title: '¡Evidencia Posterior Guardada!',
+            html: `Se registró exitosamente el código <strong>${result.value.cod}</strong> vinculado a la gestión <strong>${folio}</strong>.<br><br>Ya está disponible en la <strong>Bandeja de Evidencias (Mockup 8)</strong> para revisión del supervisor.`,
+            icon: 'success',
+            confirmButtonColor: '#16a34a'
+          }).then(() => {
+            // Si estamos en la pestaña de evidencias, refrescarla
+            const grid = document.getElementById('grid-evidencias');
+            if (grid) renderGridEvidencias();
+          });
+        }
+      });
+    }
+
+    function abrirModalSubirEvidenciaDirecta() {
+      Swal.fire({
+        title: 'Cargar Evidencia a Gestión Existente',
+        html: `
+          <div style="text-align: left; font-size: 0.82rem;">
+            <label style="display:block; font-weight:700; margin-bottom:4px;">Seleccione o Ingrese Folio de Gestión</label>
+            <select id="swal-direct-folio" class="swal2-input" style="width:92%; margin-bottom:12px;">
+              <option value="GES-00132">[GES-00132] Instalación de reductores en Pasaje Rosas</option>
+              <option value="GES-00133">[GES-00133] Retiro de escombros en multicancha</option>
+              <option value="SOC-00134">[SOC-00134] Reparación techumbre adulto mayor</option>
+              <option value="GES-00120">[GES-00120] Bacheo y pavimentación calle Brasil</option>
+              <option value="SOC-00126">[SOC-00126] Subsidio de agua potable</option>
+            </select>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Continuar a Formulario de Carga →',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#AD0000'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const selFolio = document.getElementById('swal-direct-folio').value;
+          adjuntarEvidenciaPosterior(selFolio);
+        }
+      });
+    }
+
+    function verEvidenciaDemo() {
+      Swal.fire({
+        title: 'Evidencia Fotográfica Verificada',
+        text: 'Código: EVI-20261102-0042. Georreferenciada en La Serena. Archivo procesado con Pillow.',
+        icon: 'success',
+        confirmButtonColor: '#AD0000'
+      });
+    }
+
+    // -------------------------------------------------------------
+    // Interacción Mockup 5: Ficha Social
+    // -------------------------------------------------------------
+    function cambiarRSH(val) {
+      const tag = document.getElementById('tag-vulnerabilidad');
+      if (val === '40') {
+        tag.style.background = '#fee2e2';
+        tag.style.color = '#991b1b';
+        tag.innerText = 'RSH: Tramo 40% (Alta Vulnerabilidad)';
+      } else if (val === '60') {
+        tag.style.background = '#fef3c7';
+        tag.style.color = '#92400e';
+        tag.innerText = 'RSH: Tramo 60% (Vulnerabilidad Media)';
+      } else {
+        tag.style.background = '#e0f2fe';
+        tag.style.color = '#0369a1';
+        tag.innerText = 'RSH: Tramo 80% (Sin Subsidio Directo)';
+      }
+    }
+
+    function guardarFichaSocial() {
+      Swal.fire({
+        title: '¡Expediente Guardado!',
+        text: 'Los datos sensibles han sido protegidos bajo el marco de la Ley N° 19.628 de Protección de Datos Personales.',
+        icon: 'success',
+        confirmButtonColor: '#198754'
+      });
+    }
+
+    // -------------------------------------------------------------
+    // Interacción Mockup 6: Metas SGR y Semáforo Dinámico
+    // -------------------------------------------------------------
+    function renderTablaMetas(lista) {
+      const tbody = document.getElementById('tbody-metas');
+      tbody.innerHTML = '';
+      let sumPond = 0;
+      let cntOpt = 0, cntAle = 0, cntCrit = 0;
+
+      lista.forEach(m => {
+        let dotClass = 'dot-optimo';
+        let badgeClass = 'badge-optimo';
+        let txtEstado = 'ÓPTIMO';
+        let barColor = '#198754';
+
+        if (m.avance < 60) {
+          dotClass = 'dot-critico';
+          badgeClass = 'badge-critico';
+          txtEstado = 'CRÍTICO';
+          barColor = '#dc3545';
+          cntCrit++;
+        } else if (m.avance < 80) {
+          dotClass = 'dot-alerta';
+          badgeClass = 'badge-alerta';
+          txtEstado = 'ALERTA';
+          barColor = '#ffc107';
+          cntAle++;
+        } else {
+          cntOpt++;
+        }
+
+        sumPond += (m.avance * (m.ponderacion / 100));
+
+        tbody.innerHTML += `
+          <tr style="border-bottom: 1px solid var(--linea);">
+            <td style="padding: 10px 12px; font-weight: 700; color: #1e293b;">
+              ${m.area}
+              <div style="font-size: 0.70rem; color: var(--muted); font-weight: normal;">Ponderación Institucional: ${m.ponderacion}%</div>
+            </td>
+            <td style="padding: 10px 12px; color: #475569;">${m.resp}</td>
+            <td style="padding: 10px 12px;">
+              <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 0.78rem;">
+                <span id="txt-avance-${m.id}">${m.avance}%</span>
+                <span style="color: var(--muted); font-size: 0.70rem;">Meta: 100%</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="bar-${m.id}" style="width: ${m.avance}%; background: ${barColor};"></div>
+              </div>
+            </td>
+            <td style="padding: 10px 12px; text-align: center;">
+              <span class="badge-estado-sgr ${badgeClass}" id="badge-${m.id}">
+                <span class="semaforo-dot ${dotClass}" id="dot-${m.id}"></span>${txtEstado}
+              </span>
+            </td>
+            <td style="padding: 10px 12px; text-align: center;">
+              <button onclick="simularAvanceMeta(${m.id})" class="btn-sgr btn-sgr-outline btn-sgr-sm" style="color: var(--azul);">
+                +5% Avance
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      document.getElementById('promedio-comunal-meta').innerText = sumPond.toFixed(1) + '%';
+      document.getElementById('cnt-metas-optimas').innerText = cntOpt;
+      document.getElementById('cnt-metas-alerta').innerText = cntAle;
+      document.getElementById('cnt-metas-criticas').innerText = cntCrit;
+    }
+
+    function simularAvanceMeta(id) {
+      const meta = metasDemo.find(m => m.id === id);
+      if (!meta) return;
+
+      if (meta.avance < 100) {
+        meta.avance = Math.min(100, meta.avance + 5);
+      } else {
+        Swal.fire('Meta Cumplida', 'Esta unidad ya alcanzó el 100% del cumplimiento anual.', 'info');
+        return;
+      }
+
+      renderTablaMetas(metasDemo);
+
+      if (meta.avance >= 80 && meta.estado !== 'optimo') {
+        meta.estado = 'optimo';
+        Swal.fire({
+          title: '¡Semáforo Subió a Rango ÓPTIMO!',
+          text: `La unidad ${meta.area} superó el 80% de cumplimiento ponderado.`,
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      }
+    }
+
+    function filtrarMetas(query) {
+      const q = query.toLowerCase();
+      const filtradas = metasDemo.filter(m => m.area.toLowerCase().includes(q) || m.resp.toLowerCase().includes(q));
+      renderTablaMetas(filtradas);
+    }
+
+    function resetearMetasDemo() {
+      metasDemo = [
+        { id: 1, area: 'Delegación Las Compañías [D01]', resp: 'Arthur Curry (Acuaman)', ponderacion: 25, avance: 92, estado: 'optimo' },
+        { id: 2, area: 'Delegación La Antena [D02]', resp: 'Barry Allen (Flash)', ponderacion: 20, avance: 88, estado: 'optimo' },
+        { id: 3, area: 'Delegación Centro Histórico [D03]', resp: 'Emanuel Román (Admin)', ponderacion: 20, avance: 95, estado: 'optimo' },
+        { id: 4, area: 'Delegación Rural [D04]', resp: 'Carol Danvers (Cap. Marvel)', ponderacion: 15, avance: 82, estado: 'optimo' },
+        { id: 5, area: 'Dirección de Operaciones Comunitarias', resp: 'Peter Parker (Spider-Man)', ponderacion: 10, avance: 74, estado: 'alerta' },
+        { id: 6, area: 'Gestión Social y Emergencias FIBE', resp: 'Steve Rogers (Cap. América)', ponderacion: 10, avance: 52, estado: 'critico' }
+      ];
+      renderTablaMetas(metasDemo);
+      Swal.fire('Valores Restaurados', 'Los indicadores han vuelto a su línea base comunal.', 'success');
+    }
+
+    function verInformeEjecutivoMetas() {
+      Swal.fire({
+        title: 'Informe Ejecutivo de Cumplimiento SGR',
+        html: `
+          <div style="text-align: left; font-size: 0.85rem; line-height: 1.6;">
+            <strong>Comuna:</strong> Ilustre Municipalidad de La Serena<br/>
+            <strong>Eficacia Global Ponderada:</strong> 87.5% (Óptimo)<br/>
+            <strong>Unidades Evaluadas:</strong> 6 unidades territoriales<br/>
+            <strong>Observación Técnica:</strong> Se destaca alto desempeño en Delegaciones Centro (95%) y Las Compañías (92%). El área de Emergencias Sociales requiere priorización de cuadrillas.
+          </div>
+        `,
+        icon: 'info',
+        confirmButtonColor: '#AD0000'
+      });
+    }
+
+    // -------------------------------------------------------------
+    // Interacción Mockup 7: Mantenedores CRUD
+    // -------------------------------------------------------------
+    function cambiarCatCRUD(cat) {
+      catalogoActual = cat;
+      const tabDel = document.getElementById('tab-crud-del');
+      const tabUsr = document.getElementById('tab-crud-usr');
+      const tabRol = document.getElementById('tab-crud-rol');
+      const btnCrear = document.getElementById('btn-crear-crud');
+
+      tabDel.className = 'btn-sgr btn-sgr-sm ' + (cat === 'delegaciones' ? 'btn-sgr-primary' : 'btn-sgr-outline');
+      tabUsr.className = 'btn-sgr btn-sgr-sm ' + (cat === 'usuarios' ? 'btn-sgr-primary' : 'btn-sgr-outline');
+      tabRol.className = 'btn-sgr btn-sgr-sm ' + (cat === 'roles' ? 'btn-sgr-primary' : 'btn-sgr-outline');
+
+      const thead = document.getElementById('thead-crud');
+      const tbody = document.getElementById('tbody-crud');
+
+      if (cat === 'delegaciones') {
+        btnCrear.innerText = '+ Crear Nueva Delegación';
+        thead.innerHTML = `
+          <tr style="background: #f1f5f9; border-bottom: 2px solid var(--linea); color: #334155;">
+            <th style="padding: 10px 12px; text-align: left;">Código</th>
+            <th style="padding: 10px 12px; text-align: left;">Nombre de la Delegación</th>
+            <th style="padding: 10px 12px; text-align: left;">Dirección</th>
+            <th style="padding: 10px 12px; text-align: left;">Ámbito Territorial</th>
+            <th style="padding: 10px 12px; text-align: left;">Responsable</th>
+            <th style="padding: 10px 12px; text-align: center;">Estado</th>
+            <th style="padding: 10px 12px; text-align: center;">Acciones</th>
+          </tr>
+        `;
+        renderFilasCRUD(catDelegaciones, 'delegaciones');
+      } else if (cat === 'usuarios') {
+        btnCrear.innerText = '+ Crear Nuevo Usuario';
+        thead.innerHTML = `
+          <tr style="background: #f1f5f9; border-bottom: 2px solid var(--linea); color: #334155;">
+            <th style="padding: 10px 12px; text-align: left;">Usuario</th>
+            <th style="padding: 10px 12px; text-align: left;">Nombre y Apellido</th>
+            <th style="padding: 10px 12px; text-align: left;">Correo Institucional</th>
+            <th style="padding: 10px 12px; text-align: left;">Delegación Asignada</th>
+            <th style="padding: 10px 12px; text-align: left;">Grupo RBAC</th>
+            <th style="padding: 10px 12px; text-align: center;">Estado</th>
+            <th style="padding: 10px 12px; text-align: center;">Acciones</th>
+          </tr>
+        `;
+        renderFilasCRUD(catUsuarios, 'usuarios');
+      } else {
+        btnCrear.innerText = '+ Crear Nuevo Rol';
+        thead.innerHTML = `
+          <tr style="background: #f1f5f9; border-bottom: 2px solid var(--linea); color: #334155;">
+            <th style="padding: 10px 12px; text-align: left;">Código Rol</th>
+            <th style="padding: 10px 12px; text-align: left;">Nombre del Rol / Cargo</th>
+            <th style="padding: 10px 12px; text-align: left;">Jerarquía Oficial</th>
+            <th style="padding: 10px 12px; text-align: left;">Descripción de Funciones</th>
+            <th style="padding: 10px 12px; text-align: center;">Usuarios con el Rol</th>
+            <th style="padding: 10px 12px; text-align: center;">Acciones</th>
+          </tr>
+        `;
+        renderFilasCRUD(catRoles, 'roles');
+      }
+    }
+
+    function renderFilasCRUD(lista, tipo) {
+      const tbody = document.getElementById('tbody-crud');
+      tbody.innerHTML = '';
+
+      if (lista.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="padding: 18px; text-align: center; color: var(--muted);">No se encontraron registros coincidentes.</td></tr>`;
+        return;
+      }
+
+      if (tipo === 'delegaciones') {
+        lista.forEach(d => {
+          tbody.innerHTML += `
+            <tr style="border-bottom: 1px solid var(--linea);">
+              <td style="padding: 9px 12px; font-weight: 700; color: #AD0000;">${d.cod}</td>
+              <td style="padding: 9px 12px; font-weight: 600;">${d.nombre}</td>
+              <td style="padding: 9px 12px; color: #475569;">${d.dir}</td>
+              <td style="padding: 9px 12px;">${d.ambito}</td>
+              <td style="padding: 9px 12px;">${d.resp}</td>
+              <td style="padding: 9px 12px; text-align: center;">
+                <span class="badge-sgr" style="background: #dcfce7; color: #166534; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 0.70rem;">${d.estado}</span>
+              </td>
+              <td style="padding: 9px 12px; text-align: center;">
+                <button onclick="editarRegistroCRUD('${d.cod}', '${d.nombre}')" class="btn-sgr btn-sgr-outline btn-sgr-sm">Editar</button>
+              </td>
+            </tr>
+          `;
+        });
+      } else if (tipo === 'usuarios') {
+        lista.forEach(u => {
+          let grpColor = '#fee2e2; color: #991b1b;';
+          if (u.grupo === 'Supervisor') grpColor = '#fef3c7; color: #92400e;';
+          if (u.grupo === 'Operador') grpColor = '#e0f2fe; color: #0369a1;';
+
+          tbody.innerHTML += `
+            <tr style="border-bottom: 1px solid var(--linea);">
+              <td style="padding: 9px 12px; font-weight: 700; color: #AD0000;">${u.user}</td>
+              <td style="padding: 9px 12px; font-weight: 600;">${u.nombre}</td>
+              <td style="padding: 9px 12px; color: #475569;">${u.email}</td>
+              <td style="padding: 9px 12px;">${u.del}</td>
+              <td style="padding: 9px 12px;">
+                <span class="badge-sgr" style="background: ${grpColor}; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 0.70rem;">${u.grupo}</span>
+              </td>
+              <td style="padding: 9px 12px; text-align: center;">
+                <span class="badge-sgr" style="background: #dcfce7; color: #166534; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 0.70rem;">${u.estado}</span>
+              </td>
+              <td style="padding: 9px 12px; text-align: center;">
+                <button onclick="editarRegistroCRUD('${u.user}', '${u.nombre}')" class="btn-sgr btn-sgr-outline btn-sgr-sm">Permisos</button>
+              </td>
+            </tr>
+          `;
+        });
+      } else {
+        lista.forEach(r => {
+          tbody.innerHTML += `
+            <tr style="border-bottom: 1px solid var(--linea);">
+              <td style="padding: 9px 12px; font-weight: 700; color: #AD0000;">${r.cod}</td>
+              <td style="padding: 9px 12px; font-weight: 600;">${r.nombre}</td>
+              <td style="padding: 9px 12px; color: #475569;">${r.jerarquia}</td>
+              <td style="padding: 9px 12px;">${r.desc}</td>
+              <td style="padding: 9px 12px; text-align: center; font-weight: 700;">${r.total}</td>
+              <td style="padding: 9px 12px; text-align: center;">
+                <button onclick="editarRegistroCRUD('${r.cod}', '${r.nombre}')" class="btn-sgr btn-sgr-outline btn-sgr-sm">Editar</button>
+              </td>
+            </tr>
+          `;
+        });
+      }
+    }
+
+    function filtrarTablaCRUD(query) {
+      const q = query.toLowerCase();
+      if (catalogoActual === 'delegaciones') {
+        const filtradas = catDelegaciones.filter(d => d.nombre.toLowerCase().includes(q) || d.cod.toLowerCase().includes(q) || d.resp.toLowerCase().includes(q));
+        renderFilasCRUD(filtradas, 'delegaciones');
+      } else if (catalogoActual === 'usuarios') {
+        const filtradas = catUsuarios.filter(u => u.nombre.toLowerCase().includes(q) || u.user.toLowerCase().includes(q) || u.email.toLowerCase().includes(q));
+        renderFilasCRUD(filtradas, 'usuarios');
+      } else {
+        const filtradas = catRoles.filter(r => r.nombre.toLowerCase().includes(q) || r.cod.toLowerCase().includes(q));
+        renderFilasCRUD(filtradas, 'roles');
+      }
+    }
+
+    function simularExportarExcel() {
+      Swal.fire({
+        title: '¡Planilla Excel Generada!',
+        html: `Se ha descargado el archivo <strong>catalogo_${catalogoActual}_la_serena.xlsx</strong> procesado mediante la biblioteca openpyxl.`,
+        icon: 'success',
+        confirmButtonColor: '#198754'
+      });
+    }
+
+    function abrirModalCrearCRUD() {
+      const nom = (catalogoActual === 'delegaciones') ? 'Delegación' : ((catalogoActual === 'usuarios') ? 'Usuario' : 'Rol');
+      Swal.fire({
+        title: `Crear Nuevo Registro en ${nom}`,
+        html: `
+          <div style="text-align: left; font-size: 0.85rem;">
+            <label style="display:block; margin-bottom:4px; font-weight:700;">Código / Identificador</label>
+            <input id="swal-cod" class="swal2-input" placeholder="ej: D05 o nuevo_usuario" style="margin-bottom:12px; width:90%;">
+            <label style="display:block; margin-bottom:4px; font-weight:700;">Nombre Oficial</label>
+            <input id="swal-nom" class="swal2-input" placeholder="Nombre completo" style="margin-bottom:12px; width:90%;">
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Guardar en Catálogo',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#AD0000',
+        preConfirm: () => {
+          const cod = document.getElementById('swal-cod').value;
+          const nom = document.getElementById('swal-nom').value;
+          if (!cod || !nom) {
+            Swal.showValidationMessage('Todos los campos son obligatorios');
+          }
+          return { cod, nom };
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (catalogoActual === 'delegaciones') {
+            catDelegaciones.push({ cod: result.value.cod, nombre: result.value.nom, dir: 'Avenida Balmaceda #100', comuna: 'La Serena', ambito: 'Sector Comunal', resp: 'Funcionario Asignado', estado: 'Activa' });
+            renderFilasCRUD(catDelegaciones, 'delegaciones');
+          } else if (catalogoActual === 'usuarios') {
+            catUsuarios.push({ user: result.value.cod, nombre: result.value.nom, email: result.value.cod + '@correo.cl', del: '[D03] Centro', grupo: 'Operador', estado: 'Activo' });
+            renderFilasCRUD(catUsuarios, 'usuarios');
+          }
+          Swal.fire('¡Registro Creado!', 'Se agregó exitosamente a la base de datos comunal.', 'success');
+        }
+      });
+    }
+
+    function editarRegistroCRUD(cod, nom) {
+      Swal.fire({
+        title: `Editar Registro [${cod}]`,
+        text: `Modificando entidad: ${nom}. Integridad referencial verificada en MySQL 8.x.`,
+        icon: 'info',
+        confirmButtonColor: '#AD0000'
+      });
+    }
+
+    // -------------------------------------------------------------
+    // Inicialización al cargar la página
+    // -------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTablaDash(gestionesDemo);
+      renderTablaMetas(metasDemo);
+    });
+  </script>
+</body>
+</html>

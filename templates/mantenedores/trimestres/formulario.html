@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ titulo|default:"Formulario Trimestre" }} | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD #17 — TRIMESTRE DE EVALUACIÓN</p>
+    <h1>{{ titulo|default:"Gestión de Trimestre" }}</h1>
+  </div>
+  <a href="{% url 'trimestres_lista' %}" class="btn-secundario">← Volver al Listado</a>
+</div>
+
+<div class="form-card">
+  <form method="post" action="">
+    {% csrf_token %}
+    <div class="formulario-grilla">
+      <div class="formulario-grupo">
+        <label for="codigo">Código Único <small style="color: var(--muted);">(Automático ej: TRI-2026-1)</small></label>
+        <input type="text" id="codigo" name="codigo" value="{{ trimestre.codigo|default:valores.codigo|default:'' }}" placeholder="TRI-2026-1">
+      </div>
+      <div class="formulario-grupo">
+        <label for="nombre">Nombre del Período / Trimestre *</label>
+        <input type="text" id="nombre" name="nombre" value="{{ trimestre.nombre|default:valores.nombre|default:'' }}" placeholder="Ej: Primer Trimestre 2026 (Ene-Mar)" required>
+      </div>
+      <div class="formulario-grupo">
+        <label for="anio">Año *</label>
+        <input type="number" id="anio" name="anio" min="2020" max="2100" value="{{ trimestre.anio|default:valores.anio|default:'2026' }}" required>
+      </div>
+      <div class="formulario-grupo">
+        <label for="numero">Número de Trimestre (1 a 4) *</label>
+        <input type="number" id="numero" name="numero" min="1" max="4" value="{{ trimestre.numero|default:valores.numero|default:'1' }}" required>
+      </div>
+      <div class="formulario-grupo">
+        <label for="fecha_inicio">Fecha de Inicio *</label>
+        <input type="date" id="fecha_inicio" name="fecha_inicio" value="{{ trimestre.fecha_inicio|date:'Y-m-d'|default:valores.fecha_inicio|default:'' }}" required>
+      </div>
+      <div class="formulario-grupo">
+        <label for="fecha_cierre">Fecha de Término * <small style="color:var(--muted);">(Debe ser &ge; fecha inicio)</small></label>
+        <input type="date" id="fecha_cierre" name="fecha_cierre" value="{{ trimestre.fecha_cierre|date:'Y-m-d'|default:valores.fecha_cierre|default:'' }}" required>
+      </div>
+      <div class="formulario-grupo">
+        <label for="estado">Estado *</label>
+        <select id="estado" name="estado" required>
+          <option value="Activo" {% if trimestre.estado == 'Activo' or valores.estado == 'Activo' %}selected{% endif %}>Activo</option>
+          <option value="Cerrado" {% if trimestre.estado == 'Cerrado' or valores.estado == 'Cerrado' %}selected{% endif %}>Cerrado</option>
+          <option value="Inactivo" {% if trimestre.estado == 'Inactivo' or valores.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+        </select>
+      </div>
+      <div class="formulario-grupo">
+        <label style="display: flex; align-items: center; gap: 8px; margin-top: 24px; cursor: pointer;">
+          <input type="checkbox" name="activo" value="True" {% if trimestre.activo or valores.activo %}checked{% endif %}>
+          <span>Marcar como Trimestre Vigente Actual</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-acciones">
+      <a href="{% url 'trimestres_lista' %}" class="btn-secundario">Cancelar</a>
+      <button type="submit" class="btn-primario-sgr">Guardar Trimestre</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

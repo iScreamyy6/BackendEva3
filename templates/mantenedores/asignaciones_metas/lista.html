@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block titulo %}Asignaciones de Metas | SGR La Serena{% endblock %}
+
+{% block contenido %}
+<div class="titulo">
+  <div>
+    <p class="etiqueta">ENTIDAD OBLIGATORIA #15 — ASIGNACIÓN DE METAS A FUNCIONARIOS</p>
+    <h1>Asignaciones de Metas por Funcionario y Trimestre</h1>
+  </div>
+  {% if puede_gestionar %}
+  <a href="{% url 'asignaciones_metas_crear' %}" class="btn-primario-sgr">+ Nueva Asignación de Meta</a>
+  {% endif %}
+</div>
+
+<div class="tabla-herramientas">
+  <form method="get" action="" class="filtros-grupo" style="display: flex; gap: 8px; flex-wrap: wrap;">
+    <input type="text" name="q" value="{{ q }}" placeholder="Buscar por código, funcionario, meta o trimestre..." class="input-busqueda">
+    <select name="funcionario" class="input-busqueda" style="width: auto;">
+      <option value="">-- Todos los Funcionarios --</option>
+      {% for f in funcionarios %}
+      <option value="{{ f.pk }}" {% if funcionario_filtro == f.pk|stringformat:"s" %}selected{% endif %}>{{ f.nombre }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn-buscar">Buscar</button>
+    {% if q or funcionario_filtro %}
+    <a href="{% url 'asignaciones_metas_lista' %}" class="btn-secundario" style="padding: 8px 12px; font-size: 0.85rem;">Limpiar</a>
+    {% endif %}
+  </form>
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <span style="font-size: 0.88rem; color: var(--muted);">Total: <strong>{{ total_registros }}</strong> asignaciones</span>
+    <a href="?q={{ q }}&funcionario={{ funcionario_filtro }}&exportar=excel" class="btn-excel">Exportar a Excel</a>
+  </div>
+</div>
+
+<div class="tabla-contenedor">
+  <table class="tabla-sgr">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Funcionario Asignado</th>
+        <th>Trimestre</th>
+        <th>Meta Asociada</th>
+        <th>Objetivo</th>
+        <th>Ponderación</th>
+        <th>Avance</th>
+        <th>Estado</th>
+        <th style="text-align: center;">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in page_obj %}
+      <tr>
+        <td><strong>{{ m.codigo }}</strong></td>
+        <td><a href="{% url 'asignaciones_metas_detalle' m.pk %}" style="font-weight: 600; color: #1e3a8a;">{{ m.id_funcionario.nombre }}</a></td>
+        <td>{{ m.id_periodo.nombre|default:"—" }}</td>
+        <td>{{ m.item }}</td>
+        <td><strong>{{ m.meta_periodo }}</strong></td>
+        <td>{{ m.ponderador }}%</td>
+        <td>{{ m.avance_actual }}</td>
+        <td>
+          <span class="badge-estado {% if m.estado == 'Activa' %}badge-activo{% else %}badge-inactivo{% endif %}">{{ m.estado }}</span>
+        </td>
+        <td style="text-align: center;">
+          <div class="acciones-fila">
+            <a href="{% url 'asignaciones_metas_detalle' m.pk %}" class="btn-secundario" style="padding: 5px 9px; font-size: 0.78rem;">Ver</a>
+            {% if puede_gestionar %}
+            <a href="{% url 'asignaciones_metas_editar' m.pk %}" class="btn-modificar">Editar</a>
+            <a href="{% url 'asignaciones_metas_eliminar' m.pk %}" class="btn-eliminar">Eliminar</a>
+            {% endif %}
+          </div>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="9" style="text-align: center; padding: 36px; color: var(--muted);">No se encontraron asignaciones de metas.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% if page_obj.has_other_pages %}
+<div class="paginacion-sgr">
+  <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+  <div class="paginacion-links">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}&q={{ q }}&funcionario={{ funcionario_filtro }}" class="paginacion-link">← Anterior</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&q={{ q }}&funcionario={{ funcionario_filtro }}" class="paginacion-link">Siguiente →</a>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}
