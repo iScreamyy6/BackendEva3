@@ -435,6 +435,171 @@ CREATE TABLE indicadores_delegacion (
 ) ENGINE=InnoDB COMMENT='Consolidado Semáforo SGR por Delegación';
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ==============================================================================
+-- 3. POBLADO DE DATOS FICTICIOS (SUPERHÉROES Y 17 ENTIDADES SGR)
+-- ==============================================================================
+
+-- 3.1 Entidad #1: Delegaciones
+INSERT INTO delegaciones (id_delegacion, codigo, nombre, direccion, comuna, ambito, responsable, foco_estrategico, estado) VALUES
+(1, 'D01', 'Delegación Municipal Las Compañías', 'Esmeralda #2422, Las Compañías', 'La Serena', 'Las Compañías Alta y Baja', 'He-Man', 'Atención integral comunitaria, operativos sociales y resolución territorial rápida', 'Activa'),
+(2, 'D02', 'Delegación Municipal La Antena', '12 de Octubre #1255, La Antena', 'La Serena', 'Sector La Antena y Florida', 'Acuaman', 'Seguridad vecinal, recuperación de espacios públicos y mediación comunitaria', 'Activa'),
+(3, 'D03', 'Delegación Municipal Centro y Casco Histórico', 'Los Carrera #301, Centro', 'La Serena', 'Centro Urbano y Casco Histórico', 'Pantera Negra', 'Fiscalización comercial, turismo patrimonial y aseo urbano', 'Activa'),
+(4, 'D04', 'Delegación Municipal Rural', 'Ruta D-41 Km 15, El Arrayán', 'La Serena', 'Valles y Localidades Rurales', 'Capitana Marvel', 'Conectividad hídrica, caminos rurales y apoyo a crianceros', 'Activa'),
+(5, 'D05', 'Delegación Municipal Costera (Histórica)', 'Av. del Mar #4500, Sector El Faro', 'La Serena', 'Borde Costero Estacional', 'Coordinación Estival', 'Delegación estacional inactiva', 'Inactiva');
+
+-- 3.2 Entidad #2: Territorios
+INSERT INTO territorios (id, codigo, nombre, sector, delegacion_id, descripcion, estado) VALUES
+(1, 'TER-01', 'Las Compañías Alta', 'Norte', 1, 'Sector El Olivar, Minas del Brillador y Villa El Indio', 'Activo'),
+(2, 'TER-02', 'Las Compañías Baja', 'Norte Poniente', 1, 'Sector Islón, Villa Lambert y Eje Esmeralda Poniente', 'Activo'),
+(3, 'TER-03', 'Sector La Antena y Florida', 'Oriente', 2, 'Población Juan XXIII, Coll y Panorámica La Florida', 'Activo'),
+(4, 'TER-04', 'Centro Urbano y Casco Histórico', 'Centro', 3, 'Cuadrante Patrimonial, Barrio Almagro y Eje Balmaceda', 'Activo'),
+(5, 'TER-05', 'Valle El Romero y El Arrayán', 'Rural', 4, 'Localidades rurales de la ribera norte y sur del Río Elqui', 'Activo'),
+(6, 'TER-06', 'Polígono Industrial Norte (Inactivo)', 'Norte', 1, 'Polígono territorial en revisión catastral', 'Inactivo');
+
+-- 3.3 Entidad #4: Cargos
+INSERT INTO cargos (id, codigo, nombre, descripcion, estado) VALUES
+(1, 'CRG-01', 'Delegado Municipal', 'Jefatura territorial representante del Alcalde en la delegación municipal', 'Activo'),
+(2, 'CRG-02', 'Territorial OO.CC.', 'Encargado de vinculación con Juntas de Vecinos y organizaciones comunitarias', 'Activo'),
+(3, 'CRG-03', 'Gestor Social', 'Profesional encargado de diagnósticos sociales, visitas domiciliarias y ayudas paliativas', 'Activo'),
+(4, 'CRG-04', 'Prof. Planificación y Control', 'Analista de cumplimiento de metas trimestrales, indicadores y control de gestión', 'Activo'),
+(5, 'CRG-05', 'Coordinador DISERCO', 'Coordinador operativo de cuadrillas, tolvas, mantención de plazas y alumbrado', 'Activo'),
+(6, 'CRG-06', 'Asistente Técnico Histórico', 'Cargo en desuso para pruebas de estado inactivo', 'Inactivo');
+
+-- 3.4 Entidad #5: Roles
+INSERT INTO roles (id, codigo, nombre, descripcion, alcance_autorizado, estado) VALUES
+(1, 'ROL-ADM', 'Administrador General', 'Acceso total y configuración comunal transversal de las 17 entidades', 'COMUNAL', 'Activo'),
+(2, 'ROL-COORD', 'Coordinador Municipal', 'Supervisión transversal y monitoreo de compromisos comunales', 'COMUNAL', 'Activo'),
+(3, 'ROL-DEL', 'Delegado Municipal', 'Gestión y jefatura de delegación territorial asignada', 'DELEGACION', 'Activo'),
+(4, 'ROL-OPE', 'Funcionario Operador', 'Atención ciudadana, registro de casos y gestiones en terreno', 'DELEGACION', 'Activo'),
+(5, 'ROL-VERIF', 'Verificador Técnico', 'Auditoría y validación de evidencias fotográficas y documentales', 'DELEGACION', 'Activo'),
+(6, 'ROL-GES', 'Gestor Social', 'Profesional de atención social, visitas domiciliarias e informes FIBE', 'DELEGACION', 'Activo'),
+(7, 'ROL-TER', 'Gestor Territorial OO.CC.', 'Coordinación con Juntas de Vecinos, hitos barriales y operativos en terreno', 'DELEGACION', 'Activo'),
+(8, 'ROL-DIS', 'Coordinador DISERCO', 'Enlace de servicios a la comunidad y apoyo operativo rural/urbano', 'DELEGACION', 'Activo'),
+(9, 'ROL-GEST', 'Perfil Gestión SGR', 'Perfil oficial con permisos completos CRUD en las 17 entidades', 'COMUNAL', 'Activo'),
+(10, 'ROL-CON', 'Perfil Consulta SGR', 'Perfil oficial de solo lectura (HTTP 403 en escritura)', 'COMUNAL', 'Activo'),
+(11, 'ROL-INA', 'Auditor Externo Histórico (Inactivo)', 'Rol temporal inactivo', 'COMUNAL', 'Inactivo');
+
+-- 3.5 Entidad #3: Usuarios Funcionarios (Superhéroes - Clave en Django: admin)
+INSERT INTO funcionarios (id_funcionario, id_delegacion, id_cargo, rut, nombres, apellidos, nombre, correo, telefono, cargo, estado, activo, fecha_ingreso) VALUES
+(1, 1, 1, '15.111.111-1', 'He-Man', 'Delegado', 'He-Man', 'heman@laserena.cl', '+56 9 8000 1000', 'Delegado Municipal', 'Activo', 1, '2024-01-01'),
+(2, 2, 2, '15.222.222-2', 'Acuaman', 'Territorial', 'Acuaman', 'acuaman@laserena.cl', '+56 9 8000 1000', 'Territorial OO.CC. 1', 'Activo', 1, '2024-03-15'),
+(3, 1, 3, '15.333.333-3', 'Flash', 'Social', 'Flash', 'flash@laserena.cl', '+56 9 8000 1000', 'Gestor Social 1', 'Activo', 1, '2024-02-01'),
+(4, 3, 4, '15.444.444-4', 'Pantera', 'Negra', 'Pantera Negra', 'panteranegra@laserena.cl', '+56 9 8000 1000', 'Prof. Planificación y Control', 'Activo', 1, '2024-01-10'),
+(5, 4, 5, '15.555.555-5', 'Capitana', 'Marvel', 'Capitana Marvel', 'capitanamarvel@laserena.cl', '+56 9 8000 1000', 'Coordinador DISERCO', 'Activo', 1, '2024-04-01'),
+(6, 3, 3, '15.666.666-6', 'Hulk', 'Social', 'Hulk', 'hulk@laserena.cl', '+56 9 8000 1000', 'Gestor Social 3', 'Activo', 1, '2024-02-15'),
+(7, 2, 3, '15.777.777-7', 'Capitán', 'América', 'Capitán América', 'capitanamerica@laserena.cl', '+56 9 8000 1000', 'Gestor Social 2', 'Activo', 1, '2024-03-01'),
+(8, 1, 2, '15.888.888-8', 'Spider', 'Man', 'Spider-Man', 'spiderman@laserena.cl', '+56 9 8000 1000', 'Territorial OO.CC. 2', 'Activo', 1, '2024-05-10'),
+(9, 1, 3, '15.999.999-9', 'Iron', 'Man', 'Iron Man (Inactivo)', 'ironman@laserena.cl', '+56 9 8000 1000', 'Gestor Social', 'Inactivo', 0, '2023-06-01');
+
+INSERT INTO perfiles_usuario (id, rut, nombres, apellidos, correo, telefono, rol_id, cargo_id, delegacion_principal_id, territorio_principal_id, estado) VALUES
+(1, '11.111.111-1', 'Administrador', 'Municipal SGR', 'admin@laserena.cl', '+56 9 9000 0001', 1, 4, 1, 1, 'Activo'),
+(2, '12.222.222-2', 'Doctor Strange', '(Coordinador Comunal)', 'doctorstrange@laserena.cl', '+56 9 8000 1000', 2, 4, 1, 1, 'Activo'),
+(3, '13.333.333-3', 'Mujer Maravilla', '(Gestión SGR)', 'mujermaravilla@laserena.cl', '+56 9 8000 1000', 9, 4, 1, 1, 'Activo'),
+(4, '14.444.444-4', 'Batman', '(Consulta SGR)', 'batman@laserena.cl', '+56 9 8000 1000', 10, 4, 1, 1, 'Activo'),
+(5, '15.111.111-1', 'He-Man', 'Delegado', 'heman@laserena.cl', '+56 9 8000 1000', 3, 1, 1, 1, 'Activo'),
+(6, '15.222.222-2', 'Acuaman', 'Territorial', 'acuaman@laserena.cl', '+56 9 8000 1000', 7, 2, 2, 3, 'Activo'),
+(7, '15.333.333-3', 'Flash', 'Social', 'flash@laserena.cl', '+56 9 8000 1000', 6, 3, 1, 1, 'Activo'),
+(8, '15.444.444-4', 'Pantera', 'Negra', 'panteranegra@laserena.cl', '+56 9 8000 1000', 4, 4, 3, 4, 'Activo'),
+(9, '15.555.555-5', 'Capitana', 'Marvel', 'capitanamarvel@laserena.cl', '+56 9 8000 1000', 8, 5, 4, 5, 'Activo'),
+(10, '15.666.666-6', 'Hulk', 'Social', 'hulk@laserena.cl', '+56 9 8000 1000', 6, 3, 3, 4, 'Activo'),
+(11, '15.777.777-7', 'Capitán', 'América', 'capitanamerica@laserena.cl', '+56 9 8000 1000', 6, 3, 2, 3, 'Activo'),
+(12, '15.888.888-8', 'Spider', 'Man', 'spiderman@laserena.cl', '+56 9 8000 1000', 7, 2, 1, 2, 'Activo'),
+(13, '15.999.999-9', 'Iron', 'Man (Inactivo)', 'ironman@laserena.cl', '+56 9 8000 1000', 4, 3, 1, 1, 'Inactivo');
+
+-- 3.6 Entidad #6: Vecinos (Superhéroes)
+INSERT INTO vecinos (id, rut, nombres, apellidos, nombre, telefono, correo, direccion, sector, territorio_id, delegacion_id, estado) VALUES
+(1, '16.100.100-1', 'Diana', 'Prince (Mujer Maravilla)', 'Diana Prince (Mujer Maravilla)', '+56 9 7111 2201', 'mujermaravilla@vecinoslaserena.cl', 'Av. Viña del Mar #1420, Las Compañías', 'Las Compañías Alta', 1, 1, 'Activo'),
+(2, '16.200.200-2', 'Clark', 'Kent (Superman)', 'Clark Kent (Superman)', '+56 9 7111 2202', 'superman@vecinoslaserena.cl', 'Calle 18 de Septiembre #880, La Antena', 'La Antena', 3, 2, 'Activo'),
+(3, '16.300.300-3', 'Bruce', 'Wayne (Batman)', 'Bruce Wayne (Batman)', '+56 9 7111 2203', 'batman@vecinoslaserena.cl', 'Calle Almagro #412, Casco Histórico', 'Centro', 4, 3, 'Activo'),
+(4, '16.400.400-4', 'Thor', 'Odinson (Asgard)', 'Thor Odinson (Asgard)', '+56 9 7111 2204', 'thor@vecinoslaserena.cl', 'Parcela 14 El Romero, Sector Rural', 'El Romero', 5, 4, 'Activo'),
+(5, '16.500.500-5', 'Natasha', 'Romanoff (Viuda Negra)', 'Natasha Romanoff (Viuda Negra)', '+56 9 7111 2205', 'viudanegra@vecinoslaserena.cl', 'Pasaje El Brillador #210, Las Compañías', 'Las Compañías Baja', 2, 1, 'Activo'),
+(6, '16.600.600-6', 'Hal', 'Jordan (Linterna Verde)', 'Hal Jordan (Linterna Verde)', '+56 9 7111 2206', 'linternaverde@vecinoslaserena.cl', 'Calle Esmeralda #1990, Las Compañías', 'Las Compañías Alta', 1, 1, 'Inactivo');
+
+-- 3.7 Entidad #7: Juntas de Vecinos
+INSERT INTO juntas_vecinos (id, codigo, nombre, personalidad_juridica, direccion_sede, territorio_id, delegacion_id, estado) VALUES
+(1, 'JJVV-01', 'Junta de Vecinos N° 12 Villa El Indio', 'PJ-1998-012', 'Sede Comunitaria Pasaje Arauco #340, Las Compañías', 1, 1, 'Activa'),
+(2, 'JJVV-02', 'Junta de Vecinos N° 8 Juan XXIII La Antena', 'PJ-1995-008', 'Av. 12 de Octubre #1410, La Antena', 3, 2, 'Activa'),
+(3, 'JJVV-03', 'Junta de Vecinos N° 1 Casco Histórico', 'PJ-1992-001', 'Calle Rengifo #245, Centro', 4, 3, 'Activa'),
+(4, 'JJVV-04', 'Junta de Vecinos N° 25 El Arrayán Rural', 'PJ-2004-025', 'Camino Principal s/n Km 16, El Arrayán', 5, 4, 'Activa'),
+(5, 'JJVV-05', 'Junta de Vecinos N° 99 Sector Antiguo (Inactiva)', 'PJ-2001-099', 'Sede Provisoria Sector Norte #102', 2, 1, 'Inactiva');
+
+-- 3.8 Entidad #8: Participaciones en Junta
+INSERT INTO participaciones_junta (id, junta_id, vecino_id, cargo, fecha_inicio, estado, activo) VALUES
+(1, 1, 1, 'Presidente/a', '2024-03-01', 'Activo', 1),
+(2, 2, 2, 'Secretario/a', '2024-04-10', 'Activo', 1),
+(3, 3, 3, 'Socio/a Activo/a', '2024-06-15', 'Activo', 1),
+(4, 1, 4, 'Tesorero/a', '2023-05-20', 'Inactivo', 0);
+
+-- 3.9 Entidad #9: Hitos Territoriales
+INSERT INTO hitos (id, codigo, nombre, descripcion, periodicidad, fecha_inicio, fecha_termino, delegacion_id, territorio_id, responsable_id, estado) VALUES
+(1, 'HIT-01', 'Operativo Integral de Invierno Las Compañías', 'Despliegue preventivo de limpieza de sumideros, entrega de nylon y atención FIBE en terreno', 'Anual', '2026-01-15', '2026-02-15', 1, 1, 1, 'Realizado'),
+(2, 'HIT-02', 'Mesa Territorial de Seguridad Vecinal La Antena', 'Coordinación trimestral con dirigentes vecinales, Carabineros e Inspección Municipal', 'Trimestral', '2026-02-01', '2026-03-30', 2, 3, 2, 'En Ejecución'),
+(3, 'HIT-03', 'Cabildo Patrimonial y Limpieza Centro Histórico', 'Jornada participativa de recuperación de fachadas y fiscalización de comercio ambulante', 'Semestral', '2026-03-01', '2026-03-25', 3, 4, 4, 'Programado'),
+(4, 'HIT-04', 'Feria Comunitaria Sector Norte (Inactivo)', 'Hito reprogramado sin actividades vinculadas', 'Único', '2026-01-10', '2026-01-12', 1, 2, 8, 'Inactivo');
+
+-- 3.10 Entidad #12 y #13: Tipos y Subtipos de Atención
+INSERT INTO tipos_atencion (id, codigo, nombre, descripcion, estado) VALUES
+(1, 'TIP-SOC', 'Atención Social y Beneficios', 'Asistencia económica, subsidios familiares y ayudas técnicas inmediatas', 'Activo'),
+(2, 'TIP-TERR', 'Gestión Territorial y Obras', 'Requerimientos de luminarias, bacheo, aseo y plazas vecinales', 'Activo'),
+(3, 'TIP-SEG', 'Seguridad Ciudadana e Inspección', 'Denuncias vecinales, patrullaje preventivo y mediación comunitaria', 'Activo'),
+(4, 'TIP-INA', 'Zonificación Piloto Histórica (Inactiva)', 'Tipología en desuso sin subatenciones asociadas', 'Inactivo');
+
+INSERT INTO sub_atenciones (id, codigo, tipo_id, nombre, estado) VALUES
+(1, 'SUB-ORI', 1, 'Orientación Social y Registro Social de Hogares', 'Activo'),
+(2, 'SUB-FIBE', 1, 'Aplicación de Ficha FIBE', 'Activo'),
+(3, 'SUB-SUBS', 1, 'Postulación a Subsidios de Agua y Vivienda', 'Activo'),
+(4, 'SUB-ALIM', 1, 'Entrega de Cajas de Alimentos y Albergue', 'Activo'),
+(5, 'SUB-INA', 1, 'Subatención Piloto Suspendida (Inactiva)', 'Inactivo'),
+(6, 'SUB-LUM', 2, 'Reparación de Luminarias y Alumbrado Público', 'Activo'),
+(7, 'SUB-ASEO', 2, 'Operativo de Tolvas y Retiro de Escombros', 'Activo'),
+(8, 'SUB-PLAZ', 2, 'Mantención y Riego de Áreas Verdes / Plazas', 'Activo'),
+(9, 'SUB-BACH', 2, 'Bacheo y Señalización Vial', 'Activo'),
+(10, 'SUB-PATR', 3, 'Solicitud de Patrullaje Preventivo', 'Activo'),
+(11, 'SUB-RUID', 3, 'Mediación Vecinal por Ruidos Molestos', 'Activo'),
+(12, 'SUB-COME', 3, 'Fiscalización de Comercio Informal', 'Activo');
+
+-- 3.11 Entidad #14: Metas (ItemMeta)
+INSERT INTO items_metas (id, codigo, nombre, descripcion, unidad_medida, estado) VALUES
+(1, 'I01', 'Atención de Usuario Presencial y Telefónica', 'Recepción, registro y orientación personalizada de vecinos en delegación', 'Atenciones registradas', 'Activo'),
+(2, 'I02', 'Informes Sociales y Ficha FIBE', 'Levantamiento de peritajes sociales y aplicación de ficha básica de emergencia', 'Informes emitidos', 'Activo'),
+(3, 'I03', 'Gestión Territorial y Operativos en Terreno', 'Visitas a juntas de vecinos, supervisión de microbasurales y espacios públicos', 'Operativos ejecutados', 'Activo'),
+(4, 'I04', 'Emergencias Comunales y Contingencias', 'Respuesta rápida ante emergencias climáticas, cortes de servicios o siniestros', 'Contingencias atendidas', 'Activo'),
+(5, 'I05', 'Capacitación y Participación Ciudadana', 'Talleres comunitarios, mesas de trabajo barriales y difusión municipal', 'Jornadas participativas', 'Activo'),
+(6, 'I06', 'Meta Histórica de Archivo Físico (Inactiva)', 'Meta descontinuada tras la digitalización del SGR municipal', 'Expedientes archivados', 'Inactivo');
+
+-- 3.12 Entidad #17: Trimestres (PeriodoEvaluacion)
+INSERT INTO periodos_evaluacion (id, codigo, anio, numero, nombre, fecha_inicio, fecha_cierre, estado, activo) VALUES
+(1, 'TRI-2025-4', 2025, 4, '4° Trimestre 2025 (Octubre - Diciembre)', '2025-10-01', '2025-12-31', 'Cerrado', 0),
+(2, 'TRI-2026-1', 2026, 1, '1° Trimestre 2026 (Enero - Marzo)', '2026-01-01', '2026-03-31', 'Activo', 1),
+(3, 'TRI-2026-2', 2026, 2, '2° Trimestre 2026 (Abril - Junio) - En Preparación', '2026-04-01', '2026-06-30', 'Inactivo', 0);
+
+-- 3.13 Entidad #15: Asignaciones de Metas (MetaFuncionario)
+INSERT INTO metas_funcionario (id, codigo, id_funcionario, id_periodo, id_item_meta, item, ponderador, meta_periodo, avance_actual, estado) VALUES
+(1, 'ASG-0001', 1, 2, 3, 'Gestión Territorial y Operativos en Terreno', 50.00, 20, 14, 'Activa'),
+(2, 'ASG-0002', 2, 2, 3, 'Gestión Territorial y Operativos en Terreno', 60.00, 25, 19, 'Activa'),
+(3, 'ASG-0003', 3, 2, 2, 'Informes Sociales y Ficha FIBE', 50.00, 20, 16, 'Activa'),
+(4, 'ASG-0017', 4, 1, 5, 'Capacitación y Participación Ciudadana', 25.00, 10, 0, 'Inactiva');
+
+-- 3.14 Entidad #10: Actividades
+INSERT INTO actividades (id, codigo, id_funcionario, id_delegacion, id_territorio, id_hito, id_vecino, id_tipo_atencion, id_sub_atencion, id_item_meta, fecha, solicitud, accion, responsable, item_evaluacion, estado, contacto, telefono, ingreso_tubo, codigo_evidencia) VALUES
+(1, 'GES-00001', 1, 1, 1, 1, 1, 2, 6, 3, '2026-01-17', 'Reposición de 8 luminarias LED en Av. Viña del Mar', 'Coordinación con cuadrilla eléctrica municipal y verificación nocturna', 'He-Man', 'Gestión Territorial y Operativos en Terreno', 'Realizado', 'Diana Prince (Mujer Maravilla)', '+56 9 7111 2201', 1, 'EVI-2026-0001'),
+(2, 'GES-00004', 2, 2, 3, 2, 2, 2, 8, 3, '2026-01-23', 'Recuperación de juegos infantiles y poda en Plaza Juan XXIII', 'Desmalezado, pintura de mobiliario urbano y reparación de escaños', 'Acuaman', 'Gestión Territorial y Operativos en Terreno', 'Realizado', 'Clark Kent (Superman)', '+56 9 7111 2202', 1, 'EVI-2026-0004'),
+(3, 'GES-00007', 3, 1, 1, 1, 1, 1, 2, 2, '2026-01-29', 'Aplicación de Ficha FIBE e informe social por emergencia habitacional', 'Visita domiciliaria, peritaje social y entrega de kit de abrigo', 'Flash', 'Informes Sociales y Ficha FIBE', 'Realizado', 'Diana Prince (Mujer Maravilla)', '+56 9 7111 2201', 1, 'EVI-2026-0007'),
+(4, 'GES-00012', 4, 3, 4, NULL, 3, 1, 1, 1, '2026-02-08', 'Jornada informativa suspendida por contingencia climática (Inactiva)', 'Registro administrativo desactivado', 'Pantera Negra', 'Atención de Usuario Presencial y Telefónica', 'Inactivo', 'Bruce Wayne (Batman)', '+56 9 7111 2203', 0, 'EVI-2026-0012');
+
+-- 3.15 Entidad #11: Gestiones Sociales
+INSERT INTO gestiones_sociales (id, folio, fecha_ingreso, delegacion_id, territorio_id, gestor_responsable_id, vecino_id, tipo_atencion_id, sub_atencion_id, rut_solicitante, nombre_solicitante, telefono_solicitante, direccion_solicitante, diagnostico_social, beneficio_solicitado, estado_caso) VALUES
+(1, 'SOC-00001', '2026-01-18', 1, 1, 3, 1, 1, 2, '16.100.100-1', 'Diana Prince (Mujer Maravilla)', '+56 9 7111 2201', 'Av. Viña del Mar #1420, Las Compañías', 'Requerimiento de ayuda paliativa e informe social FIBE', '1 Caja de Alimentos + 2 Frazadas térmicas', 'Resuelto'),
+(2, 'SOC-00002', '2026-02-03', 2, 3, 7, 2, 1, 4, '16.200.200-2', 'Clark Kent (Superman)', '+56 9 7111 2202', 'Calle 18 de Septiembre #880, La Antena', 'Apoyo alimentario y actualización de RSH', 'Canasta familiar social', 'En Proceso'),
+(3, 'SOC-00004', '2026-01-08', 1, 1, 3, 4, 1, 1, '16.400.400-4', 'Thor Odinson (Asgard)', '+56 9 7111 2204', 'Parcela 14 El Romero, Sector Rural', 'Registro social inactivo sin actividades asociadas', 'Orientación RSH', 'Inactiva');
+
+-- 3.16 Entidad #16: Evidencias
+INSERT INTO evidencias (id, codigo, titulo, tipo_archivo, fecha_registro, id_actividad, id_gestion_social, id_verificador, archivo, imagen_verificada, verificador_valido, resultado, estado_validacion, observacion) VALUES
+(1, 'EVI-2026-0001', 'Luminarias Las Compañías', 'Fotografía JPG/PNG', '2026-01-18', 1, NULL, 4, 'evidencias/2026/luminarias_las_companias_d01.jpg', 1, 1, 1, 'Aprobada', 'Registro fotográfico nocturno de las 8 luminarias LED operativas.'),
+(2, 'EVI-2026-0002', 'Operativo Plaza Juan XXIII', 'Fotografía JPG/PNG', '2026-01-24', 2, NULL, 4, 'evidencias/2026/operativo_plaza_juan_xxiii_d02.jpg', 1, 1, 1, 'Aprobada', 'Fotografía antes y después de mantención de áreas verdes.'),
+(3, 'EVI-2026-0006', 'Borrador Reemplazado (Inactiva)', 'Informe Social PDF', '2026-02-12', NULL, 2, 1, 'evidencias/2026/borrador_reemplazado_soc00002.pdf', 0, 0, 0, 'Inactiva', 'Evidencia desactivada para pruebas de estado Inactiva.');
+
 -- ==============================================================================
 -- FIN DEL SCRIPT SGR MUNICIPALIDAD DE LA SERENA (17 ENTIDADES OBLIGATORIAS)
 -- ==============================================================================

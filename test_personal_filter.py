@@ -1,6 +1,6 @@
 """
 test_personal_filter.py
-Verifica que las cuentas estén conectadas con sus nombres de superhéroes y dominios @correo.cl,
+Verifica que las cuentas estén conectadas con sus nombres de superhéroes y dominios @laserena.cl,
 y que usuarios Administrativos solo vean sus propias gestiones.
 """
 import os
@@ -49,18 +49,18 @@ print('='*60)
 total_gestiones = Actividad.objects.filter(id_gestion_padre__isnull=True).count()
 print(f'\n{INFO} Total gestiones principales en DB: {total_gestiones}')
 
-# ── Test 1: Autenticación por Nombre y por Correo @correo.cl ──
-print('\n--- Autenticación por Username y por Correo @correo.cl ---')
+# ── Test 1: Autenticación por Nombre y por Correo @laserena.cl ──
+print('\n--- Autenticación por Username y por Correo @laserena.cl ---')
 cuentas_a_probar = [
-    ('acuaman', 'acuaman@correo.cl', 'Acuaman'),
-    ('flash', 'flash@correo.cl', 'Flash'),
-    ('heman', 'heman@correo.cl', 'He-Man'),
-    ('capitanamarvel', 'capitanamarvel@correo.cl', 'Capitana Marvel'),
-    ('spiderman', 'spiderman@correo.cl', 'Spider-Man'),
-    ('hulk', 'hulk@correo.cl', 'Hulk'),
-    ('capitanamerica', 'capitanamerica@correo.cl', 'Capitán América'),
-    ('panteranegra', 'panteranegra@correo.cl', 'Pantera Negra'),
-    ('coordinador', 'coordinador@correo.cl', None),
+    ('acuaman', 'acuaman@laserena.cl', 'Acuaman'),
+    ('flash', 'flash@laserena.cl', 'Flash'),
+    ('heman', 'heman@laserena.cl', 'He-Man'),
+    ('capitanamarvel', 'capitanamarvel@laserena.cl', 'Capitana Marvel'),
+    ('spiderman', 'spiderman@laserena.cl', 'Spider-Man'),
+    ('hulk', 'hulk@laserena.cl', 'Hulk'),
+    ('capitanamerica', 'capitanamerica@laserena.cl', 'Capitán América'),
+    ('panteranegra', 'panteranegra@laserena.cl', 'Pantera Negra'),
+    ('doctorstrange', 'doctorstrange@laserena.cl', None),
 ]
 
 for usr, email, func_esperado in cuentas_a_probar:
@@ -69,7 +69,7 @@ for usr, email, func_esperado in cuentas_a_probar:
     u_logueado = bool(c_u.session.get('_auth_user_id'))
     check(f'Login por usuario "{usr}" exitoso', u_logueado, f'status={r_u.status_code}')
 
-    # 2. Login por email institucional @correo.cl
+    # 2. Login por email institucional @laserena.cl
     c_e, r_e = login_post(email, 'admin')
     e_logueado = bool(c_e.session.get('_auth_user_id'))
     check(f'Login por correo "{email}" exitoso', e_logueado, f'status={r_e.status_code}')
@@ -113,7 +113,7 @@ c_adm, _ = get_client('admin')
 r_adm = c_adm.get('/actividades/')
 check('admin ve /actividades/ con status 200', r_adm.status_code == 200)
 
-c_coord, _ = get_client('coordinador')
+c_coord, _ = get_client('doctorstrange')
 r_coord = c_coord.get('/actividades/')
 check('coordinador ve /actividades/ con status 200', r_coord.status_code == 200)
 

@@ -265,7 +265,7 @@ def generar_informe_pdf(output_filename="INFORME_TECNICO_SGR_EVALUACION_3.pdf"):
         "(<code>Administrador</code>, <code>Supervisor</code>, <code>Administrativo</code>), recuperación de claves por correo real vía "
         "<b>Gmail SMTP con código PIN de 6 dígitos y token criptográfico HMAC-SHA256</b>, dashboards dinámicos adaptados al perfil, "
         "unificación de atenciones en el Módulo de Gestiones con correlativos automáticos (<code>GES-XXXXX</code>, <code>SOC-XXXXX</code>, "
-        "<code>TUB-XXXXX</code>), asignación de cuentas institucionales <code>@correo.cl</code>, filtro estricto de privacidad para operadores, "
+        "<code>TUB-XXXXX</code>), asignación de cuentas institucionales <code>@laserena.cl</code>, filtro estricto de privacidad para operadores, "
         "el <b>Modelo Entidad-Relación (MER)</b> oficial y un arnés de pruebas automatizadas idempotente verificado al 100% de efectividad.",
         style_body
     ))
@@ -405,24 +405,24 @@ def generar_informe_pdf(output_filename="INFORME_TECNICO_SGR_EVALUACION_3.pdf"):
     story.append(HRFlowable(width="100%", thickness=1.5, color=c_rojo, spaceAfter=8, spaceBefore=2))
     story.append(Paragraph(
         "Todas las cuentas de usuario fueron sincronizadas con los nombres de sus funcionarios "
-        "y su dominio oficial <code>@correo.cl</code> (todas con clave inicial <code>admin</code>):",
+        "y su dominio oficial <code>@laserena.cl</code> (todas con clave inicial <code>admin</code>):",
         style_body
     ))
 
     datos_cuentas = [
         [Paragraph("<b>Funcionario</b>", style_th), Paragraph("<b>Cargo / Rol</b>", style_th), Paragraph("<b>Perfil Django</b>", style_th), Paragraph("<b>Usuario</b>", style_th), Paragraph("<b>Correo Institucional</b>", style_th), Paragraph("<b>Delegación</b>", style_th)],
-        [Paragraph("<b>Acuaman</b>", style_td), Paragraph("Territorial OO.CC. 1", style_td), Paragraph("Administrativo", style_td), Paragraph("acuaman", style_td_code), Paragraph("acuaman@correo.cl", style_td), Paragraph("[D02] La Antena", style_td)],
-        [Paragraph("<b>Flash</b>", style_td), Paragraph("Gestor Social 1", style_td), Paragraph("Administrativo", style_td), Paragraph("flash", style_td_code), Paragraph("flash@correo.cl", style_td), Paragraph("[D01] Las Compañías", style_td)],
-        [Paragraph("<b>He-Man</b>", style_td), Paragraph("Delegado Municipal", style_td), Paragraph("Supervisor", style_td), Paragraph("heman", style_td_code), Paragraph("heman@correo.cl", style_td), Paragraph("[D01] Las Compañías", style_td)],
-        [Paragraph("<b>Capitana Marvel</b>", style_td), Paragraph("Coordinador DISERCO", style_td), Paragraph("Administrativo", style_td), Paragraph("capitanamarvel", style_td_code), Paragraph("capitanamarvel@correo.cl", style_td), Paragraph("[D04] Rural", style_td)],
-        [Paragraph("<b>Spider-Man</b>", style_td), Paragraph("Territorial OO.CC. 2", style_td), Paragraph("Administrativo", style_td), Paragraph("spiderman", style_td_code), Paragraph("spiderman@correo.cl", style_td), Paragraph("[D01] Las Compañías", style_td)],
-        [Paragraph("<b>Capitán América</b>", style_td), Paragraph("Gestor Social 2", style_td), Paragraph("Administrativo", style_td), Paragraph("capitanamerica", style_td_code), Paragraph("capitanamerica@correo.cl", style_td), Paragraph("[D02] La Antena", style_td)],
-        [Paragraph("<b>Pantera Negra</b>", style_td), Paragraph("Prof. Planificación", style_td), Paragraph("Administrativo", style_td), Paragraph("panteranegra", style_td_code), Paragraph("panteranegra@correo.cl", style_td), Paragraph("[D03] Centro", style_td)],
-        [Paragraph("<b>Hulk</b>", style_td), Paragraph("Gestor Social 3", style_td), Paragraph("Administrativo", style_td), Paragraph("hulk", style_td_code), Paragraph("hulk@correo.cl", style_td), Paragraph("[D03] Centro", style_td)],
-        [Paragraph("<b>Coordinador</b>", style_td), Paragraph("Coordinador Comunal", style_td), Paragraph("Supervisor", style_td), Paragraph("coordinador", style_td_code), Paragraph("coordinador@correo.cl", style_td), Paragraph("[COMUNAL] Todas", style_td)],
-        [Paragraph("<b>Perfil Consulta</b>", style_td), Paragraph("Consulta y Auditoría", style_td), Paragraph("Consulta", style_td), Paragraph("consulta", style_td_code), Paragraph("consulta@correo.cl", style_td), Paragraph("[COMUNAL] Solo Lectura", style_td)],
-        [Paragraph("<b>Perfil Gestión</b>", style_td), Paragraph("Gestión Integral SGR", style_td), Paragraph("Gestión", style_td), Paragraph("gestion", style_td_code), Paragraph("gestion@correo.cl", style_td), Paragraph("[COMUNAL] CRUD 17 Ent.", style_td)],
-        [Paragraph("<b>Administrador</b>", style_td), Paragraph("Administrador General", style_td), Paragraph("Administrador", style_td), Paragraph("admin", style_td_code), Paragraph("emanuelseron2003@gmail.com", style_td), Paragraph("[COMUNAL] Todas", style_td)],
+        [Paragraph("<b>Acuaman</b>", style_td), Paragraph("Territorial OO.CC. 1", style_td), Paragraph("Administrativo", style_td), Paragraph("acuaman", style_td_code), Paragraph("acuaman@laserena.cl", style_td), Paragraph("[D02] La Antena", style_td)],
+        [Paragraph("<b>Flash</b>", style_td), Paragraph("Gestor Social 1", style_td), Paragraph("Administrativo", style_td), Paragraph("flash", style_td_code), Paragraph("flash@laserena.cl", style_td), Paragraph("[D01] Las Compañías", style_td)],
+        [Paragraph("<b>He-Man</b>", style_td), Paragraph("Delegado Municipal", style_td), Paragraph("Supervisor", style_td), Paragraph("heman", style_td_code), Paragraph("heman@laserena.cl", style_td), Paragraph("[D01] Las Compañías", style_td)],
+        [Paragraph("<b>Capitana Marvel</b>", style_td), Paragraph("Coordinador DISERCO", style_td), Paragraph("Administrativo", style_td), Paragraph("capitanamarvel", style_td_code), Paragraph("capitanamarvel@laserena.cl", style_td), Paragraph("[D04] Rural", style_td)],
+        [Paragraph("<b>Spider-Man</b>", style_td), Paragraph("Territorial OO.CC. 2", style_td), Paragraph("Administrativo", style_td), Paragraph("spiderman", style_td_code), Paragraph("spiderman@laserena.cl", style_td), Paragraph("[D01] Las Compañías", style_td)],
+        [Paragraph("<b>Capitán América</b>", style_td), Paragraph("Gestor Social 2", style_td), Paragraph("Administrativo", style_td), Paragraph("capitanamerica", style_td_code), Paragraph("capitanamerica@laserena.cl", style_td), Paragraph("[D02] La Antena", style_td)],
+        [Paragraph("<b>Pantera Negra</b>", style_td), Paragraph("Prof. Planificación", style_td), Paragraph("Administrativo", style_td), Paragraph("panteranegra", style_td_code), Paragraph("panteranegra@laserena.cl", style_td), Paragraph("[D03] Centro", style_td)],
+        [Paragraph("<b>Hulk</b>", style_td), Paragraph("Gestor Social 3", style_td), Paragraph("Administrativo", style_td), Paragraph("hulk", style_td_code), Paragraph("hulk@laserena.cl", style_td), Paragraph("[D03] Centro", style_td)],
+        [Paragraph("<b>Doctor Strange</b>", style_td), Paragraph("Coordinador Comunal", style_td), Paragraph("Supervisor", style_td), Paragraph("doctorstrange", style_td_code), Paragraph("doctorstrange@laserena.cl", style_td), Paragraph("[COMUNAL] Todas", style_td)],
+        [Paragraph("<b>Batman</b>", style_td), Paragraph("Consulta y Auditoría", style_td), Paragraph("Consulta", style_td), Paragraph("batman", style_td_code), Paragraph("batman@laserena.cl", style_td), Paragraph("[COMUNAL] Solo Lectura", style_td)],
+        [Paragraph("<b>Mujer Maravilla</b>", style_td), Paragraph("Gestión Integral SGR", style_td), Paragraph("Gestión", style_td), Paragraph("mujermaravilla", style_td_code), Paragraph("mujermaravilla@laserena.cl", style_td), Paragraph("[COMUNAL] CRUD 17 Ent.", style_td)],
+        [Paragraph("<b>Administrador</b>", style_td), Paragraph("Administrador General", style_td), Paragraph("Administrador", style_td), Paragraph("admin", style_td_code), Paragraph("admin@laserena.cl", style_td), Paragraph("[COMUNAL] Todas", style_td)],
     ]
     t_cuentas = Table(datos_cuentas, colWidths=[2.8 * cm, 3.2 * cm, 2.5 * cm, 2.4 * cm, 4 * cm, 2.6 * cm])
     t_cuentas.setStyle(TableStyle([

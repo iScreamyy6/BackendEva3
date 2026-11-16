@@ -276,9 +276,9 @@ Meta Esperada al Día = (Días transcurridos / Días totales del período) × 10
 | Usuario | Contraseña | Rol Asignado | Delegación Activa | Propósito en Pruebas y Demostración |
 |---|---|---|---|---|
 | `admin` | `admin` | Administrador General (`ROL-ADM`) | Comunal (Acceso a todas) | Gestión de las 17 entidades CRUD, Django Admin y control total. |
-| `gestion` | `admin` | Gestión Integral SGR (`ROL-GEST`) | Comunal (CRUD Completo) | Creación, edición y eliminación/desactivación sobre las 17 entidades obligatorias. |
-| `consulta` | `admin` | Consulta y Auditoría (`ROL-CON`) | Comunal (Solo Lectura) | Visualización de listado y detalle en las 17 entidades; recibe HTTP 403 en escritura. |
-| `coordinador` | `admin` | Coordinador Municipal (`ROL-COORD`) | Comunal (Supervisión) | Semáforos comunales, informe ejecutivo y visión consolidada. |
+| `mujermaravilla` | `admin` | Gestión Integral SGR (`ROL-GEST`) | Comunal (CRUD Completo) | Creación, edición y eliminación/desactivación sobre las 17 entidades obligatorias. |
+| `batman` | `admin` | Consulta y Auditoría (`ROL-CON`) | Comunal (Solo Lectura) | Visualización de listado y detalle en las 17 entidades; recibe HTTP 403 en escritura. |
+| `doctorstrange` | `admin` | Coordinador Municipal (`ROL-COORD`) | Comunal (Supervisión) | Semáforos comunales, informe ejecutivo y visión consolidada. |
 | `delegado_d01` | `admin` / `pass1234` | Delegado Municipal (`ROL-DEL`) | Las Compañías (`DEL-01`) | Supervisión territorial, Tablero Kanban del Tubo y metas locales. |
 | `operador_d01` | `admin` / `pass1234` | Funcionario Operador (`ROL-OPE`) | Las Compañías (`DEL-01`) | Registro unificado de gestiones y derivación al Tubo en terreno. |
 | `operador_d02` | `admin` / `pass1234` | Funcionario Operador (`ROL-OPE`) | La Antena (`DEL-02`) | Pruebas de aislamiento territorial y control de acceso cruzado. |

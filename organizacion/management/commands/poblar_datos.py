@@ -405,8 +405,8 @@ class Command(BaseCommand):
 
         usuarios_data = [
             {
-                'username': 'coordinador',
-                'email': 'coordinador@correo.cl',
+                'username': 'doctorstrange',
+                'email': 'doctorstrange@laserena.cl',
                 'first_name': 'Doctor Strange',
                 'last_name': '(Coordinador Comunal)',
                 'password': 'admin',
@@ -419,8 +419,8 @@ class Command(BaseCommand):
                 'estado': 'Activo',
             },
             {
-                'username': 'gestion',
-                'email': 'gestion@laserena.cl',
+                'username': 'mujermaravilla',
+                'email': 'mujermaravilla@laserena.cl',
                 'first_name': 'Mujer Maravilla',
                 'last_name': '(Gestión SGR)',
                 'password': 'admin',
@@ -433,8 +433,8 @@ class Command(BaseCommand):
                 'estado': 'Activo',
             },
             {
-                'username': 'consulta',
-                'email': 'consulta@laserena.cl',
+                'username': 'batman',
+                'email': 'batman@laserena.cl',
                 'first_name': 'Batman',
                 'last_name': '(Consulta SGR)',
                 'password': 'admin',
@@ -448,7 +448,7 @@ class Command(BaseCommand):
             },
             {
                 'username': 'heman',
-                'email': 'heman@correo.cl',
+                'email': 'heman@laserena.cl',
                 'first_name': 'He-Man',
                 'last_name': 'Delegado',
                 'password': 'admin',
@@ -462,7 +462,7 @@ class Command(BaseCommand):
             },
             {
                 'username': 'acuaman',
-                'email': 'acuaman@correo.cl',
+                'email': 'acuaman@laserena.cl',
                 'first_name': 'Acuaman',
                 'last_name': 'Territorial',
                 'password': 'admin',
@@ -476,7 +476,7 @@ class Command(BaseCommand):
             },
             {
                 'username': 'flash',
-                'email': 'flash@correo.cl',
+                'email': 'flash@laserena.cl',
                 'first_name': 'Flash',
                 'last_name': 'Social',
                 'password': 'admin',
@@ -490,7 +490,7 @@ class Command(BaseCommand):
             },
             {
                 'username': 'panteranegra',
-                'email': 'panteranegra@correo.cl',
+                'email': 'panteranegra@laserena.cl',
                 'first_name': 'Pantera',
                 'last_name': 'Negra',
                 'password': 'admin',
@@ -504,7 +504,7 @@ class Command(BaseCommand):
             },
             {
                 'username': 'capitanamarvel',
-                'email': 'capitanamarvel@correo.cl',
+                'email': 'capitanamarvel@laserena.cl',
                 'first_name': 'Capitana',
                 'last_name': 'Marvel',
                 'password': 'admin',
@@ -518,7 +518,7 @@ class Command(BaseCommand):
             },
             {
                 'username': 'hulk',
-                'email': 'hulk@correo.cl',
+                'email': 'hulk@laserena.cl',
                 'first_name': 'Hulk',
                 'last_name': 'Social',
                 'password': 'admin',
@@ -532,7 +532,7 @@ class Command(BaseCommand):
             },
             {
                 'username': 'capitanamerica',
-                'email': 'capitanamerica@correo.cl',
+                'email': 'capitanamerica@laserena.cl',
                 'first_name': 'Capitán',
                 'last_name': 'América',
                 'password': 'admin',
@@ -546,7 +546,7 @@ class Command(BaseCommand):
             },
             {
                 'username': 'spiderman',
-                'email': 'spiderman@correo.cl',
+                'email': 'spiderman@laserena.cl',
                 'first_name': 'Spider',
                 'last_name': 'Man',
                 'password': 'admin',
@@ -559,8 +559,8 @@ class Command(BaseCommand):
                 'estado': 'Activo',
             },
             {
-                'username': 'funcionario_inactivo',
-                'email': 'ironman@correo.cl',
+                'username': 'ironman',
+                'email': 'ironman@laserena.cl',
                 'first_name': 'Iron',
                 'last_name': 'Man (Inactivo)',
                 'password': 'admin',
@@ -574,9 +574,11 @@ class Command(BaseCommand):
             },
         ]
 
-        # Eliminar cuentas de prueba huérfanas que no pertenezcan al listado oficial y asegurar clave 'admin' en todas
-        usernames_oficiales = {'admin'} | {u['username'] for u in usuarios_data}
-        User.objects.exclude(username__in=usernames_oficiales).delete()
+        # Migrar cuentas antiguas: el username ahora coincide con la parte local del correo
+        renombres = {'consulta': 'batman', 'gestion': 'mujermaravilla', 'coordinador': 'doctorstrange', 'funcionario_inactivo': 'ironman'}
+        for viejo, nuevo in renombres.items():
+            if User.objects.filter(username=viejo).exists() and not User.objects.filter(username=nuevo).exists():
+                User.objects.filter(username=viejo).update(username=nuevo)
 
         for u in usuarios_data:
             user, _ = User.objects.get_or_create(username=u['username'])
@@ -610,7 +612,7 @@ class Command(BaseCommand):
             {'id': 6, 'delegacion_id': 3, 'rut': '15.666.666-6', 'nombres': 'Hulk', 'apellidos': 'Social', 'nombre': 'Hulk', 'cargo': 'Gestor Social 3', 'cargo_cod': 'CRG-03', 'activo': True, 'estado': 'Activo', 'fecha_ingreso': datetime.date(2024, 2, 15), 'username': 'hulk'},
             {'id': 7, 'delegacion_id': 2, 'rut': '15.777.777-7', 'nombres': 'Capitán', 'apellidos': 'América', 'nombre': 'Capitán América', 'cargo': 'Gestor Social 2', 'cargo_cod': 'CRG-03', 'activo': True, 'estado': 'Activo', 'fecha_ingreso': datetime.date(2024, 3, 1), 'username': 'capitanamerica'},
             {'id': 8, 'delegacion_id': 1, 'rut': '15.888.888-8', 'nombres': 'Spider', 'apellidos': 'Man', 'nombre': 'Spider-Man', 'cargo': 'Territorial OO.CC. 2', 'cargo_cod': 'CRG-02', 'activo': True, 'estado': 'Activo', 'fecha_ingreso': datetime.date(2024, 5, 10), 'username': 'spiderman'},
-            {'id': 9, 'delegacion_id': 1, 'rut': '15.999.999-9', 'nombres': 'Iron', 'apellidos': 'Man', 'nombre': 'Iron Man (Inactivo)', 'cargo': 'Gestor Social', 'cargo_cod': 'CRG-03', 'activo': False, 'estado': 'Inactivo', 'fecha_ingreso': datetime.date(2023, 6, 1), 'username': 'funcionario_inactivo'},
+            {'id': 9, 'delegacion_id': 1, 'rut': '15.999.999-9', 'nombres': 'Iron', 'apellidos': 'Man', 'nombre': 'Iron Man (Inactivo)', 'cargo': 'Gestor Social', 'cargo_cod': 'CRG-03', 'activo': False, 'estado': 'Inactivo', 'fecha_ingreso': datetime.date(2023, 6, 1), 'username': 'ironman'},
         ]
 
         funcionario_objs = {}

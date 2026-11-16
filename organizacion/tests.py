@@ -87,7 +87,7 @@ class Test02CRUDCompleto17Entidades(SGRBaseTestCase):
 
     def setUp(self):
         self.client = Client(SERVER_NAME='localhost')
-        self.client.post('/login/', {'username': 'gestion', 'password': 'admin'})
+        self.client.post('/login/', {'username': 'mujermaravilla', 'password': 'admin'})
 
     def test_crud_completo_en_las_17_entidades(self):
         del_base = Delegacion.objects.filter(estado='Activa').first()
@@ -563,11 +563,11 @@ class Test04AutenticacionPermisosYSeguridad(SGRBaseTestCase):
         self.assertNotIn('_auth_user_id', c.session)
 
         # Login inválido (usuario inactivo)
-        r_ina = c.post('/login/', {'username': 'funcionario_inactivo', 'password': 'admin'})
+        r_ina = c.post('/login/', {'username': 'ironman', 'password': 'admin'})
         self.assertNotIn('_auth_user_id', c.session)
 
         # Rechazo de redirección externa en login (?next=https://evil.example.com)
-        r_ext = c.post('/login/?next=https://evil.example.com/phish', {'username': 'consulta', 'password': 'admin'})
+        r_ext = c.post('/login/?next=https://evil.example.com/phish', {'username': 'batman', 'password': 'admin'})
         self.assertEqual(r_ext.status_code, 302)
         self.assertEqual(r_ext['Location'], '/')
 
@@ -635,7 +635,7 @@ class Test04AutenticacionPermisosYSeguridad(SGRBaseTestCase):
 
     def test_04_matriz_completa_consulta_403_y_404_en_las_17_entidades(self):
         c_con = Client(SERVER_NAME='localhost')
-        c_con.post('/login/', {'username': 'consulta', 'password': 'admin'})
+        c_con.post('/login/', {'username': 'batman', 'password': 'admin'})
 
         entidades_rutas = [
             (Delegacion.objects.first().pk, '/mantenedores/delegaciones/', '/mantenedores/delegaciones/crear/', '/mantenedores/delegaciones/{pk}/detalle/', '/mantenedores/delegaciones/{pk}/editar/', '/mantenedores/delegaciones/{pk}/eliminar/'),

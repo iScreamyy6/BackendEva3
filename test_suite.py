@@ -482,7 +482,7 @@ print('[OK] Dashboard Administrador verificado al 100%')
 c_eva.post('/logout/')
 
 # Dashboard Supervisor
-c_eva.post('/login/', {'username': 'coordinador', 'password': 'admin'})
+c_eva.post('/login/', {'username': 'doctorstrange', 'password': 'admin'})
 r_d_sup = c_eva.get('/')
 assert r_d_sup.status_code == 200 and 'DASHBOARD SUPERVISOR' in r_d_sup.content.decode('utf-8').upper()
 print('[OK] Dashboard Supervisor verificado al 100%')
@@ -666,7 +666,7 @@ print('[OK] Validaciones servidor (ModelForm): unicidad, coherencia de fechas y 
 
 # 14.4 Perfil Consulta (HTTP 403 en creación, edición y eliminación; lectura 200 OK)
 c_consulta = Client(SERVER_NAME='localhost')
-r_log_con = c_consulta.post('/login/', {'username': 'consulta', 'password': 'admin'})
+r_log_con = c_consulta.post('/login/', {'username': 'batman', 'password': 'admin'})
 assert r_log_con.status_code == 302
 
 for ent_nom, url_list, url_det, _ in rutas_17:
@@ -696,7 +696,7 @@ print('[OK] Perfil Consulta: Lectura 200 OK en las 17 entidades y bloqueo HTTP 4
 
 # 14.5 Perfil Gestión: Creación, Edición (mismo PK), Confirmación GET sin borrar, Eliminación física y Desactivación lógica
 c_gestion = Client(SERVER_NAME='localhost')
-r_log_ges = c_gestion.post('/login/', {'username': 'gestion', 'password': 'admin'})
+r_log_ges = c_gestion.post('/login/', {'username': 'mujermaravilla', 'password': 'admin'})
 assert r_log_ges.status_code == 302
 
 # Crear Cargo con perfil Gestión

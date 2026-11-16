@@ -52,7 +52,7 @@
 
 El presente informe documenta el diseño, construcción, aseguramiento de calidad y puesta en producción del **Sistema de Gestión de Resultados (SGR)**, una plataforma web empresarial concebida para la **Ilustre Municipalidad de La Serena**. El sistema tiene como objetivo modernizar y digitalizar la recepción de solicitudes ciudadanas, la supervisión de actividades territoriales en delegaciones comunales (Las Compañías, La Antena, Centro y Casco Histórico, Rural), el seguimiento de compromisos intersectoriales en un tablero Kanban de flujo continuo y la medición del cumplimiento de metas institucionales.
 
-Desarrollado sobre el framework **Django** con base de datos relacional **MySQL Server 8.x** y desplegado en una instancia **Ubuntu Server 24.04 LTS en Amazon Web Services (AWS EC2)**, el sistema integra los hitos acumulativos de las Evaluaciones Sumativas #1, #2 y #3. Entre sus pilares técnicos destacan un esquema de seguridad basado en roles (RBAC) con **Grupos y Permisos nativos de Django** (`Administrador`, `Supervisor`, `Administrativo`), un servicio transaccional de **recuperación de contraseñas por correo real vía SMTP Gmail con código PIN de 6 dígitos y token criptográfico HMAC-SHA256**, dashboards diferenciados según nivel de acceso y delegación activa, un **Módulo Unificado de Gestiones** con folios autoincrementales (`GES-XXXXX`, `SOC-XXXXX`, `TUB-XXXXX`), asignación automatizada de identidades con dominio `@correo.cl`, filtro estricto de privacidad personal para operadores, el **Modelo Entidad-Relación (MER)** oficial normalizado y una suite integral automatizada de pruebas (`test_suite.py`) ejecutada al 100% de efectividad de manera idempotente.
+Desarrollado sobre el framework **Django** con base de datos relacional **MySQL Server 8.x** y desplegado en una instancia **Ubuntu Server 24.04 LTS en Amazon Web Services (AWS EC2)**, el sistema integra los hitos acumulativos de las Evaluaciones Sumativas #1, #2 y #3. Entre sus pilares técnicos destacan un esquema de seguridad basado en roles (RBAC) con **Grupos y Permisos nativos de Django** (`Administrador`, `Supervisor`, `Administrativo`), un servicio transaccional de **recuperación de contraseñas por correo real vía SMTP Gmail con código PIN de 6 dígitos y token criptográfico HMAC-SHA256**, dashboards diferenciados según nivel de acceso y delegación activa, un **Módulo Unificado de Gestiones** con folios autoincrementales (`GES-XXXXX`, `SOC-XXXXX`, `TUB-XXXXX`), asignación automatizada de identidades con dominio `@laserena.cl`, filtro estricto de privacidad personal para operadores, el **Modelo Entidad-Relación (MER)** oficial normalizado y una suite integral automatizada de pruebas (`test_suite.py`) ejecutada al 100% de efectividad de manera idempotente.
 
 ---
 
@@ -168,7 +168,7 @@ flowchart TD
         E3C["Tokens HMAC-SHA256 de un solo uso"]
         E3D["3 Dashboards diferenciados"]
         E3E["Filtro de Gestiones Personales"]
-        E3F["Cuentas @correo.cl sincronizadas"]
+        E3F["Cuentas @laserena.cl sincronizadas"]
         E3G["Suite automatizada 100% idempotente"]
     end
 
@@ -227,7 +227,7 @@ D:/Django/Backend/
 │   └── mantenedores/                     # Vistas CRUD para los 6 catálogos
 ├── Contexto de la problematica/          # Pautas oficiales, DER, casos de uso y modelos
 │   └── 02_Modelamiento_y_Diseno/Diagramas/ # MER.png y modelo-sgr-MER.mwb (MySQL Workbench)
-├── actualizar_cuentas_usuarios.py        # Script idempotente de sincronización de cuentas @correo.cl
+├── actualizar_cuentas_usuarios.py        # Script idempotente de sincronización de cuentas @laserena.cl
 ├── generar_informe_pdf.py                # Compilador a formato PDF profesional vía ReportLab
 ├── test_suite.py                         # Arnés oficial de pruebas automatizadas (14 secciones)
 ├── test_personal_filter.py               # Suite de verificación de filtro personal y autenticación
@@ -534,24 +534,24 @@ DEFAULT_FROM_EMAIL = 'SGR Municipalidad de La Serena <emanuelromanseron@gmail.co
 ## 8. SINCRONIZACIÓN DE CUENTAS DE USUARIO Y DOMINIO INSTITUCIONAL
 
 ### 8.1 Matriz de Credenciales Oficiales de Demostración
-En cumplimiento de la directriz de identidad institucional, todas las cuentas activas del sistema fueron renombradas y sincronizadas para coincidir con el nombre de su funcionario vinculado y su respectivo correo con dominio institucional `@correo.cl`:
+En cumplimiento de la directriz de identidad institucional, todas las cuentas activas del sistema fueron renombradas y sincronizadas para coincidir con el nombre de su funcionario vinculado y su respectivo correo con dominio institucional `@laserena.cl`:
 
 | Funcionario / Cuenta | Cargo Institucional | Perfil Django (`Group`) | Usuario de Acceso | Correo Institucional | Clave Inicial | Delegación Asignada |
 | :--- | :--- | :--- | :--- | :--- | :---: | :--- |
-| **Acuaman** | Territorial OO.CC. 1 | `Administrativo` | `acuaman` | `acuaman@correo.cl` | `admin` | [D02] La Antena |
-| **Flash** | Gestor Social 1 | `Administrativo` | `flash` | `flash@correo.cl` | `admin` | [D01] Las Compañías |
-| **He-Man** | Delegado Municipal | `Supervisor` | `heman` | `heman@correo.cl` | `admin` | [D01] Las Compañías |
-| **Capitana Marvel** | Coordinador DISERCO | `Administrativo` | `capitanamarvel` | `capitanamarvel@correo.cl` | `admin` | [D04] Rural |
-| **Spider-Man** | Territorial OO.CC. 2 | `Administrativo` | `spiderman` | `spiderman@correo.cl` | `admin` | [D01] Las Compañías |
-| **Capitán América** | Gestor Social 2 | `Administrativo` | `capitanamerica` | `capitanamerica@correo.cl` | `admin` | [D02] La Antena |
-| **Pantera Negra** | Prof. Planificación y Control | `Administrativo` | `panteranegra` | `panteranegra@correo.cl` | `admin` | [D03] Centro y Casco Histórico |
-| **Hulk** | Gestor Social 3 | `Administrativo` | `hulk` | `hulk@correo.cl` | `admin` | [D03] Centro y Casco Histórico |
-| **Coordinador** | Coordinador Comunal | `Supervisor` | `coordinador` | `coordinador@correo.cl` | `admin` | [COMUNAL] Todas |
-| **Perfil Consulta** | Consulta y Auditoría (`ROL-CON`) | `Consulta` | `consulta` | `consulta@correo.cl` | `admin` | [COMUNAL] Solo Lectura (403 en escritura) |
-| **Perfil Gestión** | Gestión Integral SGR (`ROL-GEST`) | `Gestión` | `gestion` | `gestion@correo.cl` | `admin` | [COMUNAL] CRUD Completo 17 Entidades |
-| **Administrador** | Administrador General | `Administrador` | `admin` | `emanuelseron2003@gmail.com` | `admin` | [COMUNAL] Todas |
+| **Acuaman** | Territorial OO.CC. 1 | `Administrativo` | `acuaman` | `acuaman@laserena.cl` | `admin` | [D02] La Antena |
+| **Flash** | Gestor Social 1 | `Administrativo` | `flash` | `flash@laserena.cl` | `admin` | [D01] Las Compañías |
+| **He-Man** | Delegado Municipal | `Supervisor` | `heman` | `heman@laserena.cl` | `admin` | [D01] Las Compañías |
+| **Capitana Marvel** | Coordinador DISERCO | `Administrativo` | `capitanamarvel` | `capitanamarvel@laserena.cl` | `admin` | [D04] Rural |
+| **Spider-Man** | Territorial OO.CC. 2 | `Administrativo` | `spiderman` | `spiderman@laserena.cl` | `admin` | [D01] Las Compañías |
+| **Capitán América** | Gestor Social 2 | `Administrativo` | `capitanamerica` | `capitanamerica@laserena.cl` | `admin` | [D02] La Antena |
+| **Pantera Negra** | Prof. Planificación y Control | `Administrativo` | `panteranegra` | `panteranegra@laserena.cl` | `admin` | [D03] Centro y Casco Histórico |
+| **Hulk** | Gestor Social 3 | `Administrativo` | `hulk` | `hulk@laserena.cl` | `admin` | [D03] Centro y Casco Histórico |
+| **Doctor Strange** | Coordinador Comunal | `Supervisor` | `doctorstrange` | `doctorstrange@laserena.cl` | `admin` | [COMUNAL] Todas |
+| **Batman** | Consulta y Auditoría (`ROL-CON`) | `Consulta` | `batman` | `batman@laserena.cl` | `admin` | [COMUNAL] Solo Lectura (403 en escritura) |
+| **Mujer Maravilla** | Gestión Integral SGR (`ROL-GEST`) | `Gestión` | `mujermaravilla` | `mujermaravilla@laserena.cl` | `admin` | [COMUNAL] CRUD Completo 17 Entidades |
+| **Administrador** | Administrador General | `Administrador` | `admin` | `admin@laserena.cl` | `admin` | [COMUNAL] Todas |
 
-> **Nota:** La cuenta `admin` conserva el correo `emanuelseron2003@gmail.com` para la demostración en tiempo real de la recepción del correo y PIN de seguridad.
+> **Nota:** La cuenta `admin` conserva el correo `admin@laserena.cl` para la demostración en tiempo real de la recepción del correo y PIN de seguridad.
 
 ### 8.2 Compatibilidad con Alias Históricos
 La vista de autenticación [`Municipalidad/views_auth.py`](Municipalidad/views_auth.py) incorpora un diccionario interno de resolución de alias. Si un evaluador ingresa identificadores previos como `operador_02`, `operador_d01` o `diserco`, el sistema los mapea de forma transparente a `acuaman`, `flash` o `capitanamarvel`.
@@ -667,7 +667,7 @@ RESULTADOS DE LA SUITE OFICIAL SGR (EVALUACIÓN SUMATIVA #3)
 ```
 
 ### 10.2 Pruebas de Filtro Personal y Autenticación (`test_personal_filter.py`)
-Script complementario que certifica la autenticación dual (usuario o correo `@correo.cl`) y la segregación estricta de las 3 gestiones por funcionario administrativo:
+Script complementario que certifica la autenticación dual (usuario o correo `@laserena.cl`) y la segregación estricta de las 3 gestiones por funcionario administrativo:
 
 ```bash
 python test_personal_filter.py
@@ -695,7 +695,7 @@ En conformidad con las pautas de innovación pedagógica de INACAP, el equipo ut
 | **Caso 2: Arquitectura Desacoplada de Seguridad** | La pauta docente exigía Grupos Django (`Group`), pero el negocio municipal exigía 9 cargos (`Rol`). | Diseñó la arquitectura de doble capa que mapea roles institucionales sobre 3 grupos base de Django. | Cumplimiento estricto de la rúbrica técnica sin perder el realismo del caso municipal. |
 | **Caso 3: Flujo Híbrido SMTP (PIN 6 Dígitos + Token)** | Necesidad de combinar una interfaz de 6 casilleros con enlaces seguros tokenizados. | Estructuró la lógica de sesión con expiración de 15 minutos y consumo irreversible del token HMAC-SHA256. | Flujo de recuperación bancario, seguro contra fuerza bruta y sin pistas en pantalla. |
 | **Caso 4: Idempotencia en la Suite de Pruebas** | Ejecuciones sucesivas de pruebas acumulaban decenas de atenciones y gestiones repetidas. | Implementó bloques `try/finally` y aserciones de conteo baseline (24 gestiones / 13 compromisos). | Arnés de pruebas ejecutable en producción y local sin dejar residuos en base de datos. |
-| **Caso 5: Filtro Personal y Sincronización @correo.cl** | Requerimiento de privacidad para funcionarios y cuentas conectadas a sus identidades. | Elaboró scripts de migración idempotente de cuentas y filtros dinámicos con `Q(id_funcionario)`. | Cumplimiento de privacidad funcional y 100% de tests aprobados. |
+| **Caso 5: Filtro Personal y Sincronización @laserena.cl** | Requerimiento de privacidad para funcionarios y cuentas conectadas a sus identidades. | Elaboró scripts de migración idempotente de cuentas y filtros dinámicos con `Q(id_funcionario)`. | Cumplimiento de privacidad funcional y 100% de tests aprobados. |
 
 ---
 
@@ -721,7 +721,7 @@ En conformidad con las pautas de innovación pedagógica de INACAP, el equipo ut
 | Servicio / Recurso | URL de Acceso | Descripción Operacional |
 | :--- | :--- | :--- |
 | **🌐 Aplicación Web en Producción** | [http://3.229.11.31:8000/](http://3.229.11.31:8000/) | Acceso al Sistema SGR en vivo alojado en AWS EC2 (Ubuntu Linux). |
-| **🔐 Portal de Inicio de Sesión** | [http://3.229.11.31:8000/login/](http://3.229.11.31:8000/login/) | Login con username o correo institucional `@correo.cl`. |
+| **🔐 Portal de Inicio de Sesión** | [http://3.229.11.31:8000/login/](http://3.229.11.31:8000/login/) | Login con username o correo institucional `@laserena.cl`. |
 | **✉️ Recuperación de Contraseña** | [http://3.229.11.31:8000/recuperar/](http://3.229.11.31:8000/recuperar/) | Flujo de envío de PIN de 6 dígitos mediante Gmail SMTP. |
 | **📋 Libro General de Gestiones** | [http://3.229.11.31:8000/actividades/](http://3.229.11.31:8000/actividades/) | Listado unificado con filtro personal para operadores. |
 | **📊 Tablero Kanban (Tubo de Trabajo)** | [http://3.229.11.31:8000/agenda/resumen/](http://3.229.11.31:8000/agenda/resumen/) | Tablero interactivo de seguimiento de compromisos en terreno. |
